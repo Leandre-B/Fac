@@ -1,0 +1,90 @@
+selection sort semble plus efficace que insertoin sort ??????
+
+ /*
+         *           le while échange petit à petit valToVerif et la la case de gauche jusqu'a ce que valtoverif soit
+         *           à la bonne position (valToVerif=2 tab=14562 -> 14526 -> 14256 ->12456)
+         *           au final fait (14562 -> 12456 mais pas en deplacant le sous tableau 456 vers la droite d'un coup)
+         *           dans la definition d'un tri par insertion, j'ai l'impression qu'on doit d'abord :
+         *           -1 -trouver ou se place valToVerif 14562 (-> valToVerif=2 en position 2)
+         *           -2 -deplacer les valeurs de la sous chaine plus grande que valToVerif à droite (-> aux=2 tab=14562 -> 14456)
+         *           -3 -insérer valtoverif a la bonne position (-> tab=12456)
+         *           Or je pense que cela serai beaucoup moins efficace que la méthode que j'ai implémenté
+         *           (qui au final fait sensiblement la meme chose mais d'une facon différente) car elle nécéssite plus de
+         *           boucle (une pour l'étape 1- et une deuxième pour l'étape 2- (en plus du for initial)
+         *
+         */
+
+// Ancienne version insertionSort sans aide
+
+// void insertionSort(std::array<int,NBMAX> tab){
+//     int aux;
+//     int valToCompare;
+//     bool trouve;
+//     for(int valToVerif=1;valToVerif<NBMAX;++valToVerif)
+//     {
+//         valToCompare=valToVerif-1;
+//         trouve=false;
+//         while(valToCompare>=0 and !trouve)
+//         {
+//             if(tab[valToVerif]>tab[valToCompare])
+//                 trouve=true;
+//             else
+//                 --valToCompare;
+//         }
+//         if(trouve)
+//         {
+//             aux=tab[valToVerif];
+//             for(int i = valToVerif;i>valToCompare+1;--i){
+//                 tab[i]=tab[i-1];
+//             }
+//             tab[valToCompare+1]=aux;
+//         }
+//     }
+//     affTab(tab);
+//
+// }
+
+
+//shell sort, sort bien une liste trié mais en fait c'est chelou voir test:
+void shellSort(std::array<int,NBMAX> tab){
+    int aux;
+    int valToCompare;
+    int interval=NBMAX/2;
+    while(interval>1)
+    {
+        for(int valToVerif=1;valToVerif<NBMAX;valToVerif+=interval)
+        {
+            aux=tab[valToVerif];
+            if(tab[valToVerif]<tab[valToVerif-interval]){
+                valToCompare=valToVerif-interval;
+                while((aux<tab[valToCompare]) and valToCompare>=0) //faire attention à pas regarder les cases<0
+                {
+                    tab[valToCompare+interval]=tab[valToCompare];
+                    --valToCompare;
+                }
+                tab[valToCompare+interval]=aux;
+            }
+        }
+        affTab(tab);
+        interval=interval/2;
+    }
+    affTab(tab);
+}
+test :
+Tab non triee
+16 61 44 43 12 37 63 15 24 49 92 60 36 54 21 50 87 43 69 56 96 54 68 31 83
+
+Bubble Sort
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
+
+Insertion Sort
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
+
+Shell Sort
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
+
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
+
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
+
+12 15 16 21 24 31 36 37 43 43 44 49 50 54 54 56 60 61 63 68 69 83 87 92 96
