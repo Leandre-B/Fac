@@ -12,11 +12,12 @@ void  init(TabAges  & age){
 }
 
 void saisie(TabAges & tabAge){
-    int age=0;
+    int age;
     std::cout<<"Saissiez les ages (-1 pour arreter la saisie)"<<std::endl;
+    std::cin>>age;
     while(age!=-1){
-        std::cin>>age;
         ++tabAge[age];
+        std::cin>>age;
     }
 }
 
@@ -34,15 +35,15 @@ void regroupe (TabAges age1, TabAges age2, TabAges & age3){
 }
 
 float moyenne(TabAges age){
-    float nbAge = 0;
-    float somme = 0;
+    int nbAge = 0;
+    int somme = 0;
     for(int i = 0;i<150;++i){
         if(age[i]!=0){
             somme +=i*age[i];
             nbAge+=age[i];
         }
     }
-    return (somme/nbAge);
+    return (static_cast<float>(somme)/nbAge);//une des 2 suffit
 }
 
 float variance(TabAges age){
@@ -63,11 +64,14 @@ float ecartType(TabAges age){
 }
 
 float mediane(TabAges age){
+
     int nbVal = 0;
     int indMed=0;
+
     for(int i = 0;i<150;++i){
         nbVal+=age[i];
     }
+
     if(nbVal%2==0){
 
         int valBefMed=0;
@@ -88,11 +92,13 @@ float mediane(TabAges age){
 
     }else{
         int i = 0;
-        indMed+=age[i];
+        indMed=age[0];
+
         while(indMed<((nbVal+1)/2)){
             ++i;
             indMed +=age[i];
         }
+
         return (i);
     }
 }
