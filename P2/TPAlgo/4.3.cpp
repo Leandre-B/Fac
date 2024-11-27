@@ -50,6 +50,17 @@ bool testfin(tab board, int taille){
         }
     }
 
+    bool full=true;
+    for(int i =0;i<taille;++i){
+        for(int j = 0;j<taille;++j){
+            if(board[i][j]==' '){
+                full=false;
+            }
+        }
+    }
+    if(full)
+        return true;
+
     return false;
 }
 
@@ -114,9 +125,10 @@ int main(){
         fin = testfin(board,taille);
         aff(board, taille);
     }while(!fin);
-    if(j=='X')
-        std::cout<<"Les X ont gagnes !"<<std::endl;
-    else
-        std::cout<<"Les O ont gagnes !"<<std::endl;
+    std::cout<<"Fin du jeu !"<<std::endl;
+    // if(j=='X')
+    //     std::cout<<"Les X ont gagnes !"<<std::endl;
+    // else
+    //     std::cout<<"Les O ont gagnes !"<<std::endl;
     return 0;
 }
