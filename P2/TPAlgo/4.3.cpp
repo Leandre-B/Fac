@@ -114,17 +114,22 @@ void chooseMove(std::vector<coord> tabListMove, int & i, int & j){
     }
 }
 
-void closeToLose(tab board, int taille, tabInt & bstMove){
-    //test pions aligne hori
-    for(int i =0;i<taille;++i){
-        for(int j = 0;j<taille-2;++j){
-            if(board[i][j]==board[i][j+1] and board[i][j+1]==board[i][j+2] and board[i][j]!=' '){
-                bstMove[i][j+3]+=5;
-                bstMove[i][j-3]+=5;
-            }
-        }
-    }
-
+// void closeToLose(tab board, int taille, tabInt & bstMove){
+//     std::vector<true> pionAlign;
+//     //test pions aligne hori
+//     for(int i =0;i<taille;++i){
+//         for(int j = 0;j<taille-3;++j){
+//             for(int k=0;k<4;++4){
+//                 if(board[i][j+k]!=' ')
+//                     pionAlign.push_back(true);
+//                 else
+//                     pionAlign.push_back(false);
+//             }
+//
+//         }
+//     }
+//
+/*
     //test pions aligne vertc
     for(int i =0;i<taille;++i){
         for(int j = 0;j<taille-2;++j){
@@ -154,7 +159,7 @@ void closeToLose(tab board, int taille, tabInt & bstMove){
             }
         }
     }
-}
+}*/
 
 void jouerBot(tab & board, int t, char cJ){
     tabInt bstMove;
@@ -162,52 +167,19 @@ void jouerBot(tab & board, int t, char cJ){
     int plsHautScore=-1;
     for(int i = 0;i<t;++i){
         for(int j =0;j<t;++j){
-            if(board[i][j]==' ')
-            {
-                if(i!= 0 and j!=0)
-                    if(board[i-1][j-1]==cJ)//hg
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=0)
-                    if(board[i-1][j]==cJ)//cg
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=0 and j!=t-1)
-                    if(board[i-1][j+1]==cJ)//bg
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(j!=0)
-                    if(board[i][j-1]==cJ)//ch
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(j!=t-1)
-                    if(board[i][j+1]==cJ)//cb
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=t-1 and j!=0)
-                    if(board[i+1][j-1]==cJ)//dh
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=t-1)
-                    if(board[i+1][j]==cJ)//dc
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=t-1 and j!=t-1)
-                    if(board[i+1][j+1]==cJ)//db
-                    {
-                        ++bstMove[i][j];
-                    }
-                if(i!=0 and i!= t-1 and j!=0 and j!=t-1) //mieux si jouer au centre
-                    ++bstMove[i][j];
 
-                closeToLose(board, t,bstMove);
+            if(board[i][j]==' '){
+
+                for(int x=i-1 ; x<i+1 ; ++x){
+                    for(int y=j-1 ; y<j+1 ; ++y){
+
+                        if(x>=0 and y>=0 and x<t and y<t){
+                            if(board[x][y]==cJ)
+                                ++bstMove[i][j];
+                        }
+                    }
+                }
+                //closeToLose(board, t,bstMove);
 
                 if(plsHautScore<bstMove[i][j])
                     plsHautScore=bstMove[i][j];
