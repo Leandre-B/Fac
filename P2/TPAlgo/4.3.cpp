@@ -1,7 +1,16 @@
 #include <iostream>
 #include <array>
-#include <array>
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+
 using tab = std::array<std::array<char,100>,100>;
+using tabInt = std::array<std::array<int,100>,100>;
+
+struct coord{
+    std::array<int,2> arr;
+};
 
 void init(tab & board, int & taille, char & j){
     std::cout<<"Entrez la taille du jeu du morpion : ";
@@ -70,19 +79,169 @@ char changeJ(char j){
     return 'X';
 }
 
+void initBstMove(tabInt & bstMove, int t)
+{
+    for(int i = 0;i<t;++i)
+        for(int j =0;j<t;++j){
+            bstMove[i][j]=0;
+    }
+}
+
+void listMove(tabInt bstMove, int plsHautScore, int t, std::vector<coord> & tabListMove)
+{
+    coord move;
+    for(int i = 0;i<t;++i){
+        for(int j = 0;j<t;++j){
+            if(bstMove[i][j]==plsHautScore){
+                move.arr[0]=i;
+                move.arr[1]=j;
+                tabListMove.push_back(move);
+            }
+        }
+    }
+}
+
+void chooseMove(std::vector<coord> tabListMove, int & i, int & j){
+    srand((time(NULL)));
+    int rdm;
+    if(tabListMove.size()==1){
+        i=tabListMove[0].arr[0];
+        j=tabListMove[0].arr[1];
+    }else{
+        rdm=rand()%tabListMove.size();
+        i=tabListMove[rdm].arr[0];
+        j=tabListMove[rdm].arr[1];
+    }
+}
+
+void closeToLose(tab board, int taille, tabInt & bstMove){
+    //test pions aligne hori
+    for(int i =0;i<taille;++i){
+        for(int j = 0;j<taille-2;++j){
+            if(board[i][j]==board[i][j+1] and board[i][j+1]==board[i][j+2] and board[i][j]!=' '){
+                bstMove[i][j+3]+=5;
+                bstMove[i][j-3]+=5;
+            }
+        }
+    }
+
+    //test pions aligne vertc
+    for(int i =0;i<taille;++i){
+        for(int j = 0;j<taille-2;++j){
+            if(board[j][i]==board[j+1][i] and board[j+1][i]==board[j+2][i] and board[j][i]!=' '){
+                bstMove[j+3][i]+=5;
+                bstMove[j-3][i]+=5;
+            }
+        }
+    }
+
+    //diag h-b  g-d
+    for(int i =0;i<taille-2;++i){
+        for(int j = 0;j<taille-2;++j){
+            if(board[j][i]==board[j+1][i+1] and board[j][i]==board[j+2][i+2] and board[j][i]!=' '){
+                bstMove[j+3][i+3]+=5;
+                bstMove[j-3][i-3]+=5;
+            }
+        }
+    }
+
+    //diag h-b d-g
+    for(int i =0;i<taille-2;++i){
+        for(int j = taille-1;j>3;--j){
+            if(board[j][i]==board[j-1][i+1] and board[j-2][i+2]==board[j][i] and board[j][i]!=' '){
+                bstMove[j-3][i+3]+=5;
+                bstMove[j+3][i-3]+=5;
+            }
+        }
+    }
+}
+
+void jouerBot(tab & board, int t, char cJ){
+    tabInt bstMove;
+    initBstMove(bstMove,t);
+    int plsHautScore=-1;
+    for(int i = 0;i<t;++i){
+        for(int j =0;j<t;++j){
+            if(board[i][j]==' ')
+            {
+                if(i!= 0 and j!=0)
+                    if(board[i-1][j-1]==cJ)//hg
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=0)
+                    if(board[i-1][j]==cJ)//cg
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=0 and j!=t-1)
+                    if(board[i-1][j+1]==cJ)//bg
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(j!=0)
+                    if(board[i][j-1]==cJ)//ch
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(j!=t-1)
+                    if(board[i][j+1]==cJ)//cb
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=t-1 and j!=0)
+                    if(board[i+1][j-1]==cJ)//dh
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=t-1)
+                    if(board[i+1][j]==cJ)//dc
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=t-1 and j!=t-1)
+                    if(board[i+1][j+1]==cJ)//db
+                    {
+                        ++bstMove[i][j];
+                    }
+                if(i!=0 and i!= t-1 and j!=0 and j!=t-1) //mieux si jouer au centre
+                    ++bstMove[i][j];
+
+                closeToLose(board, t,bstMove);
+
+                if(plsHautScore<bstMove[i][j])
+                    plsHautScore=bstMove[i][j];
+
+                std::cout<<char(j+65)<<i+1<<"  Pls haut score : "<<plsHautScore<<" | Score = "<<bstMove[i][j]<<"  coord : "<<i<<" "<<j<<std::endl;
+            }
+
+        }
+    }
+    std::vector<coord> tabListMove;
+    listMove(bstMove, plsHautScore,t,tabListMove);
+    int i,j;
+    chooseMove(tabListMove, i, j);
+    board[i][j]=cJ;
+
+}
+
 void jouer(tab & board, int taille, char j){
-    // int col, lign;
-    std::string c;
-    do{
-        std::cout<<"Entrez case (ex:B1) : ";
-        std::cin>>c;
+    if(j=='X'){
+        jouerBot(board, taille, j);
 
-        if( (int(c[1])-48<=0 or int(c[1])-48>taille or int(c[0])-64<=0 or int(c[0])-64>taille or board[int(c[1])-48-1][int(c[0])-64-1]!=' '))
-            std::cout<<"Valeures incorrectes : veuillez reessayer."<<std::endl;
+    }else{
+        std::string c;
+        do{
+            std::cout<<"Entrez case (ex:B1) : ";
+            std::cin>>c;
 
-    }while((int(c[1])-48<=0 or int(c[1])-48>taille or int(c[0])-64<=0 or int(c[0])-64>taille or board[int(c[1])-48-1][int(c[0])-64-1]!=' '));
+            if( (int(c[1])-48<=0 or int(c[1])-48>taille or int(c[0])-64<=0 or int(c[0])-64>taille or board[int(c[1])-48-1][int(c[0])-64-1]!=' '))
+                std::cout<<"Valeures incorrectes : veuillez reessayer."<<std::endl;
 
-    board[int(c[1])-48-1][int(c[0])-64-1]=j;
+        }while((int(c[1])-48<=0 or int(c[1])-48>taille or int(c[0])-64<=0 or int(c[0])-64>taille or board[int(c[1])-48-1][int(c[0])-64-1]!=' '));
+
+        board[int(c[1])-48-1][int(c[0])-64-1]=j;
+    }
 }
 
 void aff(tab board, int taille){
