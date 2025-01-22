@@ -6,7 +6,6 @@ struct Lecteur{
     unsigned int num;
     std::string nom;
     std::string prenom;
-    std::array<unsigned int, 10> tabIsbnLivreEmprunte;
 };
 
 struct EnsLecteur{
@@ -18,8 +17,8 @@ struct Livre{
     unsigned int isbn;
     std::string titre;
     std::string nomAuteur;
-    bool emprunt;
-}
+    int numEmpruntLec; // -1 -> livre non emprunte
+};
 
 struct EnsLivres{
     std::array<Livre, 100> tabLivres;
@@ -29,6 +28,7 @@ struct EnsLivres{
 struct Biblio{
     EnsLivres livres;
     EnsLecteur lecteur;
+
 };
 
 
@@ -44,9 +44,9 @@ void saisie(Lecteur & lec){
 
 void affiche(Lecteur lec){
     std::cout<<" N° : "<<lec.num<<std::endl
-             <<" Nom : "<<lec.nom<<std::endl
-             << " Prenom : "<<lec.prenom<<std::endl
-             <<"-------------"<<std::endl<<std::endl;
+    <<" Nom : "<<lec.nom<<std::endl
+    << " Prenom : "<<lec.prenom<<std::endl
+    <<"-------------"<<std::endl<<std::endl;
 }
 
 void initialise (EnsLecteur & ensLecteur){
@@ -90,17 +90,13 @@ std::string rechercheNom(EnsLecteur ensLecteur, unsigned int numToSearch){
 }
 
 void emprunts(Biblio biblio){
-
-    for(int i = 0;i<biblio.EnsLivres.nb;++i){
-        /*
-         *
-         * si livre emprunte
-         *      affiche livre
-         *      regarde isbn
-         *      regarde emprunt lecteur
-         *          si match entre isbn livre et isbn d'un livre emprunte par un lecteur
-         *              afficher lecteur
-         */
+    std::cout<<"--- Listes des livres emprunte ---"<<std::endl;
+    for(unsigned int i = 0;i<biblio.livres.nb;++i){
+        if(biblio.livres.tabLivres[i].numEmpruntLec!=-1){
+            std::cout<<"Livre : "<<biblio.livres.tabLivres[i].titre
+                     <<" - Emprunte par : "<<rechercheNom(biblio.lecteur , biblio.livres.tabLivres[i].numEmpruntLec)
+                     <<std::endl;
+        }
     }
 }
 
