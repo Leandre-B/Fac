@@ -1,0 +1,111 @@
+7
+Sueurs froides
+1958
+Alfred Hitchcock
+128
+anglais
+Taxi Driver
+1976
+Martin Scorsese
+110
+anglais
+Parasite
+2019
+Bong Joon-ho
+132
+coréen
+Le Parrain
+1972
+Francis Ford Coppola
+175
+anglais
+Pulp Fiction
+1994
+Quentin Tarantino
+154
+anglais
+Inception
+2010
+Christopher Nolan
+148
+anglais
+Forrest Gump
+1994
+Robert Zemeckis
+142
+anglais
+Le Seigneur des Anneaux : Le Retour du Roi
+2003
+Peter Jackson
+201
+anglais
+La Liste de Schindler
+1993
+Steven Spielberg
+195
+anglais
+Interstellar
+2014
+Christopher Nolan
+169
+anglais
+Fight Club
+1999
+David Fincher
+139
+anglais
+Le Silence des Agneaux
+1991
+Jonathan Demme
+118
+anglais
+Seven
+1995
+David Fincher
+127
+anglais
+La La Land
+2016
+Damien Chazelle
+128
+anglais
+Gladiator
+2000
+Ridley Scott
+155
+anglais
+Whiplash
+2014
+Damien Chazelle
+107
+anglais
+Les Évadés
+1994
+Frank Darabont
+142
+anglais
+Le Fabuleux Destin d'Amélie Poulain
+2001
+Jean-Pierre Jeunet
+122
+français
+Oldboy
+2003
+Park Chan-wook
+120
+coréen
+Django Unchained
+2012
+Quentin Tarantino
+165
+anglais
+Le Labyrinthe de Pan
+2006
+Guillermo del Toro
+118
+espagnol
+The Dark Knight
+2008
+Christopher Nolan
+152
+anglais
