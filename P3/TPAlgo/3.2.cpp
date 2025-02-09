@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 
-const std::string NOMFIC="film.txt";
 
 struct Film{
     std::string nomFilm;
@@ -23,10 +22,10 @@ struct Selection{
 };
 
 
-void lectureFic(EnsFilm & ensFilm){
+void lectureFic(EnsFilm & ensFilm,std::string nomFic){
     std::string dummy;
     std::ifstream fic;
-    fic.open(NOMFIC);
+    fic.open(nomFic);
 
     if(fic.is_open()){
 
@@ -36,9 +35,8 @@ void lectureFic(EnsFilm & ensFilm){
 
         int i =0;
         while(i<ensFilm.nbFilm){
-            std::getline(fic,ensFilm.tabFilm[i].nomFilm);
-            std::cout<<"Test lecteurFic ensFilm.nomFilm : "<<ensFilm.tabFilm[i].nomFilm<<std::endl;
 
+            std::getline(fic,ensFilm.tabFilm[i].nomFilm);
             fic>>ensFilm.tabFilm[i].annee; std::getline(fic,dummy);
             std::getline(fic,ensFilm.tabFilm[i].nomReal);
             fic>>ensFilm.tabFilm[i].duree; std::getline(fic,dummy);
@@ -56,16 +54,17 @@ void affEnsFilm(EnsFilm ensFilm){
         std::cout<<"-Nom : "<<ensFilm.tabFilm[i].nomFilm<<std::endl;
         std::cout<<"-Annee : "<<ensFilm.tabFilm[i].annee<<std::endl;
         std::cout<<"-Realisteur : "<<ensFilm.tabFilm[i].nomReal<<std::endl;
-        std::cout<<"-Duree : "<<ensFilm.tabFilm[i].duree<<std::endl;
+        std::cout<<"-Duree (en min) : "<<ensFilm.tabFilm[i].duree<<std::endl;
         std::cout<<"-Langue : "<<ensFilm.tabFilm[i].langue<<std::endl;
         std::cout<<std::endl;
     }
 
 }
 
-void addAllFilmSelection(Selection & selection,EnsFilm ensFilm){
+void addAllFilm(Selection & selection,EnsFilm ensFilm){
     selection.nbFilm=ensFilm.nbFilm;
     selection.adrTabFilm = new Film* [selection.nbFilm];
+
     for(int i = 0;i<selection.nbFilm;++i){
         selection.adrTabFilm[i]=&ensFilm.tabFilm[i];
     }
@@ -87,30 +86,73 @@ void selectionFilm(Selection & selection, EnsFilm ensFilm){
     std::cout<<"Année de sortie minimale : ";
     std::cin>>anneeMin;
 
-    std::cout<<"Duree maximale : ";
-    std::cin>>dureeMax;
-
-    std::cout<<"Duree minimale : ";
+    std::cout<<"Duree minimale (en min) : ";
     std::cin>>dureeMin;
 
+    std::cout<<"Duree maximale (en min) : ";
+    std::cin>>dureeMax;
+
+    //on ajoute tout les films
+    addAllFilm(selection, ensFilm);
+
+
+    //si un film de correspond pas, on désalloue les cases correspondantes
     for(int i = 0;i<ensFilm.nbFilm;++i){
-        if(ensFilm.tabFilm[i].nomReal==real)
-            if(ensFilm.tabFilm[i].annee>=anneeMin and ensFilm.tabFilm[i].annee<=anneeMax)
-                if(ensFilm.tabFilm[i].duree>=dureeMin and ensFilm.tabFilm[i].duree<=dureeMax)
-                    //construire la selection petit a petit dynamiquement ??? Il me faut quand meme le nombre de film a inserer a l'avance non ?
+        if(!((ensFilm.tabFilm[i].nomReal==real or real=="X") and
+           (ensFilm.tabFilm[i].annee>=anneeMin and ensFilm.tabFilm[i].annee<=anneeMax) and
+           (ensFilm.tabFilm[i].duree>=dureeMin and ensFilm.tabFilm[i].duree<=dureeMax))){
+
+            //delete selection.adrTabFilm[i]; //faut le faire ???
+            selection.adrTabFilm[i]=nullptr;
+            }
     }
 
 }
 
+void affSelection(Selection selection){
+    std::cout<<"Film selectione(s) : "<<std::endl<<std::endl;
+    for(int i=0;i<selection.nbFilm;++i){
+        if(selection.adrTabFilm[i]!=nullptr)
+            std::cout<<(*selection.adrTabFilm[i]).nomFilm<<" ("
+                     <<(*selection.adrTabFilm[i]).nomReal<<", "
+                     <<(*selection.adrTabFilm[i]).annee<<")"<<std::endl;
+    }
+    std::cout<<std::endl;
+}
+
+void enregistrerSelection(Selection & selection,std::string nomFic){
+    std::string dummy;
+    std::ofstream fic;
+    fic.open(nomFic);
+
+    if(fic.is_open()){
+        for(int i = 0;i<selection.nbFilm;++i){
+            if(selection.adrTabFilm[i]!=nullptr)
+                fic<<(*selection.adrTabFilm[i]).nomFilm<<" ("
+                <<(*selection.adrTabFilm[i]).nomReal<<", "
+                <<(*selection.adrTabFilm[i]).annee<<")"<<std::endl;
+        }
+    }else{
+        std::cout<<"PROBLEME LORS DE L'OUVERTURE DU FICHIER !"<<std::endl;
+    }
+}
+
 
 int main(){
+    std::string ficFilm="film.txt";
+    std::string ficSelection="selection.txt";
     Selection selection;
     EnsFilm ensFilm;
 
     //selection.adrTabFilm = &(ensFilm.tabFilm);
 
-    lectureFic(ensFilm);
-    // affEnsFilm(ensFilm);
+    lectureFic(ensFilm,ficFilm);
+    affEnsFilm(ensFilm);
+
+    selectionFilm(selection, ensFilm);
+    affSelection(selection);
+
+    enregistrerSelection(selection, ficSelection);
 
 
     return 0;
