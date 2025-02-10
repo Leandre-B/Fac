@@ -17,7 +17,7 @@ struct Livre{
     unsigned int isbn;
     std::string titre;
     std::string nomAuteur;
-    int numEmpruntLec; // -1 -> livre non emprunte
+    int numEmpruntLec; // -1 -> livre non emprunte (ou bool estEmprunte + int numLec) mais c'est bien quand meme
 };
 
 struct EnsLivres{
@@ -89,8 +89,9 @@ std::string rechercheNom(EnsLecteur ensLecteur, unsigned int numToSearch){
     return "Aucune correspondance.";
 }
 
+//ça c'est nice
 void emprunts(Biblio biblio){
-    std::cout<<"--- Listes des livres emprunte ---"<<std::endl;
+    std::cout<<"--- Liste des livres emprunte(s) ---"<<std::endl;
     for(unsigned int i = 0;i<biblio.livres.nb;++i){
         if(biblio.livres.tabLivres[i].numEmpruntLec!=-1){
             std::cout<<"Livre : "<<biblio.livres.tabLivres[i].titre
@@ -99,6 +100,8 @@ void emprunts(Biblio biblio){
         }
     }
 }
+
+//procedure permettant au lecteurs d'emprunter de livre
 
 
 int main(){
