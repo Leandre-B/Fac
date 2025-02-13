@@ -1,154 +1,207 @@
-#include <string>
 #include <iostream>
+#include <string>
 #include <fstream>
 
-struct Ingredient{
-    std::string nom;
-    float quantite;
+
+struct Film{
+    std::string nomFilm;
+    int annee;
+    std::string nomReal;
+    int duree;
+    std::string langue;
 };
 
-struct Stock{
-    unsigned int nbIngredient;
-    Ingredient* tabIngredient;
+struct EnsFilm{
+    Film* tabFilm;
+    int nbFilm;
 };
 
-struct Recette{
-    std::string intitule;
-    unsigned int portion;
-    unsigned int nbIngredient;
-    Ingredient* tabIngredient;
+struct Selection{
+    Film** adrTabFilm; //adresse d'un tableau de pointeur
+    int nbFilm;
 };
 
 
-bool initStock(std::string ficStock,Stock & stock){
-    char space;
+void lectureFic(EnsFilm & ensFilm,std::string nomFic){
+    std::string dummy;
     std::ifstream fic;
-    fic.open(ficStock);
+    fic.open(nomFic);
+
     if(fic.is_open()){
-        fic>>stock.nbIngredient;
-        stock.tabIngredient = new Ingredient [stock.nbIngredient];
 
-        for(unsigned int i =0;i<stock.nbIngredient;++i){
-            fic>>stock.tabIngredient[i].quantite;
-            fic.get(space);
-            getline(fic,stock.tabIngredient[i].nom);
+        fic>>ensFilm.nbFilm;
+
+        ensFilm.tabFilm=new Film[ensFilm.nbFilm]; std::getline(fic,dummy);
+
+        int i =0;
+        while(i<ensFilm.nbFilm){
+
+            std::getline(fic,ensFilm.tabFilm[i].nomFilm);
+            fic>>ensFilm.tabFilm[i].annee; std::getline(fic,dummy);
+            std::getline(fic,ensFilm.tabFilm[i].nomReal);
+            fic>>ensFilm.tabFilm[i].duree; std::getline(fic,dummy);
+            std::getline(fic,ensFilm.tabFilm[i].langue);
+            ++i;
         }
-        return true;
-
     }else{
-        return false;
+        std::cout<<"PROBLEME LORS DE L'OUVERTURE DU FICHIER !"<<std::endl;
     }
 }
 
-void affStock(Stock stock){
-    std::cout<<"En stock avant de cuisiner : "<<std::endl;
-    for(unsigned int i = 0;i<stock.nbIngredient;++i){
-        std::cout<<stock.tabIngredient[i].quantite<<" "<<stock.tabIngredient[i].nom<<std::endl;
+void affEnsFilm(EnsFilm ensFilm){
+    for(int i = 0;i<ensFilm.nbFilm;++i){
+        std::cout<<"----Film "<<i+1<<"----"<<std::endl;
+        std::cout<<"-Nom : "<<ensFilm.tabFilm[i].nomFilm<<std::endl;
+        std::cout<<"-Annee : "<<ensFilm.tabFilm[i].annee<<std::endl;
+        std::cout<<"-Realisteur : "<<ensFilm.tabFilm[i].nomReal<<std::endl;
+        std::cout<<"-Duree (en min) : "<<ensFilm.tabFilm[i].duree<<std::endl;
+        std::cout<<"-Langue : "<<ensFilm.tabFilm[i].langue<<std::endl;
+        std::cout<<std::endl;
     }
+
 }
 
-bool loadRecette(std::string ficRecette,Recette & recette){
-    char space;
-    std::ifstream fic;
-    fic.open(ficRecette);
-    if(fic.is_open()){
-        std::getline(fic,recette.intitule);
-        fic >>recette.portion;
-        fic >>recette.nbIngredient;
-        recette.tabIngredient = new Ingredient [recette.nbIngredient];
+void addAllFilm(Selection & selection,EnsFilm ensFilm){
+    selection.nbFilm=ensFilm.nbFilm;
+    selection.adrTabFilm = new Film* [selection.nbFilm];
 
-        for(unsigned int i =0;i<recette.nbIngredient;++i){
-            fic>>recette.tabIngredient[i].quantite;
-            fic.get(space);
-            getline(fic,recette.tabIngredient[i].nom);
-        }
-        return true;
-
-    }else{
-        return false;
+    for(int i = 0;i<selection.nbFilm;++i){
+        selection.adrTabFilm[i]=&ensFilm.tabFilm[i];
     }
 }
 
 
-bool estPresentIngr(Ingredient i, Stock stock){
-    bool present = false;
-    unsigned int j = 0;
-    while(!present and j<stock.nbIngredient){
-        if((stock.tabIngredient[j]).nom==i.nom)
-            if((stock.tabIngredient[j]).quantite>=i.quantite)
-                present = true;
-        ++j;
-    }
-    return present;
-}
+void selectionFilm(Selection & selection, EnsFilm ensFilm){
+    std::string real;
+    int anneeMax, anneeMin, dureeMax, dureeMin;
+    std::cout<<"Veuillez choisir un/des films selon les critères suivants: "<<std::endl;
 
-bool peutCuisiner(Recette recette, Stock stock){
-    bool cuisiner = true;
-    unsigned int j = 0;
-    while(cuisiner and j<recette.nbIngredient){
-        if(!estPresentIngr(recette.tabIngredient[j],stock))
-            cuisiner = false;
-        ++j;
-    }
-    return cuisiner;
-}
+    std::cout<<"Nom du realisateur (entrer 'X' pour tous les selectionner) : ";
+    std::cin>>real;
 
-void realRecette(Recette recette, Stock stock){
-    bool trouve;
-    unsigned int j;
-    for(unsigned int i=0;i<recette.nbIngredient;++i){
-        trouve=false;
-        j=0;
-        while(j<stock.nbIngredient or !trouve){
-            if(recette.tabIngredient[i].nom==stock.tabIngredient[j].nom){
-                trouve=true;
-                stock.tabIngredient[j].quantite -= recette.tabIngredient[i].quantite;
+    std::cout<<"Année de sortie minimale : ";
+    std::cin>>anneeMin;
+
+    std::cout<<"Année de sortie maximale : ";
+    std::cin>>anneeMax;
+
+    std::cout<<"Duree minimale (en min) : ";
+    std::cin>>dureeMin;
+
+    std::cout<<"Duree maximale (en min) : ";
+    std::cin>>dureeMax;
+
+    //on ajoute tout les films
+    addAllFilm(selection, ensFilm);
+
+
+    //si un film de correspond pas, on désalloue les cases correspondantes
+    for(int i = 0;i<ensFilm.nbFilm;++i){
+        if(!((ensFilm.tabFilm[i].nomReal==real or real=="X") and
+           (ensFilm.tabFilm[i].annee>=anneeMin and ensFilm.tabFilm[i].annee<=anneeMax) and
+           (ensFilm.tabFilm[i].duree>=dureeMin and ensFilm.tabFilm[i].duree<=dureeMax))){
+
+            //delete selection.adrTabFilm[i]; //faut le faire ???
+            selection.adrTabFilm[i]=nullptr;
+            //--selection.nbFilm;
             }
+    }
+}
+
+void affSelection(Selection selection){
+    std::cout<<"Film selectione(s) : "<<std::endl<<std::endl;
+    for(int i=0;i<selection.nbFilm;++i){
+        if(selection.adrTabFilm[i]!=nullptr)
+            std::cout<<(*selection.adrTabFilm[i]).nomFilm<<" ("
+                     <<(*selection.adrTabFilm[i]).nomReal<<", "
+                     <<(*selection.adrTabFilm[i]).annee<<")"<<std::endl;
+    }
+    std::cout<<std::endl;
+}
+
+void enregistrerSelection(Selection & selection,std::string nomFic){
+    std::string dummy;
+    std::ofstream fic;
+    fic.open(nomFic);
+
+    if(fic.is_open()){
+        fic<<selection.nbFilm<<std::endl;
+        for(int i = 0;i<selection.nbFilm;++i){
+            if(selection.adrTabFilm[i]!=nullptr)
+                fic<<(*selection.adrTabFilm[i]).nomFilm<<std::endl
+                <<(*selection.adrTabFilm[i]).annee<<std::endl
+                <<(*selection.adrTabFilm[i]).nomReal<<std::endl
+                <<(*selection.adrTabFilm[i]).duree<<std::endl
+                <<(*selection.adrTabFilm[i]).langue<<std::endl;
+        }
+    }else{
+        std::cout<<"PROBLEME LORS DE L'OUVERTURE DU FICHIER !"<<std::endl;
+    }
+}
+
+int nbFilmCommuns(Selection selec1, Selection selec2){
+    int nbCommun=0;
+    int j;
+    bool trouve;
+
+    for(int i =0; i<selec1.nbFilm; ++i){
+        j=0;
+        trouve = false;
+        while(j<selec2.nbFilm and !trouve){
+            if(selec1.adrTabFilm[i]!=nullptr and selec2.adrTabFilm[j]!=nullptr)
+                if(selec1.adrTabFilm[i]==selec2.adrTabFilm[j]){
+                    trouve = true;
+                    ++nbCommun;
+                }
             ++j;
         }
     }
+
+    return nbCommun;
 }
 
+void triSelection(Selection & selection){
+    //bubble sort pck flemme
+
+    Film* temp;
+
+    for(int i = 0;i<selection.nbFilm-1;++i){
+        for(int j = i+1;j<selection.nbFilm;++j){
+            if(selection.adrTabFilm[i]!=nullptr and selection.adrTabFilm[j]!=nullptr)
+                if((*selection.adrTabFilm[i]).annee>(*selection.adrTabFilm[j]).annee){
+                    temp = selection.adrTabFilm[j];
+                    selection.adrTabFilm[j]=selection.adrTabFilm[i];
+                    selection.adrTabFilm[i]=temp;
+                }
+
+        }
+    }
+
+}
 
 int main(){
-    Stock stock;
-    std::string ficStock="Stock.txt";
-    initStock(ficStock, stock);
+    std::string ficFilm="film.txt";
+    std::string ficSelection="selection.txt";
+    Selection selection1,selection2;
+    EnsFilm ensFilm;
 
-    affStock(stock);
+    //selection1.adrTabFilm = &(ensFilm.tabFilm);
 
-    Recette crepes;
-    std::string ficCrepes="Crepes.txt";
-    loadRecette(ficCrepes, crepes);
+    lectureFic(ensFilm,ficFilm);
+    affEnsFilm(ensFilm);
 
-    Recette donuts;
-    std::string ficDonut="Donuts.txt";
-    loadRecette(ficDonut, donuts);
+    selectionFilm(selection1, ensFilm);
+    affSelection(selection1);
 
-    std::cout<<"==============================="<<std::endl;
-    std::cout<<"Est-il possible de cuisiner "<<donuts.portion<<" "<<donuts.intitule<<" ? ";
-    if(peutCuisiner(donuts, stock)==true){
-        std::cout<<"true"<<std::endl;
-        realRecette(donuts, stock);
-        std::cout<<"En stock après avoir cuisiner "<<donuts.portion<<" "<<donuts.intitule<<" "<<std::endl;
-        affStock(stock);
-    }else{
-        std::cout<<"false"<<std::endl;
-    }
+    // enregistrerSelection(selection1, ficSelection);
 
-    std::cout<<"==============================="<<std::endl;
-    std::cout<<"Est-il possible de cuisiner "<<crepes.portion<<" "<<crepes.intitule<<" ? ";
-    if(peutCuisiner(crepes, stock)==true){
-        std::cout<<"true"<<std::endl;
-        realRecette(crepes, stock);
-        std::cout<<"En stock après avoir cuisiner "<<crepes.portion<<" "<<crepes.intitule<<" "<<std::endl;
-        affStock(stock);
-    }else{
-        std::cout<<"false"<<std::endl;
-    }
+    selectionFilm(selection2, ensFilm);
+    affSelection(selection2);
 
+    std::cout<<"Il y'a "<<nbFilmCommuns(selection1, selection2)<<" film(s) en commun(s) entre les deux selections"<<std::endl;
 
-
+    triSelection(selection1);
+    affSelection(selection1);
 
     return 0;
 }
