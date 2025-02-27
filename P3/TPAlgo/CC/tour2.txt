@@ -1,0 +1,5 @@
+4
+Agnetha 3 5 1 1
+Benny 2 5 3
+Bjorn 4 5 10 4 8
+Anni - Frid 1 10
