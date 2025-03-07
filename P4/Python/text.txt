@@ -1,0 +1,14 @@
+Travail sur les chaînes de caractères
+On considère, un fichier, non vide.
+On le charge    
+et on le décompose suivant les lignes qui le composent.
+
+
+
+Attention, le fichier peut contenir des lignes vides    
+         ou alors des lignes qui contiennent
+         des espaces en début ou en fin de 
+                    ligne.
+                    
+                    
+
