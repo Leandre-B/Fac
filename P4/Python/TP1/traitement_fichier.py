@@ -32,19 +32,46 @@ def main():
         #sinon enumerate a la place de range mais renvoi un tuple, le 'i+1:03d' fonctionne donc pas :(
         print(f'Ligne {i+1:03d} : {len(lignes_sans_espaces[i])} {lignes_sans_espaces[i]}')
 
-    #heuuu, à revoir mdrr
+
     lignes_sans_ponctuation=["".join(char for char in lign if char not in string.punctuation) for lign in lignes_sans_espaces]
     
     print(f'{lignes_sans_ponctuation}')
 
-    for lign in lignes_sans_ponctuation:
-        for char in lign:
-            if char.isupper():
-                char.lower()
-            else :
-                char.upper()
+    """
+    for i in range(len(lignes_sans_ponctuation)):
+        lignes_sans_ponctuation[i]=''.join(
+             char.lower() if char.isupper() else char.upper() for char in lignes_sans_ponctuation[i]
+        )
     
     print(f'{lignes_sans_ponctuation}')
+    """
+
+    
+    dico={}
+    for ligne in lignes_sans_ponctuation:
+        mots = ligne.split()
+        for mot in mots:
+            mot = mot.lower()
+
+            if mot in dico:
+                dico[mot] +=1
+            else:
+                dico[mot]=1
+
+    print(dico)
+
+    list_occ_dico=dico.values()
+    set_occ_dico = set(list_occ_dico)
+    list_occ_dico=list(set_occ_dico)
+    list_occ_dico.sort(reverse=True)
+    print(list_occ_dico)
+
+    for occ in list_occ_dico :
+        for mot in dico:
+            if dico[mot]==occ:
+                print(f'{mot.ljust(20)} {occ}')
+
+
 
     
 
