@@ -52,7 +52,7 @@ def main():
         if f(l_x[i])*f(l_x[i+1])<0 :
             couples +=[[l_x[i],l_x[i+1]]]
 
-    print('Couples : ')
+    print('Couple : ')
     for couple in couples : 
         print(couple)
     
