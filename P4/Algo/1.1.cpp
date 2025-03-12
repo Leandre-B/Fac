@@ -42,15 +42,15 @@ void supprimer_debut(Liste & l){
     delete p;
 }
 
-//A tester
-void suppr_after_val(Liste & l, int val){
-    if(l->val == val){
+
+void supr_val(Liste & l, int val){
+    if (l==nullptr) return;
+    else if(l->val == val){
         Liste p =l;
         l=l->next;
         delete p;
-    }else{
-        suppr_after_val(l->next,val);
-    }
+    }else
+         supr_val(l->next,val);
 }
 
 int main(){
@@ -73,5 +73,9 @@ int main(){
     supprimer_debut(l);
     aff(l);
 
+    int n =21;
+    std::cout<<"On suppr : "<<n<<std::endl;
+    supr_val(l,n);
+    aff(l);
 
 }
