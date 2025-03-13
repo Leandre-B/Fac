@@ -51,6 +51,8 @@ def trouve_uniq_sol(x,y,etape) :
                         echequier[next_x][next_y] = etape
                         trouve_uniq_sol(next_x,next_y,etape+1)
                         echequier[next_x][next_y]=0
+
+#TODO - def choisir_best_dpl()
     
 def main() : 
     echequier[0][0]=1
