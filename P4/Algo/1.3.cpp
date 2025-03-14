@@ -1,4 +1,22 @@
 #include <iostream>
+#include <cstdlib>
+#include <chrono>
+
+// ------------------ GESTION CHRONOS ET GRAINE -----------------------
+auto chrono = std::chrono::system_clock::now();
+void init_chrono ()
+{
+	chrono = std::chrono::system_clock::now();
+}
+float etat_chrono ()
+{
+	return (0.0 + std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - chrono).count()) / 1000;
+}
+unsigned random_seed ()
+{
+	return chrono.time_since_epoch().count();
+}
+// --------------------------------------------------------------------
 
 struct Maillon{
     int n;
@@ -22,7 +40,7 @@ void aff(Liste l){
 }
 
 void remplir(Liste & l, int n){
-    if(n>=0){
+    if(n>=2){
         Liste p;
         p=new Maillon;
         p->n=n;
@@ -43,30 +61,24 @@ void initTab(bool* & t,int n){
 
 void suprMultpl(Liste & l , int multp){
     if(l!=nullptr){
-        
+        if(l->n%multp == 0){
+            Liste p=l;
+            l=l->next;
+            delete p;
+            suprMultpl(l,multp);
+        }else
+            suprMultpl(l->next,multp);
     }
 }
 
-void crible(Liste l){
-    /*
-    bool* tab;
-    tab=new bool [n];
-    initTab(tab,n);
-    tab[0] = false;
-    tab[1] = false;
-    for(int i =2;i<n;++i){
-        if(tab[i]==true)
-            for(int j =i+i;j<n;j+=i)
-                tab[j]=false;
+void crible(Liste & l){
+    //aff(l);
+    if(l!=nullptr){
+        suprMultpl(l->next,l->n);
+        crible(l->next);
     }
-    */
-
-    for(int i =0;i<n;++i){
-        if(tab[i]==true)
-            ajouterTete(l,i);
-    }
-    
 }
+
 
 int main(){
     Liste liste;
@@ -75,11 +87,10 @@ int main(){
     std::cin>>n;
 
     init(liste);
-
     remplir(liste,n);
-    aff(liste);
 
-    crible(liste,n);
-
+    init_chrono();
+    //crible(liste);
+    std::cout<<"Temps crible : " <<etat_chrono()<<"s"<<std::endl;
 
 }
