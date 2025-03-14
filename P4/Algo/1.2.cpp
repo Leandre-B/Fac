@@ -37,7 +37,7 @@ void ajouterQueue(std::string nom, std::string prenom, std::string tel, Repertoi
 }
 
 void affichePersonne(Personne p){
-    std::cout<<"["<<p.nom<<","<<p.prenom<<","<<p.tel<<"]";
+    std::cout<<"["<<p.nom<<","<<p.prenom<<","<<p.tel<<"] ";
 }
 
 void affRepertoire(Repertoire repertoire){
@@ -84,58 +84,53 @@ int rechercherPositionIte(std::string nom, std::string prenom, Repertoire repert
     else return i;
 }
 
-//y'a pas mal de probleme là mdr
+
 void ajouter(int position, std::string nom, std::string prenom, std::string tel, Repertoire & repertoire){
-    int i =1;
-    int trouve=false;
-    bool fin=false;
-    Repertoire r=repertoire;
-    while(!trouve and !fin){
-        repertoire=repertoire->suiv;
-        if(repertoire==nullptr)
-            fin=true;
-        else{
-            if(i==position){
-                std::cout<<"on ajouter après "<<repertoire->val.prenom<<std::endl;
-                //ajout de la personne
-                Repertoire m;
-                m=new Maillon;
+    if(position==0 or repertoire==nullptr) return ajouterTete(nom,prenom,tel,repertoire);
+    else return ajouter(position-1,nom,prenom,tel,repertoire->suiv);
+}
 
-                m->val.nom=nom;
-                m->val.prenom=prenom;
-                m->val.tel=tel;
-
-                m->suiv=repertoire;
-                repertoire=m;
-                trouve=true;
-            }
-        }
-        ++i;
-    }
-    if(fin){
-        //on ajoute a la fin
-        repertoire = new Maillon;
-        repertoire->suiv = nullptr;
-        repertoire->val.nom=nom;
-        repertoire->val.prenom=prenom;
-        repertoire->val.tel=tel;
+void supprimerPos (int position, Repertoire & repertoire){
+    if(repertoire!=nullptr){
+        if(position==0){
+            Repertoire r=repertoire;
+            repertoire=repertoire->suiv;
+            delete r;
+        }else
+            supprimerPos(position-1,repertoire->suiv);
     }
 }
 
+void supprimerNoms(std::string nom, Repertoire & repertoire){
+    if(repertoire!=nullptr){
+        if(repertoire->val.nom==nom){
+            Repertoire r=repertoire;
+            repertoire=repertoire->suiv;
+            delete r;
+            supprimerNoms(nom,repertoire);
+        }else
+            supprimerNoms(nom,repertoire->suiv);
+    }
+}
 int main(){
 
     Repertoire repertoire;
     init(repertoire);
     ajouterTete("bodo","jean","06.......",repertoire);
-    ajouterQueue("bodo","albert","07.......",repertoire);
+    ajouterQueue("bodos","albert","07.......",repertoire);
     ajouterTete("bodo","paul","0701......",repertoire);
     ajouterQueue("bodo","andre","08......",repertoire);
     affRepertoire(repertoire);
     //std::cout<<telephone("bodo","albert",repertoire)<<std::endl;
     //std::cout<<rechercherPositionIte("bodo","albert",repertoire)<<std::endl;
 
-    std::cout<<"Apres ajout pos donnee : "<<std::endl;
+    //std::cout<<"Apres ajout pos donnee : "<<std::endl;
     ajouter(3,"Mr","oui","1234",repertoire);
+    
+    //supprimerPos(2,repertoire);
+    affRepertoire(repertoire);
+
+    supprimerNoms("bodos",repertoire);
     affRepertoire(repertoire);
 
     return 0;
