@@ -55,12 +55,17 @@ std::string telephone (std::string nom, std::string prenom, Repertoire repertoir
     else return telephone(nom,prenom,repertoire->suiv);
 } 
 
-//en recursif mais pb qd on est au bout de la liste... :/
 int rechercherPositionRecur(std::string nom, std::string prenom, Repertoire repertoire){
     if(repertoire==nullptr) return 0;
     else if(repertoire->val.nom == nom and repertoire->val.prenom == prenom)
         return 1;
-    else return rechercherPositionRecur(nom,prenom,repertoire->suiv)*2;
+    else{
+        //garde en tete que la 1ere val retourner est soit 0 soit 1 !!!
+        //facile de faire une petite condition grace a ça :D
+        int p= rechercherPositionRecur(nom,prenom,repertoire->suiv);
+        if(p==0) return 0;
+        else return p+1;
+    }
 }
 
 int rechercherPositionIte(std::string nom, std::string prenom, Repertoire repertoire){
