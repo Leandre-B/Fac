@@ -33,7 +33,7 @@ def exo6_2():
     print(f'M4 = {M4}')
     print(f'Sum = {somme}')
 
-
+#======= exo 6.3=====
 def exo6_3():
     M=np.ones((5,3))
     col = np.array([1,3,5,7,9]).reshape(5,1)
@@ -43,6 +43,7 @@ def exo6_3():
 
     print(M)
 
+#======= exo 6.4 =====
 def is_btw_1_5(x):
     if 1<=x<=5:
         x=True
@@ -66,8 +67,43 @@ def exo6_4():
             Z=np.append(Z,X[i])
     print(Z)
 
+#======= exo 6.5/6 =====
+def exo6_5_6 (): 
+     
+    url = 'iris.txt'
+     
+    long_sepal,larg_sepal,long_petal,larg_petal,especes = np.loadtxt(url, delimiter=',', dtype = "float,float,float,float,S20", unpack=True)
+    
+    # créer un tableau avec les données numériques
+    iris = np.column_stack([long_sepal,larg_sepal,long_petal,larg_petal])
+    iris.astype(np.float64)
+    setosa,versicolor,virginica = np.split(iris,3)
+    
+    print(f'\nSetosa : ')
+    print(f'Moyenne longueur sepal : {np.average(setosa[:,0])}')
+    print(f'Moyenne largeur sepal : {np.average(setosa[:,1])}')
+    print(f'Moyenne longueur petal : {np.average(setosa[:,2])}')
+    print(f'Moyenne largeur petal : {np.average(setosa[:,3])}')
+
+    print(f'\nversicolor : ')
+    print(f'Moyenne longueur sepal : {np.average(versicolor[:,0])}')
+    print(f'Moyenne largeur sepal : {np.average(versicolor[:,1])}')
+    print(f'Moyenne longueur petal : {np.average(versicolor[:,2])}')
+    print(f'Moyenne largeur petal : {np.average(versicolor[:,3])}')
+    
+    print(f'\nvirginica : ')
+    print(f'Moyenne longueur sepal : {np.average(virginica[:,0])}')
+    print(f'Moyenne largeur sepal : {np.average(virginica[:,1])}')
+    print(f'Moyenne longueur petal : {np.average(virginica[:,2])}')
+    print(f'Moyenne largeur petal : {np.average(virginica[:,3])}')
+
+def test():
+    tab=np.arange(21).reshape(3,7)
+    print (tab[:,0])
+
 def main() : 
-    exo6_4()
+    #test()
+    exo6_5_6()
 
 
 
