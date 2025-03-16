@@ -53,6 +53,49 @@ void supr_val(Liste & l, int val){
          supr_val(l->next,val);
 }
 
+void affIte(Liste l){
+    while(l!=nullptr){
+        std::cout<<l->val<<" ";
+        l=l->next;
+    }
+    std::cout<<std::endl;
+}
+
+void ajouter_fin_ite(Liste & l,int n){
+    if(l==nullptr){
+        l=new Maillon;
+        l->val=n;
+        l->next=nullptr;
+    }else{
+        Liste aux_l=l;
+        while(aux_l->next!=nullptr)
+            aux_l=aux_l->next;
+        aux_l->next=new Maillon;
+        aux_l->next->val=n;
+        aux_l->next->next = nullptr;
+    }
+}
+
+void liste_to_tab(Liste l, int* & t, int n,int & taille){
+    if(l!=nullptr){
+        if(l->next==nullptr){
+            t=new int[n+1];
+            t[n]=l->val;
+            taille=n+1;
+        }else{
+            liste_to_tab(l->next,t,n+1,taille);
+            t[n]=l->val;
+        }
+    }
+}
+
+void tab_to_liste(Liste & l, int* tab,int n){
+    if(n>0){
+        ajouter_debut(l,tab[n-1]);
+        tab_to_liste(l,tab,n-1);
+    }
+}
+
 int main(){
     Liste l;
     init(l);
@@ -73,9 +116,29 @@ int main(){
     supprimer_debut(l);
     aff(l);
 
-    int n =21;
+    int n =5;
     std::cout<<"On suppr : "<<n<<std::endl;
     supr_val(l,n);
-    aff(l);
+    affIte(l);
 
+    ajouter_fin_ite(l,42);
+    affIte(l);
+    
+    int* tab;
+    int taille;
+    liste_to_tab(l,tab,0,taille);
+
+    std::cout<<taille<<std::endl;
+
+    for(int i =0;i<taille;++i){
+        std::cout<<tab[i]<<" ";
+    }
+    std::cout<<std::endl;
+
+    Liste l2;
+    init(l2);
+    tab_to_liste(l2,tab,taille);
+    aff(l2);
+
+    return 0;
 }
