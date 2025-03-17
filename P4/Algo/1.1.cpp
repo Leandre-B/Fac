@@ -89,6 +89,10 @@ void liste_to_tab(Liste l, int* & t, int n,int & taille){
     }
 }
 
+
+//meme plus simple en iteratif,
+//ou plutot plus cohérent vu qu'on
+//utilise des tableaux
 void tab_to_liste(Liste & l, int* tab,int n){
     if(n>0){
         ajouter_debut(l,tab[n-1]);
@@ -124,7 +128,7 @@ int main(){
     ajouter_fin_ite(l,42);
     affIte(l);
     
-    int* tab;
+    int* tab=nullptr;
     int taille;
     liste_to_tab(l,tab,0,taille);
 
