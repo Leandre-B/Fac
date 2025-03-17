@@ -23,6 +23,7 @@ def trouve_sol(x,y,etape) :
     if(etape == dim_echequier*dim_echequier+1):
         nb_sol+=1
     else : 
+        """
         for i in range(len(deplacement_x)) :
             next_x=x+deplacement_x[i]
             next_y=y+deplacement_y[i]
@@ -31,6 +32,39 @@ def trouve_sol(x,y,etape) :
                     echequier[next_x][next_y] = etape
                     trouve_sol(next_x,next_y,etape+1)
                     echequier[next_x][next_y]=0
+        """
+        
+        r=warnsdorff(y,x)
+        if (len(x))>0
+            for position in r :
+                next_y=position[0]
+                next_x=position[1]
+
+
+#on regarde pour chaque deplacement possible, le nombres de déplacement après coup possible
+def warnsdorff(y,x) :
+    r=[]
+    for i in range(len(deplacement_x)) :
+        next_x=x+deplacement_x[i]
+        next_y=y+deplacement_y[i]
+        if(position_valide(next_x,next_y)) : 
+              if(echequier[next_x][next_y]==0) :
+                nbr=0
+                echequier[next_x][next_y]=9999
+
+                for j in range(len(deplacement_x)) :
+                    futur_x=next_x+deplacement_x[j]
+                    futur_y=next_y+deplacement_y[j]
+                    if position_valide(futur_x,futur_y):
+                        if echequier[futur_x][futur_y]==0
+                            nbr+=1
+            echequier[next_x][next_y]=0
+            r.append([next_x,next_y,nbr])
+    
+    #tri la liste en fonction de nbr 
+    r=sorted(r,key=lambda x : x[2])
+    return r
+
 
 
 def trouve_uniq_sol(x,y,etape) :
