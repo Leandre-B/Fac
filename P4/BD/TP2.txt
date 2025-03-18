@@ -1,0 +1,179 @@
+1)
+\d
+              Liste des relations
+ Schéma |      Nom      | Type  | Propriétaire
+--------+---------------+-------+--------------
+ public | conges        | table | postgres
+ public | consultations | table | postgres
+ public | patients      | table | postgres
+ public | personnels    | table | postgres
+ public | services      | table | postgres
+
+========================================================
+
+ 2)
+l1_tp2-# \d conges
+                      Table « public.conges »
+ Colonne |     Type     | Collationnement | NULL-able | Par défaut
+---------+--------------+-----------------+-----------+------------
+ codpers | character(3) |                 | not null  |
+ datdeb  | date         |                 | not null  |
+ datfin  | date         |                 | not null  |
+Index :
+    "conges_pkey" PRIMARY KEY, btree (codpers, datdeb)
+Contraintes de clés étrangères :
+    "conges_codpers_fkey" FOREIGN KEY (codpers) REFERENCES personnels(codpers)
+
+l1_tp2-# \d consultations
+                    Table « public.consultations »
+  Colonne   |     Type     | Collationnement | NULL-able | Par défaut
+------------+--------------+-----------------+-----------+------------
+ codpat     | character(3) |                 | not null  |
+ codpers    | character(3) |                 | not null  |
+ datconsult | date         |                 | not null  |
+Index :
+    "consultations_pkey" PRIMARY KEY, btree (codpat, codpers, datconsult)
+Contraintes de clés étrangères :
+    "consultations_codpat_fkey" FOREIGN KEY (codpat) REFERENCES patients(codpat)
+    "consultations_codpers_fkey" FOREIGN KEY (codpers) REFERENCES personnels(codpers)
+
+l1_tp2-# \d patients
+                         Table « public.patients »
+ Colonne |         Type          | Collationnement | NULL-able | Par défaut
+---------+-----------------------+-----------------+-----------+------------
+ codpat  | character(3)          |                 | not null  |
+ nom     | character varying(15) |                 | not null  |
+ prenom  | character varying(15) |                 | not null  |
+ sx      | character(1)          |                 | not null  |
+ datnais | date                  |                 | not null  |
+ insee   | character(13)         |                 |           |
+ prof    | character varying(25) |                 | not null  |
+Index :
+    "patients_pkey" PRIMARY KEY, btree (codpat)
+Référencé par :
+    TABLE "consultations" CONSTRAINT "consultations_codpat_fkey" FOREIGN KEY (codpat) REFERENCES patients(codpat)
+
+l1_tp2-# \d personnels
+                        Table « public.personnels »
+ Colonne |         Type          | Collationnement | NULL-able | Par défaut
+---------+-----------------------+-----------------+-----------+------------
+ codpers | character(3)          |                 | not null  |
+ nom     | character varying(15) |                 | not null  |
+ prenom  | character varying(15) |                 | not null  |
+ sx      | character(1)          |                 | not null  |
+ datnais | date                  |                 | not null  |
+ qualif  | character varying(25) |                 | not null  |
+ codserv | character(2)          |                 | not null  |
+ datint  | date                  |                 |           |
+ codsup  | character(3)          |                 |           |
+ salaire | numeric(8,2)          |                 |           |
+ hsupp   | numeric(8,2)          |                 |           |
+Index :
+    "personnels_pkey" PRIMARY KEY, btree (codpers)
+Contraintes de clés étrangères :
+    "personnels_codserv_fkey" FOREIGN KEY (codserv) REFERENCES services(codserv)
+    "personnels_codsup_fkey" FOREIGN KEY (codsup) REFERENCES personnels(codpers)
+Référencé par :
+    TABLE "conges" CONSTRAINT "conges_codpers_fkey" FOREIGN KEY (codpers) REFERENCES personnels(codpers)
+    TABLE "consultations" CONSTRAINT "consultations_codpers_fkey" FOREIGN KEY (codpers) REFERENCES personnels(codpers)
+    TABLE "personnels" CONSTRAINT "personnels_codsup_fkey" FOREIGN KEY (codsup) REFERENCES personnels(codpers)
+
+l1_tp2-# \d services
+                         Table « public.services »
+ Colonne |         Type          | Collationnement | NULL-able | Par défaut
+---------+-----------------------+-----------------+-----------+------------
+ codserv | character(2)          |                 | not null  |
+ nom     | character varying(25) |                 | not null  |
+ localis | character varying(20) |                 | not null  |
+ batim   | character varying(10) |                 | not null  |
+ tel     | character(10)         |                 | not null  |
+Index :
+    "services_pkey" PRIMARY KEY, btree (codserv)
+Référencé par :
+    TABLE "personnels" CONSTRAINT "personnels_codserv_fkey" FOREIGN KEY (codserv) REFERENCES services(codserv)
+
+========================================================
+
+3)
+SELECT nom,localis,batim
+FROM services;
+
+4)
+SELECT DISTINCT  qualif
+FROM personnels;
+
+5)
+SELECT nom,prenom,datnais
+FROM personnels
+WHERE qualif='CHEF DE SERVICE';
+
+6)
+SELECT nom,prenom,qualif
+FROM personnels
+WHERE hsupp IS NULL or hsupp=0;
+
+
+7)
+SELECT DISTINCT  qualif
+FROM personnels
+WHERE hsupp IS NULL or hsupp=0;
+
+8)
+SELECT nom,prenom,sx,qualif,salaire
+FROM personnels
+WHERE salaire BETWEEN 20000 AND 35000;
+
+9)
+//conversion en franc suisse
+SELECT nom,prenom,sx,qualif,salaire*0.96
+FROM personnels
+WHERE salaire BETWEEN 20000 AND 35000;
+
+10)
+SELECT nom,prenom,sx,qualif
+FROM personnels
+WHERE qualif IN ('CHEF DE SERVICE','ASSISTANT');
+
+11)
+SELECT nom,prenom,qualif
+FROM personnels
+WHERE nom LIKE 'BOU%';
+
+12)
+SELECT nom,prenom,qualif
+FROM personnels
+WHERE nom LIKE '_AR%';
+
+13)
+SELECT nom,prenom,sx,qualif
+FROM personnels
+WHERE qualif IN ('INTERNE','DOCTEUR') AND sx='2';
+
+14)
+SELECT nom,prenom,sx,qualif
+FROM personnels
+WHERE qualif='INTERNE' OR (qualif='DOCTEUR' AND sx='2');
+
+15)
+SELECT nom,prenom,datint,sx,qualif
+FROM personnels
+WHERE datint > '01/01/1990';
+
+16)
+SELECT nom,prenom,datnais,sx,qualif,salaire
+FROM personnels
+WHERE qualif IN ('CHEF DE SERVICE','ASSISTANT')
+ORDER BY salaire;
+
+17)
+SELECT nom,prenom,datnais,sx,qualif,salaire
+FROM personnels
+WHERE qualif IN ('CHEF DE SERVICE','ASSISTANT')
+ORDER BY datnais;
+
+18)
+SELECT nom,prenom,datnais,sx,qualif,salaire
+FROM personnels
+WHERE qualif IN ('CHEF DE SERVICE','ASSISTANT')
+ORDER BY qualif, salaire DESC;
+
