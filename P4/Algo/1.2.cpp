@@ -91,8 +91,10 @@ int rechercherPositionIte(std::string nom, std::string prenom, Repertoire repert
 
 
 void ajouter(int position, std::string nom, std::string prenom, std::string tel, Repertoire & repertoire){
-    if(position==0 or repertoire==nullptr) return ajouterTete(nom,prenom,tel,repertoire);
-    else return ajouter(position-1,nom,prenom,tel,repertoire->suiv);
+    if(position==0 or repertoire==nullptr)
+        return ajouterTete(nom,prenom,tel,repertoire);
+    else
+        return ajouter(position-1,nom,prenom,tel,repertoire->suiv);
 }
 
 void supprimerPos (int position, Repertoire & repertoire){
