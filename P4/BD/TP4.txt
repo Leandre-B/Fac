@@ -1,0 +1,66 @@
+1)
+SELECT nom
+FROM personnels
+WHERE qualif='INFIRMIERE' and nom IN(
+    SELECT nom
+    FROM personnels
+    WHERE qualif='SECRETAIRE MEDICALE'
+);
+
+2)
+SELECT nom,prenom
+FROM personnels
+WHERE codpers IN (
+    SELECT codpat
+    FROM patients
+);
+
+3)
+SELECT nom,prenom
+FROM personnels
+WHERE qualif='SECRETAIRE MEDICALE' AND codpers NOT IN (
+    SELECT codpers
+    FROM consultations
+);
+
+4)
+SELECT pers.codpers,pers.nom,pers.prenom,pers.qualif,pers.codsup,sup.nom,sup.prenom,sup.qualif
+FROM personnels pers
+JOIN personnels sup
+ON pers.codsup=sup.codpers;
+
+5)
+SELECT p.nom,p.prenom,p.sx,p.datnais,s.nom nom_service
+FROM personnels p JOIN services s
+ON p.codserv = s.codserv;
+
+6)
+SELECT s.nom,COALESCE(p.nom,'NULL') prenom,p.prenom,p.sx,p.datnais
+FROM services s LEFT JOIN personnels p
+ON s.codserv=p.codserv;
+
+7)
+SELECT s.nom
+FROM services s LEFT JOIN personnels p
+ON s.codserv=p.codserv
+l1_tp2-# WHERE p.codpers IS NULL;
+
+8)
+SELECT s.nom,p.nom,p.prenom,p.sx
+FROM services s LEFT JOIN (
+SELECT *
+FROM personnels
+WHERE qualif='CHEF DE SERVICE') p
+ON s.codserv=p.codserv;
+
+9)
+SELECT
+    s.nom,
+    COALESCE(p.nom,'****') nom,
+    COALESCE(p.prenom,'****') prenom,
+    COALESCE(p.sx,'****') sx
+FROM services s LEFT JOIN (
+    SELECT *
+    FROM personnels
+    WHERE qualif='CHEF DE SERVICE') p
+ON s.codserv=p.codserv;

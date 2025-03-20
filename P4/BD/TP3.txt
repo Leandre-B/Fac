@@ -92,4 +92,37 @@ FROM produit
 GROUP BY nomp
 HAVING AVG(prix)>1000;
 
+6)
+SELECT nomp
+FROM produit
+WHERE prix>ALL(
+    SELECT ROUND(AVG(prix),2)
+    FROM produit
+    GROUP BY nomp
+    HAVING AVG(prix)>1000
+)
+;
+
+
+7)
+SELECT nomp, ROUND(AVG(prix),2)
+FROM produit
+GROUP BY nomp
+HAVING COUNT(nomp)>1;
+
+8)
+SELECT cmd.nomp,produit.prix
+FROM commande cmd
+JOIN client clt
+    ON cmd.numc=clt.numc
+JOIN produit
+    ON cmd.nomp=produit.nomp
+JOIN fournisseur f
+    ON produit.numf=f.numf
+WHERE f.villef LIKE '%ANGERS%' AND clt.villec LIKE '%Paris%'
+;
+
+
+
+
 
