@@ -1,4 +1,4 @@
-N=9
+N=7
 sol=0
 
 def trouve_les_solutions(echiquier, x:int) -> None :
