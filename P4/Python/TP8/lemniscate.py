@@ -13,7 +13,7 @@ def y(t) :
 
 
 def main():
-    #genere 100 val de 0 a 10
+    #genere 50 val de 0 a 2*pi
     t = np.linspace(0,2*np.pi,50)
     x_val = x(t)
     y_val = y(t)
