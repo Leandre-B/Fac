@@ -24,8 +24,8 @@ for i in range(len(indices_etats)):
    else : indices_etats[i] = 2
 
 print(indices_etats)
-note_math=[malibu[i] for i in range(1,len(malibu),3)]
-note_info=[malibu[i] for i in range(2,len(malibu),3)]
+note_math=[int(malibu[i])for i in range(1,len(malibu),3)]
+note_info=[int(malibu[i]) for i in range(2,len(malibu),3)]
 
 
 # création d'une colormap afin de distinguer chaque groupe
@@ -56,6 +56,3 @@ plt.show()
  
 plt.scatter(x_values, y_values)
 plt.show()
-
-#TODO : AXE CHELOU MDRR
-#faut juste convertir les axes en entier 
