@@ -58,3 +58,4 @@ plt.scatter(x_values, y_values)
 plt.show()
 
 #TODO : AXE CHELOU MDRR
+#faut juste convertir les axes en entier 
