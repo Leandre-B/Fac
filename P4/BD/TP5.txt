@@ -1,0 +1,47 @@
+1)
+SELECT COUNT(cmd.numc)
+FROM client c JOIN commande cmd
+ON c.numc=cmd.numc
+WHERE c.nomc='Jean';
+
+2)
+SELECT numc
+FROM commande
+GROUP BY numc
+HAVING SUM(qte)>(
+SELECT SUM(qte)
+FROM client c JOIN commande cmd
+ON c.numc=cmd.numc
+WHERE nomc='Jean');
+
+
+3)
+SELECT numc
+FROM commande
+GROUP BY numc
+HAVING SUM(qte)>ANY(
+SELECT qte
+FROM client c JOIN commande cmd
+ON c.numc=cmd.numc
+WHERE nomc='Jean');
+
+4)
+SELECT DISTINCT nomp FROM
+commande
+WHERE nomp NOT IN(
+SELECT DISTINCT nomp
+FROM commande cmd JOIN client clt
+ON cmd.numc=clt.numc
+WHERE nomc='Jean');
+
+5)
+SELECT DISTINCT p.nomp
+FROM fournisseur f
+JOIN produit p on f.numf=p.numf
+JOIN commande cmd ON p.nomp=cmd.nomp
+JOIN client clt ON cmd.numc = clt.numc
+WHERE LOWER(SUBSTRING(f.villef FROM 6))=
+LOWER(SUBSTRING(clt.villec FROM 6));
+
+6)
+un truc comme au dessus avec un where
