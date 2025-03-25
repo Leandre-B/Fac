@@ -108,10 +108,74 @@ float degre(Polynome p){
 
 }
 
+float puiss(float x,float n){
+    if(n==0) return 1;
+    else if(n<0){
+        return 1/puiss(x,-n);
+    }
+    else return x*puiss(x,n-1);
+}
+
+float valeurEn(Polynome p, float x){
+    if(p==nullptr) return 0;
+    else
+        return p->m.a * puiss(x,p->m.b) + valeurEn(p->next,x);
+}
+
+Polynome derive(Polynome p){
+    if(p==nullptr) return nullptr;
+    else if(p->m.b==0) return derive(p->next);
+    else{
+        Polynome aux = new Maillon;
+        aux->m.a = p->m.a * p->m.b;
+        aux->m.b = p->m.b -1;
+        aux->next = derive(p->next);
+        return aux;
+    }
+}
+
+void ajoutMonome(Polynome & p, Monome m){
+    if(p==nullptr){
+        p=new Maillon;
+        p->m = m;
+        p->next=nullptr;
+    }else if(p->m.b == m.b)
+        p->m.a+=m.a;
+    else
+        ajoutMonome(p->next,m);
+}
+
+
+Polynome somme(Polynome p1, Polynome p2){
+    while(p2!=nullptr){
+        ajoutMonome(p1,p2->m);
+        p2=p2->next;
+    }
+    return p1;
+}
+
+
 int main(){
     Polynome p=nullptr;
     saisie(p);
     affichePolynome(p);
+    /*
     std::cout<<"Degre : "<<degre(p)<<std::endl;
+    
+    float x=-1.5;
+    std::cout<<"Valeur de X en : "<<x<<" = "<<valeurEn(p,x)<<std::endl;
+    */
+    Polynome p_deri = derive(p);
+    std::cout<<"Derive : ";
+    affichePolynome(p_deri);
+    /*
+    Polynome p_somme = somme(p,p_deri);
+    std::cout<<"Somme des 2 polynomes : ";
+    affichePolynome(p_somme);
+    */
+    Polynome p_produit = produit(p,p_deri);
+    std::cout<<"Produit des 2 polynomes : ";
+    affichePolynome(p_produit);
+    
 }
 
