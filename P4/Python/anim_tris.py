@@ -1,27 +1,85 @@
+import tkinter as tk
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+import time
+
+#créé la fenetre
+root = tk.Tk()
+root.geometry('800x600')
+root.title('Canvas Demo')
+
+#on defini un canva
+w=1000
+h=700
+canvas = tk.Canvas(root, width=w, height=h, bg='white')
+
+#place canva sur la fenetre
+canvas.pack(anchor=tk.CENTER, expand=True)
+
+#fill du coin (x,y) au coin opposé (x',y')
+#rect=canvas.create_rectangle((0,0), (10, 100), fill='black')
+n=int(w/10)
+max = int(h-50)
+data=np.random.randint(0,max,n)
+print(data)
 
 
-fig, ax = plt.subplots()
-n=20
-#data = np.random.uniform(0,100,n)
-data=np.linspace(n,1,n)
-x = np.linspace(1, n, n)
+def bubble_sort() :
+      for i in range(len(data)-1):
+            for j in range(0,len(data)-1-i) :
+                  if data[j]>data[j+1] :
+                        aux=data[j]
+                        data[j]=data[j+1]
+                        data[j+1]=aux
 
-#1er argument -> num de la frame
-def bubble_sort_step(frame) :
+                        #efface les deux rect
+                        canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white', width=0)
+                        canvas.create_rectangle(((j+1)*10,0),((j+1)*10+10,max), fill='white',width=0)
 
-  for j in range(n-1-frame) :
-    if data[j]>data[j+1] :
-      aux = data[j]
-      data[j]=data[j+1]
-      data[j+1]=aux
-      
-      bars[j].set_height(data[j])
-      bars[j+1].set_height(data[j+1])
-  
-plt.bar(x,data,color='black')
-bars=plt.bar(x,data,color='black')
-ani = animation.FuncAnimation(fig,bubble_sort_step, frames=n,repeat=False)
-plt.show()
+                        #on recréé les bons
+                        canvas.create_rectangle((j*10,0),(j*10+10,data[j]), fill='black')
+                        canvas.create_rectangle(((j+1)*10,0),((j+1)*10+10,data[j+1]), fill='black')
+                        
+                        canvas.update()
+                        time.sleep(0.001)
+
+def selection_sort():
+      for i in range(len(data)-1,-1,-1) :
+            maxim=i
+            for j in range(i,-1,-1) :
+                  if data[maxim]<data[j]:
+                        maxim=j
+            aux=data[maxim]
+            data[maxim]=data[i]
+            data[i]=aux
+
+            #efface les deux rect
+            canvas.create_rectangle((maxim*10,0),(maxim*10+10,max), fill='white', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,max), fill='white',width=0)
+
+            #on recréé les bons
+            canvas.create_rectangle((maxim*10,0),(maxim*10+10,data[i]), fill='black')
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black')
+            
+            canvas.update()
+            time.sleep(0.05)
+
+
+def init_canva() :
+      for i in range(len(data)) :
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black')
+            
+def rect (i):
+      canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='white')
+
+def move_rect():
+    canvas.move(rect, 10, 0)  # Déplace le cercle vers la droite
+    canvas.after(10, move_rect)  # Appelle à nouveau cette fonction après 50 millisecondes
+
+#move_rect()
+init_canva()
+
+bubble_sort()
+selection_sort()
+
+print(data)
+root.mainloop()
