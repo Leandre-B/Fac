@@ -78,11 +78,8 @@ def insertion_sort() :
             canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white',width=0)
             canvas.create_rectangle((j*10,0),(j*10+10,v), fill='black', width=0)
             canvas.update()
-            time.sleep(0.01)
-
-def bongo_sort():
-      if !is_sorted(data) :
-            #melanger data
+            time.sleep(0.001)
+    
 
 
 #TODO : quick sort
@@ -101,8 +98,8 @@ def move_rect():
 #move_rect()
 init_canva()
 
-bubble_sort()
-#selection_sort()
+#bubble_sort()
+selection_sort()
 #insertion_sort()
 
 print(data)
