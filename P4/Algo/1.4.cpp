@@ -141,6 +141,7 @@ void ajoutMonome(Polynome & p, Monome m){
         p->next=nullptr;
     }else if(p->m.b == m.b)
         p->m.a+=m.a;
+        //si a=0 faut le supprimer
     else
         ajoutMonome(p->next,m);
 }
@@ -153,29 +154,110 @@ Polynome somme(Polynome p1, Polynome p2){
     }
     return p1;
 }
+//
+//Polynome produitPoly_Mono(Polynome p, Monome m){
+//    Polynome temp=p;
+//    while(p!=nullptr){
+//        p->m.a *= m.a;
+//        p->m.b+=m.b;
+//        p=p->next;
+//    }
+//    //affichePolynome(temp);
+//    return temp;
+//}
+//
 
+Polynome produit(Polynome p1, Polynome p2){
+    Polynome p=nullptr;
+    
+    Polynome copie_p2 = nullptr;
+    copie_p2=somme(copie_p2,p2);
+    
+    while(p1!=nullptr){
+        p2=copie_p2; //bien copié
+        while(p2!=nullptr){
+            Polynome temp_p=new Maillon;
+            temp_p->m.a=p1->m.a * p2->m.a;
+            temp_p->m.b=p1->m.b + p2->m.b;
+            temp_p->next=nullptr;
+            
+            p=somme(p,temp_p);
+            p2=p2->next;
+        }
+        std::cout<<"etape p produit"<<std::endl;
+        affichePolynome(p);
+        p1=p1->next;
+    }
+    return p;
+}
+
+
+void ordonne(Polynome &p){
+    //basé sur tri a bulles (pas trop le choix vu que c'est des listes je pense)
+
+    //polynome fixe, 
+    Polynome p_fixe = nullptr;
+    p_fixe = somme(p_fixe,p);
+
+    Polynome p_temp = nullptr;
+    p_temp = somme(p_temp,p);
+    
+    while(p_temp!=nullptr)
+    {
+        while(p->next!=nullptr)
+        {
+            if(p->m.b < p->next->m.b)
+            {
+                //maillon temp
+                Monome m;
+                m.a = p->m.a;
+                m.b = p->m.b;
+
+                //echange
+                p->m.a = p->next->m.a;
+                p->m.b = p->next->m.b;
+
+                p->next->m.a=m.a;
+                p->next->m.b=m.b;
+
+            }
+            p=p->next;
+        }
+        p=p_fixe;
+        p_temp=p_temp->next;
+    }
+}
+        
+        
+        
 
 int main(){
+    //exemple poly saisie : 3 2 1 5 7 0 -6 4
+    
     Polynome p=nullptr;
     saisie(p);
     affichePolynome(p);
-    /*
-    std::cout<<"Degre : "<<degre(p)<<std::endl;
-    
-    float x=-1.5;
-    std::cout<<"Valeur de X en : "<<x<<" = "<<valeurEn(p,x)<<std::endl;
-    */
-    Polynome p_deri = derive(p);
-    std::cout<<"Derive : ";
-    affichePolynome(p_deri);
-    /*
-    Polynome p_somme = somme(p,p_deri);
-    std::cout<<"Somme des 2 polynomes : ";
-    affichePolynome(p_somme);
-    */
-    Polynome p_produit = produit(p,p_deri);
-    std::cout<<"Produit des 2 polynomes : ";
-    affichePolynome(p_produit);
-    
+    ///*
+    //std::cout<<"Degre : "<<degre(p)<<std::endl;
+    //
+    //float x=-1.5;
+    //std::cout<<"Valeur de X en : "<<x<<" = "<<valeurEn(p,x)<<std::endl;
+    //*/
+    //Polynome p_deri = derive(p);
+    //std::cout<<"Derive : ";
+    //affichePolynome(p_deri);
+    ///*
+    //Polynome p_somme = somme(p,p_deri);
+    //std::cout<<"Somme des 2 polynomes : ";
+    //affichePolynome(p_somme);
+    //*/
+    //
+    //Polynome p_produit = produit(p,p_deri);
+    //std::cout<<"Produit des 2 polynomes : ";
+    //affichePolynome(p_produit);
+
+    std::cout<<"p ordonne par degres : "<<std::endl;
+    ordonne(p);
+    affichePolynome(p);
 }
 
