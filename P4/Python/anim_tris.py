@@ -40,7 +40,7 @@ def bubble_sort() :
                         canvas.create_rectangle(((j+1)*10,0),((j+1)*10+10,data[j+1]), fill='black')
                         
                         canvas.update()
-                        time.sleep(0.001)
+                        time.sleep(0.0001)
 
 def selection_sort():
       for i in range(len(data)-1,-1,-1) :
@@ -80,7 +80,24 @@ def insertion_sort() :
             canvas.update()
             time.sleep(0.001)
     
+def tri_chelou ():
+   t=data
+   for i in range(len(t)-1):
+      for j in range(i+1,len(t)-1):
+         if t[i]>t[j] :
+            aux=t[j]
+            t[j]=t[i]
+            t[i]=aux
 
+            #efface les deux rect
+            canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,max), fill='white',width=0)
+
+            #on recréé les bons
+            canvas.create_rectangle((j*10,0),(j*10+10,data[j]), fill='black', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black', width=0)
+            canvas.update()
+            time.sleep(0.0001)
 
 #TODO : quick sort
 #       quick sort + insertion
@@ -98,9 +115,10 @@ def move_rect():
 #move_rect()
 init_canva()
 
-#bubble_sort()
-selection_sort()
+bubble_sort()
+#selection_sort()
 #insertion_sort()
+#tri_chelou()
 
 print(data)
 root.mainloop()

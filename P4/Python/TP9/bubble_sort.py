@@ -11,7 +11,8 @@ def tri (t):
 def tri_chelou (t):
    for i in range(len(t)-1):
       for j in range(i+1,len(t)-1):
-         aux=t[j]
-         t[j]=t[i]
-         t[i]=aux
+         if t[i]>t[j] :
+            aux=t[j]
+            t[j]=t[i]
+            t[i]=aux
    return t
