@@ -1,6 +1,7 @@
 import tkinter as tk
 import numpy as np
 import time
+import random
 
 #créé la fenetre
 root = tk.Tk()
@@ -8,7 +9,7 @@ root.geometry('800x600')
 root.title('Canvas Demo')
 
 #on defini un canva
-w=1000
+w=90
 h=700
 canvas = tk.Canvas(root, width=w, height=h, bg='white')
 
@@ -99,6 +100,34 @@ def tri_chelou ():
             canvas.update()
             time.sleep(0.0001)
 
+def is_sorted():
+   for i in range(len(data)-1) :
+      if data[i]>data[i+1] : 
+            return False
+   return True
+
+def shuffle():
+   for i in range(len(data)-1,-1,-1):
+      rdm=np.random.randint(0,i+1,1)
+      aux=data[i]
+      data[i]=data[rdm[0]]
+      data[rdm[0]]=aux
+
+
+def bongo_sort():
+   n=0
+   while not is_sorted():
+      shuffle()
+      """
+      for i in range(len(data)) :
+            canvas.create_rectangle((i*10,0),(i*10+10,max), fill='white', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black', width=0)
+      canvas.update()
+      time.sleep(0.00001)
+      """ 
+      n+=1
+   print(n)
+
 #TODO : quick sort
 #       quick sort + insertion
 #       shell sort ?
@@ -114,8 +143,9 @@ def move_rect():
 
 #move_rect()
 init_canva()
-
-bubble_sort()
+for _ in range(50):
+   bongo_sort()
+#bubble_sort()
 #selection_sort()
 #insertion_sort()
 #tri_chelou()
