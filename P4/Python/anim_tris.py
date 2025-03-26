@@ -57,19 +57,42 @@ def selection_sort():
             canvas.create_rectangle((i*10,0),(i*10+10,max), fill='white',width=0)
 
             #on recréé les bons
-            canvas.create_rectangle((maxim*10,0),(maxim*10+10,data[i]), fill='black')
-            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black')
+            canvas.create_rectangle((maxim*10,0),(maxim*10+10,data[i]), fill='black', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black', width=0)
             
             canvas.update()
             time.sleep(0.05)
 
+def insertion_sort() :
+      for i in range(1,len(data)) :
+            v=data[i]
+            j=i
+            while data[j-1]>v and j>0:
+                  data[j]=data[j-1]
+                  canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white',width=0)
+                  canvas.create_rectangle((j*10,0),(j*10+10,data[j-1]), fill='black', width=0)
+                  time.sleep(0.01)
+                  canvas.update()
+                  j-=1
+            data[j]=v
+            canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white',width=0)
+            canvas.create_rectangle((j*10,0),(j*10+10,v), fill='black', width=0)
+            canvas.update()
+            time.sleep(0.01)
+
+def bongo_sort():
+      if !is_sorted(data) :
+            #melanger data
+
+
+#TODO : quick sort
+#       quick sort + insertion
+#       shell sort ?
+#       bongo sort mdr
 
 def init_canva() :
       for i in range(len(data)) :
-            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black')
-            
-def rect (i):
-      canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='white')
+            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black', width=0)
 
 def move_rect():
     canvas.move(rect, 10, 0)  # Déplace le cercle vers la droite
@@ -79,7 +102,8 @@ def move_rect():
 init_canva()
 
 bubble_sort()
-selection_sort()
+#selection_sort()
+#insertion_sort()
 
 print(data)
 root.mainloop()
