@@ -12,9 +12,9 @@ void randomise(int* t,int n){
 }
 
 void aff(int* t,int n){
-  if(n!=0){
+  if(n>0){
     aff(t,n-1);
-    std::cout<<t[n]<<" ";
+    std::cout<<t[n-1]<<" ";
   }
 }
 
@@ -29,13 +29,34 @@ int ind_max(int* t, int n){
     }
 }
 
-void selection_sort(int* t, int n){
-  for(int i = 0;i<n;++n){
-    max=ind_max(t,n-i);
-    echange(t[i],t[max]);
-//pas test a finir !!!!!
-    
+void echange(int & a, int & b){
+  int aux = a;
+  a=b;
+  b=aux;
+}
 
+void selection_sort(int* & t, int n){
+  for(int i = 0;i<n;++i){
+    int maxi=ind_max(t,n-i);
+    echange(t[n-i],t[maxi]);
+  }
+}
+
+void inserer(int* & t,int x,int n){
+  int j =n;
+  while((t[j-1])>x and j>=0){
+    t[j]=t[j-1];
+    --j;
+  }
+  t[j]=x;
+}
+
+
+void insertion_sort(int* & t, int n){
+  for(int i = 1; i<n; ++i){
+    inserer(t,t[i],i);
+  }
+}
 
 int main(){
   std::srand(time(NULL));
@@ -43,10 +64,15 @@ int main(){
   int n = 100;
   int* t = new int[n];
   randomise(t,n);
-  aff(t,n);
-  std::cout<<std::endl;
-  //int imax =ind_max(t,n);
-  //std::cout<<"t["<<imax<<"] = "<<t[imax]<<std::endl;
+  aff(t,n); std::cout<<std::endl;
+  /*
+  std::cout<<std::endl<<"Selection sort : "<<std::endl;
+  selection_sort(t,n);
+  aff(t,n);std::cout<<std::endl<<std::endl;
+  */
+  std::cout<<std::endl<<"Insertion sort : "<<std::endl;
+  insertion_sort(t,n);
+  aff(t,n);std::cout<<std::endl<<std::endl;
   
   
 }
