@@ -9,7 +9,7 @@ root.geometry('800x600')
 root.title('Canvas Demo')
 
 #on defini un canva
-w=90
+w=1000
 h=700
 canvas = tk.Canvas(root, width=w, height=h, bg='white')
 
@@ -84,21 +84,22 @@ def insertion_sort() :
 def tri_chelou ():
    t=data
    for i in range(len(t)-1):
-      for j in range(i+1,len(t)-1):
+      for j in range(i+1,len(t)):
          if t[i]>t[j] :
-            aux=t[j]
-            t[j]=t[i]
-            t[i]=aux
 
             #efface les deux rect
             canvas.create_rectangle((j*10,0),(j*10+10,max), fill='white', width=0)
             canvas.create_rectangle((i*10,0),(i*10+10,max), fill='white',width=0)
+            
+            aux=t[j]
+            t[j]=t[i]
+            t[i]=aux
 
             #on recréé les bons
-            canvas.create_rectangle((j*10,0),(j*10+10,data[j]), fill='black', width=0)
-            canvas.create_rectangle((i*10,0),(i*10+10,data[i]), fill='black', width=0)
+            canvas.create_rectangle((j*10,0),(j*10+10,t[j]), fill='black', width=0)
+            canvas.create_rectangle((i*10,0),(i*10+10,t[i]), fill='black', width=0)
             canvas.update()
-            time.sleep(0.0001)
+            time.sleep(0.001)
 
 def is_sorted():
    for i in range(len(data)-1) :
@@ -143,12 +144,16 @@ def move_rect():
 
 #move_rect()
 init_canva()
+"""
+init_canva()
 for _ in range(50):
    bongo_sort()
+"""
+#tri_chelou()
 #bubble_sort()
 #selection_sort()
 #insertion_sort()
-#tri_chelou()
+tri_chelou()
 
 print(data)
 root.mainloop()
