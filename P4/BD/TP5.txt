@@ -44,4 +44,42 @@ WHERE LOWER(SUBSTRING(f.villef FROM 6))=
 LOWER(SUBSTRING(clt.villec FROM 6));
 
 6)
-un truc comme au dessus avec un where
+SELECT LOWER(SUBSTRING(clt.villec FROM 6)),LOWER(SUBSTRING(f.villef FROM 6))
+FROM fournisseur f
+JOIN produit p on f.numf=p.numf
+JOIN commande cmd ON p.nomp=cmd.nomp
+JOIN client clt ON cmd.numc = clt.numc
+ORDER BY LOWER(SUBSTRING(clt.villec FROM 6)),LOWER(SUBSTRING(f.villef FROM 6));
+
+
+7)
+SELECT DISTINCT p1.nomp,p2.nomp
+FROM produit p1 JOIN produit p2
+ON p1.numf=p2.numf;
+
+8)
+SELECT p.numf
+FROM produit p
+GROUP BY p.numf
+HAVING COUNT(p.nomp) =
+(
+    SELECT MAX(tmax.maxi)
+    FROM (
+        SELECT COUNT(p.nomp) maxi
+        FROM produit p
+        GROUP BY p.numf
+    )tmax
+);
+
+9)
+SELECT DISTINCT f.nomf
+FROM produit p JOIN
+(
+    SELECT cmd.nomp
+    FROM commande cmd JOIN client clt
+    ON cmd.numc=clt.numc
+    WHERE clt.nomc='Daniel'
+) p_clt
+ON p.nomp=p_clt.nomp
+JOIN fournisseur f
+ON p.numf=f.numf;
