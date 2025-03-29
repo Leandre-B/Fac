@@ -11,6 +11,13 @@ void randomise(int* t,int n){
   }
 }
 
+void randomise_cap(int* t,int n,int max_val){
+  if(n!=0){
+    t[n-1]=std::rand()%max_val;
+    randomise(t,n-1,max_val);
+  }
+}
+
 void aff(int* t,int n){
   if(n>0){
     aff(t,n-1);
@@ -72,6 +79,10 @@ int main(){
   */
   std::cout<<std::endl<<"Insertion sort : "<<std::endl;
   insertion_sort(t,n);
+
+  std::cout<<std::endl<<"Tri casier : "<<std::endl;
+  insertion_sort(t,n);
+  
   aff(t,n);std::cout<<std::endl<<std::endl;
   
   
