@@ -25,8 +25,11 @@ void echange(int & a, int & b){
 //==== Méthode 'partition' du quick sort ====
 void move_zeros1(int* & t, int n){
   int j=0;
+  //boucle while pour passer les zeros au debut
   for(int i = 0;i<n;++i){
     if(t[i]==0){
+      //pas besoin d'échange, tu sais que tu vas mettre un zero
+      
       int aux = t[i];
       t[i]=t[j];
       t[j]=aux;
@@ -87,7 +90,7 @@ int main(){
   aff(t,n);
   std::cout<<std::endl;
   
-  move_zeros3(t,n);
+  move_zeros1(t,n);
   aff(t,n);
   std::cout<<std::endl;
 

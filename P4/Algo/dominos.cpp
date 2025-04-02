@@ -22,23 +22,17 @@ void aff_domino(Domino d){
 }
 
 void aff_main(Liste m){
-  /*
+  
   if(m!=nullptr){
-    if(m->next==nullptr)
+    if(m->next==nullptr){
       aff_domino(m->domino);
+      std::cout<<std::endl;
+    }
     else{
       aff_domino(m->domino);
       std::cout<<" - ";
       aff_main(m->next);
     }
-  }
-
-  */
-  
-  if(m!=nullptr){
-    aff_domino(m->domino);
-    std::cout<<" ";
-    aff_main(m->next);
   }
 }
 
@@ -74,10 +68,9 @@ void ajoute_droite(Liste &  l,Domino d){
 
 void saisie_main_bis(Liste & m, int n){  
   if(n>0){
-    m=new Maillon;
     Domino d;
     saisieDomino(d);
-    ajoute_gauche(m,d);
+    ajoute_droite(m,d);
     
     saisie_main_bis(m->next,n-1);
   }
@@ -95,14 +88,26 @@ void saisie_main(Liste & m){
   std::cout<<std::endl;
   
 }
-  
+
+void supprime_premier(Liste & m){
+  if(m!=nullptr){
+    Liste aux = m;
+    m=m->next;
+    delete aux;
+  }
+}
+
+int nb_dominos(Liste m){
+  if(m==nullptr) return 0;
+  else return 1+nb_dominos(m->next);
+}
+
 int main(){
 
   Liste main;
   saisie_main(main);
   std::cout<<main<<" "<<main->domino.x<<" "<<main->domino.y<<" "<<main->next<<" "<<std::endl;
   aff_main(main);
-
   
   return 0;
 }
