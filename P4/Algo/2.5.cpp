@@ -73,6 +73,8 @@ int main(){
   std::cout<<std::endl<<"Insertion sort : "<<std::endl;
   insertion_sort(t,n);
   aff(t,n);std::cout<<std::endl<<std::endl;
-  
-  
+
+  delete[] t;
+
+  return 0;
 }
