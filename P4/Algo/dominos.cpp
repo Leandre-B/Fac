@@ -1,4 +1,7 @@
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+
 
 struct Domino{
   int x;
@@ -102,12 +105,147 @@ int nb_dominos(Liste m){
   else return 1+nb_dominos(m->next);
 }
 
-int main(){
+void init_pioche(Liste & pioche){
+  init(pioche);
+  for(int i=0;i<=6;++i){
+    for(int j = i;j<=6;++j){
+      Domino d;
+      d.x=i;
+      d.y=j;
+      ajoute_gauche(pioche, d);
+    }
+  }
+}
 
-  Liste main;
-  saisie_main(main);
-  std::cout<<main<<" "<<main->domino.x<<" "<<main->domino.y<<" "<<main->next<<" "<<std::endl;
-  aff_main(main);
+void supr_domino(Liste & l, Domino & domino_supr,int n_to_supr,int n){
+  if(l!=nullptr){
+    if(n+1==n_to_supr){
+      domino_supr.x= l->domino.x;
+      domino_supr.y = l->domino.y;
+      
+      Liste aux = l;
+      l=l->next;
+      delete aux;
+    }else
+      supr_domino(l->next,domino_supr,n_to_supr,++n);
+  }
+}
+
+void piocher(Liste & pioche, Liste & l){
+  Domino d;
+  int rdm = rand()%nb_dominos(pioche) +1;
+  
+  supr_domino(pioche,d,rdm,0);
+  std::cout<<"Domino pioché : "<<d.x<<" "<<d.y<<std::endl;
+  ajoute_gauche(l,d);
+}
+
+void genere_main(Liste & main, Liste & pioche, int n){
+  for(int i = 0;i<n;++i){
+    piocher(pioche,main);
+  }
+}
+
+int nb_points(Liste & l){
+  if(l==nullptr) return 0;
+  else
+    return nb_points(l->next) + l->domino.x + l->domino.y;
+}
+
+void retourne(Domino d){
+  int aux = d.x;
+  d.x=d.y;
+  d.y=aux;
+}
+
+int aGauche(Liste l){
+  if(l==nullptr) return -1;
+  else
+    return l->domino.x;
+}
+
+int aDroite(Liste l){
+  if(l==nullptr) return -1;
+  else{
+    if(l->next == nullptr) return l->domino.y;
+    else
+      return aDroite(l->next);
+  }
+}
+
+void jouer (Liste & m, Liste & j, bool & bloque){
+  if(m==nullptr)
+    bloque =  true;
+  else{
+    if(m->domino.x == aGauche(j)){
+        retourne(m->domino);
+        ajoute_gauche(j, m->domino);
+        supprime_premier(m);
+        
+    }else if(m->domino.x == aDroite(j)){
+      retourne(m->domino);
+      ajoute_droite(j,m->domino);
+      supprime_premier(m);
+      
+    }else if (m->domino.y == aGauche(j)){
+      retourne(m->domino);
+      ajoute_gauche(j, m->domino);
+      supprime_premier(m);
+      
+    }else if(m->domino.y == aDroite(j)){
+      retourne(m->domino);
+      ajoute_droite(j, m->domino);
+      supprime_premier(m);
+      
+    }else
+      jouer(m->next,j,bloque);
+  }
+}
+    
+
+int main(){
+  std::srand(time(nullptr));
+  
+  Liste main,pioche,jeu;
+  bool bloque  = false;
+  int tour = 0;
+
+  init(pioche);init(main);init(jeu);
+  init_pioche(pioche);
+
+  //initialise le jeu (1 domino)&
+  piocher(pioche,jeu);
+
+  int n;
+  std::cout<<"Combien voulez-vous de dominos dans votre main ? ";
+  std::cin>>n;
+  genere_main(main,pioche,n);
+
+  while(nb_dominos(pioche)!=0){
+    bloque = false;
+    ++tour;
+    
+    std::cout<<std::endl<<"======= TOUR N° "<<tour<<" ==========="<<std::endl;
+    std::cout<<"Jeu : ";
+    aff_main(jeu);
+    std::cout<<std::endl;
+    
+    std::cout<<"Main : ";
+    aff_main(main);
+    std::cout<<std::endl;
+
+    
+    jouer(main,jeu,bloque);
+    if(bloque){
+      std::cout<<"Le joueur doit piocher ! "<<std::endl;
+      piocher(pioche,main);
+    }
+  }
+
+  std::cout<<"Fin du jeu ! Nombre de points : "<<nb_points(main)<<std::endl;
+  
+
+  
   
   return 0;
 }
