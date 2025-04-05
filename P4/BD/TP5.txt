@@ -71,6 +71,20 @@ HAVING COUNT(p.nomp) =
     )tmax
 );
 
+SELECT f.nomf
+FROM fournisseur f
+WHERE NOT EXISTS (
+    SELECT *
+    FROM produit p1
+    WHERE NOT EXISTS (
+        SELECT *
+        FROM produit p2
+        WHERE p2.nomp = p1.nomp
+          AND p2.numf = f.numf
+    )
+);
+
+
 9)
 SELECT DISTINCT f.nomf
 FROM produit p JOIN

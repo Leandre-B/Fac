@@ -6,12 +6,9 @@ l1_tp1=# \d client
  nomc        | character varying(20) |                 | not null  |
  anneenaissc | integer               |                 |           |
  villec      | character varying(20) |                 | not null  |
-Index :
-    "client_pkey" PRIMARY KEY, btree (numc)
-Référencé par :
-    TABLE "commande" CONSTRAINT "commande_numc_fkey" FOREIGN KEY (numc) REFERENCES client(numc) ON DELETE CASCADE
 
-l1_tp1=# \d commande
+
+
                          Table « public.commande »
  Colonne |         Type          | Collationnement | NULL-able | Par défaut
 ---------+-----------------------+-----------------+-----------+------------
@@ -19,12 +16,7 @@ l1_tp1=# \d commande
  numc    | character(6)          |                 | not null  |
  nomp    | character varying(20) |                 | not null  |
  qte     | integer               |                 | not null  |
-Index :
-    "commande_pkey" PRIMARY KEY, btree (numcom, numc, nomp)
-Contraintes de clés étrangères :
-    "commande_numc_fkey" FOREIGN KEY (numc) REFERENCES client(numc) ON DELETE CASCADE
 
-l1_tp1=# \d fournisseur
                         Table « public.fournisseur »
  Colonne |         Type          | Collationnement | NULL-able | Par défaut
 ---------+-----------------------+-----------------+-----------+------------
@@ -32,22 +24,15 @@ l1_tp1=# \d fournisseur
  nomf    | character varying(20) |                 | not null  |
  agef    | integer               |                 |           |
  villef  | character varying(20) |                 | not null  |
-Index :
-    "fournisseur_pkey" PRIMARY KEY, btree (numf)
-Référencé par :
-    TABLE "produit" CONSTRAINT "produit_numf_fkey" FOREIGN KEY (numf) REFERENCES fournisseur(numf) ON DELETE CASCADE
 
-l1_tp1=# \d produit
+
                           Table « public.produit »
  Colonne |         Type          | Collationnement | NULL-able | Par défaut
 ---------+-----------------------+-----------------+-----------+------------
  numf    | character(7)          |                 | not null  |
  nomp    | character varying(20) |                 | not null  |
  prix    | integer               |                 | not null  |
-Index :
-    "produit_pkey" PRIMARY KEY, btree (numf, nomp)
-Contraintes de clés étrangères :
-    "produit_numf_fkey" FOREIGN KEY (numf) REFERENCES fournisseur(numf) ON DELETE CASCADE
+
 
 
 1)
