@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 def racine(x) :
     return math.sqrt(x)
@@ -96,6 +97,18 @@ def exo6_5_6 ():
     print(f'Moyenne largeur sepal : {np.average(virginica[:,1])}')
     print(f'Moyenne longueur petal : {np.average(virginica[:,2])}')
     print(f'Moyenne largeur petal : {np.average(virginica[:,3])}')
+
+
+    plt.scatter(setosa[:,3],setosa[:,2],color='red',label='setosa')
+    plt.scatter(versicolor[:,3],versicolor[:,2],color='blue',label='versicolor')
+    plt.scatter(virginica[:,3],virginica[:,2],color='green',label='virginica')
+
+    plt.xlabel('larg petal')
+    plt.ylabel('long petal')
+    
+    plt.legend()
+    plt.grid()
+    plt.show()
 
 def test():
     tab=np.arange(21).reshape(3,7)
