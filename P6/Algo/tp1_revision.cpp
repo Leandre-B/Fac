@@ -21,18 +21,6 @@ struct TabMots{
     unsigned int taille;
 };
 
-struct OccLettre{
-    char mot;
-    unsigned int occ;
-};
-
-
-using tabLettre = std::array<OccLettre, 26>;
-
-void initialise (listeMots & l){
-    l=nullptr;
-}
-
 void ajoutDebut(std::string mot, listeMots & l){
     Maillon* m = new Maillon;
     m->occMot.mot=mot;
@@ -86,7 +74,7 @@ int plusLong(listeMots l){
         return 0;
     else{
         int currentPlusLong = plusLong(l->suiv);
-        if(currentPlusLong > (l->occMot.mot).length())
+        if(currentPlusLong > static_cast<int>((l->occMot.mot).length()))
             return currentPlusLong;
         else
             return (l->occMot.mot).length();
@@ -95,7 +83,7 @@ int plusLong(listeMots l){
 
 void afficheLongueur(listeMots l, int longueur){
     if(l!=nullptr){
-        if(longueur==(l->occMot.mot).length())
+        if(longueur==static_cast<int>((l->occMot.mot).length()))
             std::cout<<l->occMot.mot<<"\n";
         afficheLongueur(l->suiv, longueur);
     }
@@ -138,13 +126,13 @@ void construit (listeMots & l, std::string nomFichier){
 void remplit(TabMots & t, listeMots l){
     t.taille=taille(l);
     t.mots=new std::string[t.taille];
-    for(int i=0; i<t.taille; ++i){
+    for(unsigned int i=0; i<t.taille; ++i){
         t.mots[i]=l->occMot.mot;
         l=l->suiv;
     }
 }
 void afficheTabMot(TabMots t){
-    for(int i=0; i<t.taille; ++i){
+    for(unsigned int i=0; i<t.taille; ++i){
         std::cout<<t.mots[i]<<"\n";
     }
 }
@@ -167,12 +155,55 @@ bool appartient(std::string mot, TabMots t){
     return appartient_bis(mot, t, 0, t.taille-1);
 }
 
+struct OccLettre{
+    char lettre;
+    unsigned int occ;
+};
+
+
+using tabLettre = std::array<OccLettre, 26>;
+
+void initialise (listeMots & l){
+    l=nullptr;
+}
+
+void initialiseTabLettre(tabLettre & t){
+    char l = 'a';
+    for(int i=0; i<26; ++i){
+        t[i].occ=0;
+        t[i].lettre=l;
+        ++l;
+    }
+}
+
+void ajout_lettre(char lettre, tabLettre & t){
+    ++t[int(lettre)-97].occ;
+}
+
+void comptabilise(tabLettre & t, listeMots l){
+    if(l!=nullptr){
+        for(unsigned int i=0; i<l->occMot.occ; ++i){
+            for(unsigned int j=0; j<l->occMot.mot.length(); ++j)
+                ajout_lettre(l->occMot.mot[j], t);
+        }
+        comptabilise(t, l->suiv);
+    }
+}
+
+void affiche_lettres(tabLettre t){
+    for(int i=0; i<26; ++i){
+        std::cout<<t[i].lettre<<" ("<<t[i].occ<<")\n";
+    }
+}
+
+
+
 int main(){
 
     listeMots l;
     initialise(l);
     construit(l,"bouledesuif.txt");
-
+    /* 
     affiche(l);
     
     TabMots t;
@@ -187,7 +218,11 @@ int main(){
         std::cout<<"Le mot "<<mot<<" apparait dans le texte !\n";
     }else
         std::cout<<"Le mot "<<mot<<" n'apparait pas dans le texte :(\n";
-
-    
+ */
+    tabLettre t_l;
+    initialiseTabLettre(t_l);
+    comptabilise(t_l, l);
+    affiche_lettres(t_l);
+ 
     return 0;
 }
