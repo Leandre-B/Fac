@@ -1,25 +1,29 @@
 #include <iostream>
+
+//rdm()
 #include <cstdlib>
 #include <ctime>
+
 #include <array>
+#include <cstdint> //uint_8
 
 const unsigned int NL=100;
-const unsigned int NC=100;
+const unsigned int NC=90;
 
 using LigneMatrice = std::array<unsigned int,NC>;
 using Matrice = std::array<LigneMatrice,NL>; //[NL][NC]
 
 void gen_img(Matrice & m){
     for(unsigned int i=0; i<NL; ++i){
-        unsigned int j=0;
-        while(j<NC){
-            int rdm_color = rand()%256;
-
-            int rdm_sequence = rand()%10;  
-            if(rdm_sequence+j>=NC) rdm_sequence=NC-j; //si on depasse 
-            for(unsigned int k=j; k<rdm_sequence+j; ++k)
-                m[i][k]=rdm_color;
-            j+=rdm_sequence;
+        int nb_of_same_color = 0;
+        int rdm_color;
+        for(unsigned int j=0; j<NC; ++j){
+            if(nb_of_same_color==0){
+                nb_of_same_color = rand()%50;
+                rdm_color = rand()%255 + 1;
+            }
+            m[i][j]=rdm_color;
+            --nb_of_same_color;
         }
     }
 }
@@ -27,15 +31,15 @@ void gen_img(Matrice & m){
 void afficheMatrice(const Matrice & m){
     for(unsigned int i=0; i<NL; ++i){
         for(unsigned int j=0; j<NC; ++j){
-            std::cout<<"["<<m[i][j]<<"] ";
+            std::cout<<"["<<static_cast<int>(m[i][j])<<"] ";
         }
         std::cout<<"\n";
     }
 }
 
 struct Maillon{
-    unsigned int val;
-    unsigned int n=0;
+    uint8_t val;
+    uint8_t n=0; //nbr de val
     Maillon* suiv=nullptr;
 };
 
@@ -70,7 +74,7 @@ void compresse(const Matrice & m, Image & img){
 
 void afficheLignePixel(const LignePixels & l){
     if(l!=nullptr){
-        std::cout<<l->val<<" ("<<l->n<<") ";
+        std::cout<<static_cast<int>(l->val)<<" ("<<static_cast<int>(l->n)<<") ";
         afficheLignePixel(l->suiv);
     }
 }
@@ -102,7 +106,7 @@ int main(){
     compresse(m,img);
     afficheImg(img);
 
-    int size_non_compr = NC*NL*sizeof(unsigned int);
+    int size_non_compr = NC*NL*sizeof(uint8_t);
     std::cout<<"Taille non compréssé : "<<size_non_compr<<" bits \n";
 
 
@@ -113,7 +117,9 @@ int main(){
     int size_compr= nb_maillon*sizeof(Maillon);
     std::cout<<"Taille comprésé : "<<size_compr<<" bits \n";
 
-    std::cout<<"Ration de compression : "<<static_cast<float>(size_non_compr)/size_compr<<"\n"; 
-
+    std::cout<<"Ration de compression : "<<static_cast<float>(size_non_compr)/size_compr<<"\n";
+    //la compression dépend beaucoup du nombre du nombre couleur semblable cote a cote [12,12,12,56,56,56].
+    //si celui ci est faible, l'img compréssée prendra plus de place que celle qui ne l'est pas à cause de place en mémoire que
+    //prend un ptr (64bits)
     return 0;
 }
