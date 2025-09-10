@@ -29,7 +29,7 @@ void ajoutDebut(std::string mot, listeMots & l){
     l=m;
 }
 
-void ajoute(std::string mot, listeMots & l){
+void ajoute(const std::string & mot, listeMots & l){
     if(l==nullptr)
         ajoutDebut(mot,l);
     else if(mot==l->occMot.mot)
@@ -190,6 +190,19 @@ void comptabilise(tabLettre & t, listeMots l){
     }
 }
 
+//tri par selection
+void tri(tabLettre & t){
+    for(int i=1; i<26; ++i){
+        OccLettre l=t[i];
+        int j=i;
+        while(j>0 and t[j-1].occ<l.occ){
+            t[j]=t[j-1];
+            --j;
+        }
+        t[j]=l;
+    }
+}
+
 void affiche_lettres(tabLettre t){
     for(int i=0; i<26; ++i){
         std::cout<<t[i].lettre<<" ("<<t[i].occ<<")\n";
@@ -222,6 +235,10 @@ int main(){
     tabLettre t_l;
     initialiseTabLettre(t_l);
     comptabilise(t_l, l);
+    affiche_lettres(t_l);
+    std::cout<<"\n";
+
+    tri(t_l);
     affiche_lettres(t_l);
  
     return 0;
