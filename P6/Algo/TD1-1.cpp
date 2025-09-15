@@ -32,6 +32,7 @@ void ajout(Liste & l, element e){
     }
 }
 
+//Pas de delete ??? 
 void supprime(Liste & l, element e){
     if(l!=nullptr){
         if(l->e==e){
@@ -42,6 +43,7 @@ void supprime(Liste & l, element e){
     }
 }
 
+//nul pas de delete + l=l->suiv->suiv
 void corrige(Liste & l){
     if(l->suiv!=nullptr){
         if(l->suiv->e < l->e){
