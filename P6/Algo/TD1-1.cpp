@@ -32,22 +32,25 @@ void ajout(Liste & l, element e){
     }
 }
 
-//Pas de delete ??? 
+
 void supprime(Liste & l, element e){
     if(l!=nullptr){
         if(l->e==e){
+            Maillon * p = l;
             l=l->suiv;
+            delete(p);
             supprime(l,e);
         }else
             supprime(l->suiv, e);
     }
 }
 
-//nul pas de delete + l=l->suiv->suiv
 void corrige(Liste & l){
     if(l->suiv!=nullptr){
         if(l->suiv->e < l->e){
+            Maillon * p = l;
             l=l->suiv;
+            delete(p);
             corrige(l);
         }else
             corrige(l->suiv);
@@ -75,8 +78,16 @@ int main(){
     ajoutDebut(l,8);
     ajoutDebut(l,6);
     ajoutDebut(l,2);
-    ajoutDebut(l,0);
+    ajoutDebut(l,3);
+    affiche(l);
+    std::cout<<"\n";
 
+    corrige(l);
+
+    affiche(l);
+    std::cout<<"\n";
+
+/* 
     Liste l2;
     l2=nullptr;
     ajoutDebut(l2,14);
@@ -97,7 +108,7 @@ int main(){
     affiche(l);
     std::cout<<"\n";
 
-
+ */
 
     return 0;
 }
