@@ -42,12 +42,9 @@ void ajoutTete(Liste & l, const Elem & e){
 }
 
 void ajoutQueue(Liste & l, const Elem & e){
-    if(l.queue==nullptr){ //si la liste est vide
-        l.queue = new Maillon;
-        l.queue->elem = e;
-        l.queue->suiv=nullptr;
-        l.queue->prec=nullptr;
-        l.tete=l.queue;
+    if(l.queue==nullptr){
+         //si la liste est vide
+         ajoutTete(l,e);
     }else{
         l.queue->suiv = new Maillon;
         l.queue->suiv->elem = e;
