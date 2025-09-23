@@ -67,6 +67,7 @@ void entrerExpression(tabString & expression){
 
 //on suppose une expression valide non vide
 void inputExpression(tabString & expression){
+    std::cout<<"Entrer l'expression : \n";
     std::string expr;
     std::getline(std::cin,expr);
     for(uint i=0;i<expr.length(); ++i){
@@ -159,24 +160,41 @@ float evaluation(tabString expression){
     return result;
 }
 
-bool verifExpr(tabString e){
+bool estCorrecte(tabString e){
     //si pas deux nbr avant le 1er op binaire
     uint nbr_count=0;
     uint i=0;
-    while()
+    while(!estOpeUnaire(e.t[i]) and !estSymbole(e.t[i]) and i<e.taille){
+        ++nbr_count;
+        ++i;
+    }
+    if(nbr_count<2 and e.taille>1){
+        std::cout<<"1: "<<nbr_count<<"\n";
+        return false;
+    }
 
 
-
+    //si le nombre d'ope binaire correspond au nombre de nombre
     uint bin_count=0;
     nbr_count= 0;
-    for(uint i=0; i<e.taille; ++i){
+    for(i=0;i<e.taille; ++i){
         if(!estOpeUnaire(e.t[i]) and estSymbole(e.t[i]))
             ++bin_count;
         else if(!estOpeUnaire(e.t[i]) and !estSymbole(e.t[i]))
             ++nbr_count;
     }
-    if(nbr_count!=bin_count+1)
+    if(nbr_count!=bin_count+1){
+        std::cout<<"2: "<<nbr_count<<" "<<bin_count<<"\n";
         return false;
+    }
+
+    //si 1er char op unaire
+    if(estOpeUnaire(e.t[0])){
+        std::cout<<"3: "<<e.t[0]<<"\n";
+        return false;
+    }
+
+    return true;
 }
 
 int main(){
@@ -185,7 +203,10 @@ int main(){
     inputExpression(expression);
     //entrerExpression(expression);
     afficherExpression(expression);
-    std::cout<<evaluation(expression)<<std::endl;
+    if(!estCorrecte(expression))
+        std::cout<<"Expression non correcte ! \n";
+    else
+        std::cout<<evaluation(expression)<<std::endl;
 
 
     return 0;
