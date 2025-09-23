@@ -65,11 +65,30 @@ void entrerExpression(tabString & expression){
     }while(elem!="");
 }
 
-void afficherExpression(const tabString & expression){
-    for(uint i=0; i<expression.taille; ++i){
-        std::cout<<expression.t[i]<<" ";
+//on suppose une expression valide non vide
+void inputExpression(tabString & expression){
+    std::string expr;
+    std::getline(std::cin,expr);
+    for(uint i=0;i<expr.length(); ++i){
+        if(expr[i]!=' '){
+            expression.t[expression.taille]+=expr[i];
+            if(expression.t[expression.taille]=="PI")
+                expression.t[expression.taille]="3.14159";
+        }else{
+            ++expression.taille;
+        }
     }
-    std::cout<<"\n";
+    ++expression.taille;
+}
+
+void afficherExpression(const tabString & expression){
+    std::cout<<"\"";
+    for(uint i=0; i<expression.taille; ++i){
+        std::cout<<expression.t[i];
+        if(i!=expression.taille-1)
+            std::cout<<" ";
+    }
+    std::cout<<"\"\n";
 }
 
 bool estSymbole(std::string s){
@@ -140,10 +159,31 @@ float evaluation(tabString expression){
     return result;
 }
 
+bool verifExpr(tabString e){
+    //si pas deux nbr avant le 1er op binaire
+    uint nbr_count=0;
+    uint i=0;
+    while()
+
+
+
+    uint bin_count=0;
+    nbr_count= 0;
+    for(uint i=0; i<e.taille; ++i){
+        if(!estOpeUnaire(e.t[i]) and estSymbole(e.t[i]))
+            ++bin_count;
+        else if(!estOpeUnaire(e.t[i]) and !estSymbole(e.t[i]))
+            ++nbr_count;
+    }
+    if(nbr_count!=bin_count+1)
+        return false;
+}
+
 int main(){
 
     tabString expression;
-    entrerExpression(expression);
+    inputExpression(expression);
+    //entrerExpression(expression);
     afficherExpression(expression);
     std::cout<<evaluation(expression)<<std::endl;
 
