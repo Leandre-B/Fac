@@ -16,7 +16,7 @@ struct Position{
 };
 //===== Debut Def PilePosition ==========
 struct PilePosition{
-    std::array<Position, NBLIGNES*NBCOL> pile;
+    std::array<Position, NBCOL*NBLIGNES> pile;
     uint t;
     uint tmax = NBCOL*NBLIGNES;
 };
@@ -30,7 +30,7 @@ bool estVide(const PilePosition & p){
 }
 
 void empiler(PilePosition & p, const Position & pos){
-    if(p.tmax!=p.t){
+    if(p.t<p.tmax){
         ++p.t;
         p.pile[p.t-1]=pos;
     }else
@@ -122,11 +122,78 @@ void ajoutSourisFromage(Labyrinthe & laby){
     ajouteSymbRdm(laby,'F');
 }
 
+Position posistionLibre(const Labyrinthe & laby, const Position & pos){
+    Position pLibre; pLibre.x=0; pLibre.y=0;
+    //en bas
+    if(laby[pos.x+1][pos.y]==' ' or laby[pos.x+1][pos.y]=='F'){
+        pLibre.x=pos.x+1; pLibre.y=pos.y;
+    }
+    //en haut
+    else if(laby[pos.x-1][pos.y]==' ' or laby[pos.x-1][pos.y]=='F'){
+        pLibre.x=pos.x-1; pLibre.y=pos.y;
+    }
+    //a droite
+    else if(laby[pos.x][pos.y+1]==' ' or laby[pos.x][pos.y+1]=='F'){
+        pLibre.x=pos.x; pLibre.y=pos.y+1;
+    }
+    //a gauche
+    else if(laby[pos.x][pos.y-1]==' ' or laby[pos.x][pos.y-1]=='F'){
+        pLibre.x=pos.x; pLibre.y=pos.y-1;
+    }
+    return pLibre;
+}
+
+Position posSouris(const Labyrinthe & laby){
+    Position p;
+    p.x=0; p.y=0;
+    for(uint i=0; i<NBLIGNES; ++i){
+        for(uint j=0; j<NBCOL; ++j){
+            if(laby[i][j]=='S'){
+                p.x=i; p.y=j;
+                return p;
+            }
+        }
+    }
+    std::cout<<"Erreur : position de la souris non trouvé (return (0,0))\n";
+    return p;
+}
+
+
+void resoudreLaby(Labyrinthe laby){
+    PilePosition pile;
+    bool trouve=false;
+    Position posS = posSouris(laby);
+    Position posSourisOrigin = posS;
+    do{
+        Position posLibre =posistionLibre(laby, posS);
+        if(!(posLibre.x==0 and posLibre.y==0)){ //si une position libre autour est trouvée
+            if(laby[posLibre.x][posLibre.y]=='F')
+                trouve=true;
+            else{
+                laby[posS.x][posS.y]='.'; //on laisse une marque
+                empiler(pile, posS); //on memorise la position dans la pile
+                posS=posLibre; //on déplace la souris sur la position libre
+            }
+        }else{ //aucune position libre trouvée autour
+            depiler(pile);
+            posS = sommet(pile);
+        }
+    }while(!estVide(pile) and !trouve);
+
+    laby[posSourisOrigin.x][posSourisOrigin.y]='S';
+    if(trouve)
+        std::cout<<"Fromage trouvé en : "<<sommet(pile).x<<" "<<sommet(pile).y<<"\n"; //pas bon
+    else
+        std::cout<<"Fromage non trouvé.. :(\n";
+    affLaby(laby);
+}
+
 int main(){
     Labyrinthe laby;
     initLaby(laby);
-    ajoutObstacle(laby, 0.1);
+    ajoutObstacle(laby, 0.0);
     ajoutSourisFromage(laby);
     affLaby(laby);
+    resoudreLaby(laby);
     return 0;
 }
