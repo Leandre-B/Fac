@@ -8,5 +8,5 @@ IMPORTANT : Je suis très peu les corrections des enseignants, je travaille beau
 N’hésitez pas à partager ce repo à d’autres étudiants de la fac si vous pensez que ça pourrait leur être utile :)  
 
 Hésitez pas à me contacter si vous avez des questions :  
-Discord : leleyy._.  
+Discord : leandre_mc  
 Mail : leandre.bodo@etud.univ-angers.fr  
