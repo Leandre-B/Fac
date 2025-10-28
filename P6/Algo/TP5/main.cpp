@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream> //also include string
 #include <queue>
+#include "file.h" //Q13
 
 struct ArbreTab{
     uint n;
@@ -13,6 +14,7 @@ struct ArbreTab{
 
 struct Noeud{
     std::string etiquette;
+    FileChar listLivraison;
     Noeud* gauche;
     Noeud* droit;
     Noeud* pere;
@@ -327,6 +329,78 @@ void deleteArbre(ArbreBinaire & arb){
 }
 //========Q11
 
+
+//Q16
+//==========
+//passer une commande
+void commande(ArbreBinaire & arbBin, std::string etiquette){
+    Noeud* noeud = rechercheEtiquette(arbBin, etiquette);
+    while(noeud->pere!=nullptr){
+        if(noeud->pere->gauche==noeud){
+            noeud=noeud->pere;
+            noeud->listLivraison.ajouter('G');
+        }else if(noeud->pere->droit==noeud){
+            noeud=noeud->pere;
+            noeud->listLivraison.ajouter('D');
+        }
+    }
+}
+//===================Q16
+
+//Q17
+//===========
+void livraison(ArbreBinaire arb){
+    while(!estFeuille(arb)){
+        std::cout<<arb->etiquette<<"=>";
+        char dir = arb->listLivraison.consulter();
+        arb->listLivraison.retirer();
+        if(dir=='G')
+            arb=arb->gauche;
+        else
+            arb=arb->droit;
+    }
+    std::cout<<arb->etiquette<<"\n";
+}
+//============Q17
+
+//Q18
+//==============
+void etatNoeud(const ArbreBinaire & arb){
+    if(arb==nullptr)
+        std::cout<<"Noeud inconnu :(\n";
+    else{
+        std::cout<<arb->etiquette<<" | commande : ";
+        arb->listLivraison.afficher();
+        std::cout<<"\n";
+    }
+}
+
+void etatCommande(ArbreBinaire arbBin){
+    if(arbBin!=nullptr){
+        etatNoeud(arbBin);
+        if(arbBin->gauche!=nullptr) etatCommande(arbBin->gauche);
+        if(arbBin->droit!=nullptr) etatCommande(arbBin->droit);
+    }
+}
+//=================
+
+//Q19
+//=============
+//simule etat figure3
+void figure3(ArbreBinaire arbBin){
+    commande(arbBin, "magasin_1");
+    commande(arbBin, "magasin_5");
+    commande(arbBin, "magasin_1");
+    commande(arbBin, "magasin_4");
+    commande(arbBin, "magasin_4");
+    commande(arbBin, "magasin_2");
+    commande(arbBin, "magasin_3");
+    commande(arbBin, "magasin_5");
+
+    etatCommande(arbBin);
+}
+//=================
+
 int main(){
 
     ArbreTab arbTab = construire("usine1.txt");
@@ -335,9 +409,10 @@ int main(){
     ArbreBinaire arbBin;
     convertion(arbTab, arbBin);
     //affichageArbBin(arbBin);
-    deleteArbre(arbBin);
+    //deleteArbre(arbBin);
     affichageArbBin(arbBin);
-
+    std::cout<<"\n\n\n";
+    figure3(arbBin);
 
     return 0;
 }
