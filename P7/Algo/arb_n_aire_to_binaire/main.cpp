@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <queue>
 
 struct Noeud{
     int elem;
@@ -45,9 +45,49 @@ void affPrefix(Arbre arb){
     }
 }
 
+//Affichage postfixe arbre n aire = infixe arbre binaire OMG !!!!!
+void affPostfix (Arbre arb){
+    if(arb!=nullptr){
+        affPostfix(arb->fils_aine);
+        std::cout<<arb->elem<<" ";
+        affPostfix(arb->frere_droit);
+    }
+}
+
+//Pas vraiment de sens pour un arbre n aire
+void affInfixe(Arbre arb){
+    std::cout<<"Pas vraiment de sens pour un arbre n aire.";
+}
+
+
+//Parcours en largeur LETS GOOO
+//========================
+void affFreres(Arbre arb, std::queue<Arbre> & file){
+    if(arb!=nullptr){
+        std::cout<<arb->elem<<" ";
+        if(arb->fils_aine!=nullptr) file.push(arb->fils_aine);
+        affFreres(arb->frere_droit, file);
+    }
+}
+
+void parcoursLargeur(Arbre arb){
+    std::queue<Arbre> file;
+    file.push(arb);
+    while(!file.empty()){
+        Arbre copie = file.front();
+        file.pop();
+        affFreres(copie, file);
+    }
+}
+//========================
+
+
 int main(){
     Arbre arb = construireArbre();
-    affPrefix(arb);te
+    std::cout<<"Prefixe arbre n aire : "; affPrefix(arb); std::cout<<"\n";
+    std::cout<<"Postfixe arbre n aire : "; affPostfix(arb); std::cout<<"\n";
+    std::cout<<"Infixe arbre n aire : "; affInfixe(arb); std::cout<<"\n";
+    std::cout<<"Parcours largeur arbre n aire : "; parcoursLargeur(arb); std::cout<<"\n";
 
     return 0;
 }
