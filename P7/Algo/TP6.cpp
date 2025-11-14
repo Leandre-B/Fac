@@ -20,9 +20,9 @@ void ajouter(Abr & abr, const Element & e){
         abr->sad=nullptr;
     }else{
         if(e<=abr->elem)
-            return ajouter(abr->sag, e);
+            ajouter(abr->sag, e);
         else
-            return ajouter(abr->sad, e);
+            ajouter(abr->sad, e);
     }
 }
 
@@ -70,9 +70,9 @@ Abr predecesseur(Abr abr){
     if(abr->sad==nullptr)
         return abr;
     else{
-        if(abr->sad!=nullptr) return predecesseur(abr->sad);
-        else
-            return nullptr;
+        while(abr->sad!=nullptr)
+            abr=abr->sad;
+        return abr;
     }
 }
 
@@ -103,7 +103,7 @@ void supprime(Abr & abr, const Element & n){
                 Noeud* pred = predecesseur(abr->sag);
                 abr->elem=pred->elem;
                 std::cout<<"Pred : "<<abr->elem<<"\n";
-                supprime(pred, pred->elem);
+                supprime(abr->sag, pred->elem);
             }
         }
         else{
@@ -115,14 +115,93 @@ void supprime(Abr & abr, const Element & n){
     }
 }
 
+//Q7
+//somme de toute les valeurs d'un arbre dont la val max est e
+int sommeAbre(Abr abr, Element e){
+    if(abr==nullptr){
+        return 0;
+    }else{
+        int sum = 0;
+        if(abr->elem < e)
+            sum+=abr->elem;
+        sum+=sommeAbre(abr->sag, e);
+        return sum+sommeAbre(abr->sad, e);
+    }
+}
+
+int somme(Abr abr, Element e){
+    if(abr==nullptr)
+        return 0;
+    else{
+        int sum=0;
+        if(abr->elem < e){
+            sum+=abr->elem;
+            sum+=somme(abr->sad, e);
+        }
+        if(abr->elem <= e){
+            sum+=sommeAbre(abr->sag, e);
+        }
+        return sum;
+    }
+}
+
+//Q8
+void fusionne(Abr & abr1, Abr & abr2){
+    if(abr2!=nullptr){
+        fusionne(abr1, abr2->sag);
+        ajouter(abr1, abr2->elem);
+        fusionne(abr1, abr2->sad);
+    }
+}
+
+//Q9
+int estEquilibreBis(Abr abr, bool & equi){
+    if(equi!=false){
+        if(abr==nullptr)
+            return 0;
+        if(abr->sag!=nullptr and abr->sad==nullptr)
+            return -1;
+        if(abr->sag==nullptr and abr->sad!=nullptr)
+            return 1;
+        else{
+            int f_sag = estEquilibreBis(abr->sag, equi);
+            int f_sad = estEquilibreBis(abr->sad, equi);
+            if(f_sad-f_sag != 0 and f_sad-f_sag != 1 and f_sad-f_sag != -1)
+                equi = false;
+            std::cout<<f_sad+f_sag<<"\n";
+            return f_sad+f_sag;
+        }
+    }
+    return 0;
+}
+
+void estEquilibre(Abr abr){
+    bool equi=true;
+    estEquilibreBis(abr, equi);
+    if (!equi)
+        std::cout<<"Non\n";
+    else
+        std::cout<<"Oui\n";
+}
+
 
 int main(){
-    Abr abr = nullptr;
-    Element t[] = {5, 3, 7, 1, 8, 10, 9, 5, 7, 7};
-    genere(abr, t, 10);
-    affiche(abr);
-    supprime(abr, 3);
-    affiche(abr);
+    Abr abr1 = nullptr;
+    Element t1[] = {10, 9, 7, 13, 10, 26, 26, 23, 26, 15};
+    genere(abr1, t1, 10);
+    affiche(abr1);
+
+    Abr abr2 = nullptr;
+    Element t2[]= {15 , 10 , 26 , 7 , 9 , 23 , 13 , 26 , 10 , 26};
+    genere(abr2, t2, 10);
+    affiche(abr2);
+
+    //fusionne(abr1, abr2);
+    affiche(abr1);
+
+    estEquilibre(abr2);
+
+
 
     return 0;
 }
