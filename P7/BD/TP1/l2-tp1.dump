@@ -1,0 +1,517 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.10 (Debian 15.10-0+deb12u1)
+-- Dumped by pg_dump version 15.10 (Debian 15.10-0+deb12u1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: auteur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auteur (
+    nom character varying(30) NOT NULL,
+    nom_complet character varying(70),
+    pays character(3),
+    siecle integer
+);
+
+
+ALTER TABLE public.auteur OWNER TO postgres;
+
+--
+-- Name: livre; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.livre (
+    reflivre integer NOT NULL,
+    titre character varying(100) NOT NULL,
+    parution integer,
+    type character varying(10) DEFAULT 'autre'::character varying,
+    nomauteur character varying(50),
+    CONSTRAINT le_type CHECK (((type)::text = ANY ((ARRAY['roman'::character varying, 'théâtre'::character varying, 'récit'::character varying, 'autre'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.livre OWNER TO postgres;
+
+--
+-- Name: participe; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.participe (
+    idpers integer NOT NULL,
+    idlivre integer NOT NULL,
+    nbcitations integer
+);
+
+
+ALTER TABLE public.participe OWNER TO postgres;
+
+--
+-- Name: personnage; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.personnage (
+    refpers integer NOT NULL,
+    nom character varying(50),
+    metier character varying(50),
+    sexe character(1),
+    CONSTRAINT le_sexe CHECK ((sexe = ANY (ARRAY['F'::bpchar, 'M'::bpchar])))
+);
+
+
+ALTER TABLE public.personnage OWNER TO postgres;
+
+--
+-- Name: val_livre; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.val_livre
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.val_livre OWNER TO postgres;
+
+--
+-- Name: val_pers; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.val_pers
+    START WITH 101
+    INCREMENT BY 1
+    MINVALUE 101
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.val_pers OWNER TO postgres;
+
+--
+-- Data for Name: auteur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auteur (nom, nom_complet, pays, siecle) FROM stdin;
+Garcia Marquez	Gabriel Garcia Marquez	COL	20
+Kafka	\N	TCH	20
+Brecht	\N	ALL	20
+Goethe	\N	ALL	19
+Andersen	\N	DAN	19
+Cervantes	Miguel de Cervantes Saavedra	ESP	16
+Alain-Fournier	\N	FRA	20
+Apollinaire	\N	FRA	20
+Balzac	Honoré de Balzac	FRA	19
+Beaumarchais	Pierre Augustin Caron de Beaumarchais	FRA	18
+Beckett	\N	IRL	20
+Blondin	Antoine Blondin	FRA	20
+Camus	Albert Camus	FRA	20
+Céline	Louis-Ferdinand Céline	FRA	20
+Constant	Benjamin Constant	FRA	19
+Corneille	Pierre Corneille	FRA	17
+Descartes	René Descartes	FRA	17
+Diderot	Denis Diderot	FRA	18
+Duras	Marguerite Duras	FRA	20
+Feydeau	Georges Feydeau	FRA	20
+Flaubert	Gustave Flaubert	FRA	19
+France	Anatole France	FRA	20
+Genet	Jean Genet	FRA	20
+Gide	André Gide	FRA	20
+Hugo	Victor Hugo	FRA	19
+Ionesco	Eugène Ionesco	FRA	20
+Jarry	Alfred Jarry	FRA	20
+Kessel	Joseph Kessel	FRA	20
+La Boétie	Étienne de La Boétie	FRA	16
+La Fayette	\N	FRA	17
+La Fontaine	Jean de La Fontaine	FRA	17
+Laclos	\N	FRA	18
+Le Clézio	\N	FRA	20
+Levi-Strauss	Claude Levi-Strauss	FRA	20
+Malraux	\N	FRA	20
+Maupassant	\N	FRA	19
+Mauriac	\N	FRA	20
+Molière	Jean-Baptiste Poquelin dit Molière	FRA	17
+Montesquieu	\N	FRA	18
+Musset	\N	FRA	19
+Pagnol	Marcel Pagnol	FRA	20
+Perec	\N	FRA	20
+Perrault	\N	FRA	17
+Prévert	\N	FRA	20
+Proust	Marcel Proust	FRA	20
+Queneau	\N	FRA	20
+Rabelais	François Rabelais	FRA	16
+Racine	Jean Racine	FRA	17
+Radiguet	\N	FRA	20
+Rimbaud	Arthur Rimbaud	FRA	19
+Rostand	\N	FRA	19
+Rousseau	\N	FRA	18
+Sade	\N	FRA	18
+Sagan	Françoise Sagan	FRA	20
+Saint-Exupéry	Antoine de Saint-Exupéry	FRA	20
+Sand	\N	FRA	19
+Sartre	\N	FRA	20
+Stendhal	\N	FRA	19
+Vercors	\N	FRA	20
+Vian	Boris Vian	FRA	20
+Villiers de l'Isle-Adam	\N	FRA	19
+Voltaire	\N	FRA	18
+Yourcenar	\N	FRA	20
+Zola	Emile Zola	FRA	19
+Carroll	\N	GBR	19
+Christie	Agatha Christie	GBR	20
+Huxley	\N	GBR	20
+Lawrence	\N	GBR	20
+Orwell	George Orwell	GBR	20
+Shakespeare	William Shakespeare	GBR	17
+Wells	\N	GBR	20
+Homère	\N	GRE	-8
+Beccaria	\N	ITA	18
+Eco	\N	ITA	20
+Levi	Primo Levi	ITA	20
+Machiavel	\N	ITA	16
+Wilde	Oscar Wilde	IRL	20
+Kawabata	\N	JAP	20
+Erasme	\N	HOL	16
+Dostoievski	\N	RUS	19
+Dos Passos	\N	USA	20
+Fitzgerald	\N	USA	20
+Hemingway	Ernest Hemingway	USA	20
+Kerouac	Jack Kerouac	USA	20
+King	Stephen King	USA	20
+London	Jack London	USA	20
+Poe	\N	USA	19
+Steinbeck	John Steinbeck	USA	20
+Thoreau	\N	USA	19
+\.
+
+
+--
+-- Data for Name: livre; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.livre (reflivre, titre, parution, type, nomauteur) FROM stdin;
+1	Les Misérables	1862	roman	Hugo
+2	Ruy Blas	\N	théâtre	Hugo
+3	Roméo et Juliette	1597	théâtre	Shakespeare
+4	Le Petit Prince	1943	roman	Saint-Exupéry
+5	Candide	1759	autre	Voltaire
+6	Iliade	-800	autre	Homère
+7	Odyssée	-800	autre	Homère
+8	Ubu cocu	1897	autre	Jarry
+9	Ubu enchaîné	1900	autre	Jarry
+10	Ubu roi	1896	autre	Jarry
+11	Ubu sur la butte	1906	autre	Jarry
+12	Le Grand Meaulnes	\N	roman	Alain-Fournier
+13	Contes	\N	autre	Andersen
+14	Calligrammes	\N	autre	Apollinaire
+15	Eugénie Grandet	\N	roman	Balzac
+16	Le Père Goriot	\N	roman	Balzac
+17	La Mère coupable	\N	théâtre	Beaumarchais
+18	Le Barbier de Séville	\N	théâtre	Beaumarchais
+19	Le Mariage de Figaro	\N	théâtre	Beaumarchais
+20	En attendant Godot	\N	théâtre	Beckett
+21	Un Singe en hiver	\N	roman	Blondin
+22	L'Etranger	\N	roman	Camus
+23	La Peste	\N	roman	Camus
+24	Les Justes	\N	théâtre	Camus
+25	De l'autre côté du miroir	\N	autre	Carroll
+26	Les Aventures d'Alice aux pays des merveilles	\N	autre	Carroll
+27	Voyage au bout de la nuit	\N	roman	Céline
+28	Don Quichotte	\N	autre	Cervantes
+29	Le Crime de l'Orient-Express	\N	roman	Christie
+30	Meurtre en Mésopotamie	\N	roman	Christie
+31	Adolphe	\N	roman	Constant
+32	Horace	\N	théâtre	Corneille
+33	Le Cid	\N	théâtre	Corneille
+34	Polyeucte	\N	théâtre	Corneille
+35	Le Discours de la méthode	\N	autre	Descartes
+36	Jacques le fataliste et son maître	\N	autre	Diderot
+37	La Religieuse	\N	autre	Diderot
+38	Le Neveu de Rameau	\N	autre	Diderot
+39	Les Bijoux indiscrets	\N	autre	Diderot
+40	Paradoxe sur le comédien	\N	autre	Diderot
+41	Manhattan transfer	\N	roman	Dos Passos
+42	Crime et Châtiment	\N	roman	Dostoievski
+43	Le Ravissement de Lol V. Stein	\N	roman	Duras
+44	Un barrage contre le Pacifique	\N	roman	Duras
+45	Le Nom de la rose	\N	roman	Eco
+46	Eloge de la folie	\N	autre	Erasme
+47	Chat en poche	\N	théâtre	Feydeau
+48	Feu la mère de Madame	\N	théâtre	Feydeau
+49	La Puce à l oreille	\N	théâtre	Feydeau
+50	Le Dindon	\N	théâtre	Feydeau
+51	On purge bébé !	\N	théâtre	Feydeau
+52	Un fil à la patte	\N	théâtre	Feydeau
+53	Gatsby le magnifique	\N	roman	Fitzgerald
+54	Madame Bovary	\N	roman	Flaubert
+55	Le Crime de Sylvestre Bonnard	\N	roman	France
+56	Cent Ans de solitude	\N	roman	Garcia Marquez
+57	Les Bonnes	\N	théâtre	Genet
+58	Les Nourritures terrestres	\N	autre	Gide
+59	Les Souffrances du jeune Werther	\N	roman	Goethe
+60	L'Adieu aux armes	\N	roman	Hemingway
+61	Le Vieil Homme et la mer	\N	roman	Hemingway
+62	Pour qui sonne le glas	\N	roman	Hemingway
+63	Amy Robsart	\N	théâtre	Hugo
+64	Angelo, tyran de Padoue	\N	théâtre	Hugo
+65	Bug-Jargal	\N	roman	Hugo
+66	Claude Gueux	\N	roman	Hugo
+67	Hernani	\N	théâtre	Hugo
+68	La Légende des siècles	\N	autre	Hugo
+69	Le Dernier Jour d'un condamné	\N	récit	Hugo
+70	Le Roi s'amuse	\N	théâtre	Hugo
+71	Lucrèce Borgia	\N	théâtre	Hugo
+72	Marie Tudor	\N	théâtre	Hugo
+73	Marion de Lorme	\N	théâtre	Hugo
+74	Notre-Dame de Paris	\N	roman	Hugo
+75	Quatrevingt-Treize	\N	roman	Hugo
+76	Le Meilleur des mondes	\N	roman	Huxley
+77	La Cantatrice chauve	\N	théâtre	Ionesco
+78	La Leçon	\N	théâtre	Ionesco
+79	Rhinocéros	\N	théâtre	Ionesco
+80	La Colonie pénitencière	\N	autre	Kafka
+81	La Métamorphose	\N	autre	Kafka
+82	Le Procès	\N	roman	Kafka
+83	Les Belles Endormies	\N	roman	Kawabata
+84	Sur la route	\N	roman	Kerouac
+85	L'Armée des ombres	\N	roman	Kessel
+86	Le Lion	\N	roman	Kessel
+87	La Princesse de Clèves	\N	roman	La Fayette
+88	Fables	\N	autre	La Fontaine
+89	Les Liaisons dangereuses	\N	roman	Laclos
+90	L'Amant de lady Chatterley	\N	roman	Lawrence
+91	Le Chercheur d'or	\N	roman	Le Clézio
+92	La Clé à molette	\N	récit	Levi
+93	Le Système périodique	\N	récit	Levi
+94	Si c'est un homme	\N	récit	Levi
+95	Tristes Tropiques	\N	récit	Levi-Strauss
+96	Croc-Blanc	\N	roman	London
+97	L'Appel de la forêt	\N	roman	London
+98	Le Prince	\N	autre	Machiavel
+99	L'Espoir	\N	roman	Malraux
+100	La Condition humaine	\N	roman	Malraux
+101	Une vie	\N	roman	Maupassant
+102	Le Noeud de vipères	\N	roman	Mauriac
+103	Dom Juan	\N	théâtre	Molière
+104	L'Avare	\N	théâtre	Molière
+105	Le Bourgeois Gentilhomme	\N	théâtre	Molière
+106	Le Misanthrope	\N	théâtre	Molière
+107	Le Tartuffe	\N	théâtre	Molière
+108	Les Fourberies de Scapin	\N	théâtre	Molière
+109	Les Lettres persannes	\N	autre	Montesquieu
+110	Les Caprices de Marianne	\N	théâtre	Musset
+111	Lorenzaccio	\N	théâtre	Musset
+112	1984	\N	roman	Orwell
+113	Hommage à la Catalogne	\N	récit	Orwell
+114	La Ferme des animaux	\N	roman	Orwell
+115	César	\N	théâtre	Pagnol
+116	Fanny	\N	théâtre	Pagnol
+117	Marius	\N	théâtre	Pagnol
+118	Topaze	\N	théâtre	Pagnol
+119	La Vie mode d'emploi	\N	roman	Perec
+120	Contes	\N	autre	Perrault
+121	Histoires extraordinaires	\N	autre	Poe
+122	Histoires	\N	autre	Prévert
+123	Paroles	\N	autre	Prévert
+124	Du côté de chez Swann	\N	roman	Proust
+125	Exercices de style	\N	autre	Queneau
+126	Zazie dans le métro	\N	roman	Queneau
+127	Gargantua	\N	roman	Rabelais
+128	Pantagruel	\N	roman	Rabelais
+129	Alexandre le Grand	\N	théâtre	Racine
+130	Andromaque	\N	théâtre	Racine
+131	Bajazet	\N	théâtre	Racine
+132	Bérénice	\N	théâtre	Racine
+133	Britannicus	\N	théâtre	Racine
+134	La Thébaïde	\N	théâtre	Racine
+135	Les Plaideurs	\N	théâtre	Racine
+136	Les Plaideurs	\N	théâtre	Racine
+137	Mithridate	\N	théâtre	Racine
+138	Le Diable au corps	\N	roman	Radiguet
+139	Poésies	\N	autre	Rimbaud
+140	Une saison en enfer	\N	autre	Rimbaud
+141	Cyrano de Bergerac	\N	théâtre	Rostand
+142	Du contrat social	\N	autre	Rousseau
+143	Julie ou la Nouvelle Héloïse	\N	roman	Rousseau
+144	La Philosophie dans le boudoir	\N	roman	Sade
+145	Bonjour tristesse	\N	roman	Sagan
+146	Courrier sud	\N	récit	Saint-Exupéry
+147	Lettre à un otage	\N	récit	Saint-Exupéry
+148	Pilote de guerre	\N	récit	Saint-Exupéry
+149	Terre des hommes	\N	récit	Saint-Exupéry
+150	Vol de nuit	\N	récit	Saint-Exupéry
+151	Indiana	\N	roman	Sand
+152	La Nausée	\N	roman	Sartre
+153	Les Mots	\N	roman	Sartre
+154	Beaucoup de bruit pour rien	\N	théâtre	Shakespeare
+155	Comme il vous plaira	\N	théâtre	Shakespeare
+156	Hamlet	\N	théâtre	Shakespeare
+157	La Nuit des rois	\N	théâtre	Shakespeare
+158	Le Marchand de Venise	\N	théâtre	Shakespeare
+159	Le Roi Lear	\N	théâtre	Shakespeare
+160	Le Songe d'une nuit d'été	\N	théâtre	Shakespeare
+161	Les Joyeuses Commères de Windsor	\N	théâtre	Shakespeare
+162	Macbeth	\N	théâtre	Shakespeare
+163	Othello ou le Maure de Venise	\N	théâtre	Shakespeare
+164	Richard III	\N	théâtre	Shakespeare
+165	Les Raisins de la colère	\N	roman	Steinbeck
+166	Le Rouge et le Noir	\N	roman	Stendhal
+167	La Désobéissance civile	\N	autre	Thoreau
+168	Walden ou la Vie dans les bois	\N	roman	Thoreau
+169	Le Silence de la mer	\N	roman	Vercors
+170	L'Ecume des jours	\N	roman	Vian
+171	Contes cruels	\N	autre	Villiers de l'Isle-Adam
+172	La Princesse de Babylone	\N	autre	Voltaire
+173	Le Taureau blanc	\N	autre	Voltaire
+174	Zadig	\N	autre	Voltaire
+175	L'Ile du docteur Moreau	\N	roman	Wells
+176	L'Importance d'être constant	\N	théâtre	Wilde
+177	Le Portrait de Dorian Gray	\N	roman	Wilde
+178	Mémoires d'Hadrien	\N	roman	Yourcenar
+179	Germinal	\N	roman	Zola
+180	L'Assommoir	\N	roman	Zola
+181	La Bête humaine	\N	roman	Zola
+182	La Faute de l'abbé Mouret	\N	roman	Zola
+183	La Fortune des Rougon	\N	roman	Zola
+184	La Terre	\N	roman	Zola
+185	Lourdes	\N	roman	Zola
+186	Nana	\N	roman	Zola
+187	Thérèse Raquin	\N	roman	Zola
+\.
+
+
+--
+-- Data for Name: participe; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.participe (idpers, idlivre, nbcitations) FROM stdin;
+101	3	123
+102	3	132
+103	1	324
+104	1	58
+105	1	1230
+108	4	213
+109	5	187
+110	6	12
+110	7	325
+106	8	214
+106	9	254
+106	10	221
+106	11	217
+107	8	87
+107	9	98
+107	10	68
+107	11	56
+\.
+
+
+--
+-- Data for Name: personnage; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.personnage (refpers, nom, metier, sexe) FROM stdin;
+101	Roméo	prince	M
+102	Juliette	princesse	F
+103	Cosette	femme de ménage	F
+104	Gavroche	marchand	M
+105	Jean Valjean	marchand	M
+106	Père Ubu	roi	M
+107	Mère Ubu	reine	F
+108	Le Petit Prince	voyageur	M
+109	Candide	voyageur	M
+110	Ulysse	guerrier	M
+\.
+
+
+--
+-- Name: val_livre; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.val_livre', 187, true);
+
+
+--
+-- Name: val_pers; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.val_pers', 110, true);
+
+
+--
+-- Name: auteur auteur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auteur
+    ADD CONSTRAINT auteur_pkey PRIMARY KEY (nom);
+
+
+--
+-- Name: livre livre_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.livre
+    ADD CONSTRAINT livre_pkey PRIMARY KEY (reflivre);
+
+
+--
+-- Name: participe participe_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.participe
+    ADD CONSTRAINT participe_pkey PRIMARY KEY (idpers, idlivre);
+
+
+--
+-- Name: personnage personnage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.personnage
+    ADD CONSTRAINT personnage_pkey PRIMARY KEY (refpers);
+
+
+--
+-- Name: livre livre_nomauteur_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.livre
+    ADD CONSTRAINT livre_nomauteur_fkey FOREIGN KEY (nomauteur) REFERENCES public.auteur(nom);
+
+
+--
+-- Name: participe participe_idlivre_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.participe
+    ADD CONSTRAINT participe_idlivre_fkey FOREIGN KEY (idlivre) REFERENCES public.livre(reflivre);
+
+
+--
+-- Name: participe participe_idpers_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.participe
+    ADD CONSTRAINT participe_idpers_fkey FOREIGN KEY (idpers) REFERENCES public.personnage(refpers);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
