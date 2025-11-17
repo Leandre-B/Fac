@@ -11,7 +11,7 @@ struct Noeud{
 
 using Abr = Noeud*;
 
-//Q2
+//Q2 ---------------------
 void ajouter(Abr & abr, const Element & e){
     if(abr==nullptr){
         abr = new Noeud;
@@ -25,15 +25,20 @@ void ajouter(Abr & abr, const Element & e){
             ajouter(abr->sad, e);
     }
 }
+//---------------------Q2
 
-//Q3
+
+
+//Q3 ---------------------
 void genere(Abr & abr, Element* t, uint n){
     for(uint i=0; i<n; ++i){
         ajouter(abr,t[i]);
     }
 }
+//--------------------- Q3
 
-//Q4
+
+//Q4 ---------------------
 void afficheBis(Abr & abr){
     if(abr!=nullptr){
         afficheBis(abr->sag);
@@ -47,8 +52,10 @@ void affiche(Abr & abr){
     afficheBis(abr);
     std::cout<<"\n";
 }
+//--------------------- Q4
 
-//Q5
+
+//Q5 ---------------------
 bool recherche(Abr abr, const Element & n){
     if(abr==nullptr){
         return false;
@@ -61,8 +68,11 @@ bool recherche(Abr abr, const Element & n){
             return recherche(abr->sad, n);
     }
 }
+//--------------------- Q5
+
 
 //Q6
+//supprime un noeud
 //on suppose qu'il y'a un sad
 //recherche le plus grand elem de son sad
 Abr predecesseur(Abr abr){
@@ -114,6 +124,7 @@ void supprime(Abr & abr, const Element & n){
         }
     }
 }
+//------------------- Q6
 
 //Q7
 //somme de toute les valeurs d'un arbre dont la val max est e
@@ -144,8 +155,9 @@ int somme(Abr abr, Element e){
         return sum;
     }
 }
+//-------------------- Q7
 
-//Q8
+//Q8 --------------
 void fusionne(Abr & abr1, Abr & abr2){
     if(abr2!=nullptr){
         fusionne(abr1, abr2->sag);
@@ -153,37 +165,49 @@ void fusionne(Abr & abr1, Abr & abr2){
         fusionne(abr1, abr2->sad);
     }
 }
+//------------- Q8
 
-//Q9
-int estEquilibreBis(Abr abr, bool & equi){
-    if(equi!=false){
-        if(abr==nullptr)
-            return 0;
-        if(abr->sag!=nullptr and abr->sad==nullptr)
+//Q9 -------------------
+int estEquilibreBis(Abr abr){
+    if(abr==nullptr)
+        return 0;
+    else{
+        int f_sag = 1+estEquilibreBis(abr->sag);
+        int f_sad = 1+estEquilibreBis(abr->sad);
+
+        if(f_sad==0 or f_sag==0)
             return -1;
-        if(abr->sag==nullptr and abr->sad!=nullptr)
-            return 1;
-        else{
-            int f_sag = estEquilibreBis(abr->sag, equi);
-            int f_sad = estEquilibreBis(abr->sad, equi);
-            if(f_sad-f_sag != 0 and f_sad-f_sag != 1 and f_sad-f_sag != -1)
-                equi = false;
-            std::cout<<f_sad+f_sag<<"\n";
-            return f_sad+f_sag;
+
+        if(f_sad-f_sag != 0 and f_sad-f_sag != 1 and f_sad-f_sag != -1){
+            return -1;
         }
+        //std::cout<<"Facteur equi : "<<f_sad-f_sag<<"\n";
+
+        //hauteur = max de sous arbres
+        if(f_sad>f_sag)
+            return f_sad;
+        else
+            return f_sag;
     }
-    return 0;
 }
 
-void estEquilibre(Abr abr){
-    bool equi=true;
-    estEquilibreBis(abr, equi);
-    if (!equi)
-        std::cout<<"Non\n";
-    else
-        std::cout<<"Oui\n";
+bool estEquilibre(Abr abr){
+    return estEquilibreBis(abr)!=-1;
 }
+//---------- Q9
 
+//Q10
+void detruit(Abr & abr){
+    if(abr!=nullptr){
+        detruit(abr->sag);
+        detruit(abr->sad);
+
+        std::cout<<"Delete : "<<abr<<" : "<<abr->elem<<"\n";
+        delete abr;
+        abr=nullptr;
+    }
+}
+//------------ Q10
 
 int main(){
     Abr abr1 = nullptr;
@@ -196,10 +220,18 @@ int main(){
     genere(abr2, t2, 10);
     affiche(abr2);
 
-    //fusionne(abr1, abr2);
-    affiche(abr1);
+    Abr abr3 = nullptr;
+    Element t3[]= {11, 4, 15, 3, 7, 17, 6};
+    genere(abr3, t3, 7);
+    affiche(abr3);
 
-    estEquilibre(abr2);
+    std::cout<<estEquilibre(abr1)<<"\n";
+    std::cout<<estEquilibre(abr2)<<"\n";
+    std::cout<<estEquilibre(abr3)<<"\n";
+    
+    detruit(abr1);
+    detruit(abr2);
+    detruit(abr3);
 
 
 
