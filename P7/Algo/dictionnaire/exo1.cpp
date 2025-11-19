@@ -91,11 +91,9 @@ int main(){
     Dico dico;
     init(dico);
     ajouterDico(dico, "larousse.txt");
-    std::cout<<taille(dico)<<"\n";
+    std::cout<<taille(dico)-1<<"\n"; // -1 car premier noeud n'est pas un lettre
 
-    bool b = false;
     afficherMasque(dico, "PI??A", "");
-    std::cout<<b<<"\n";
 
     return 0;
 }
