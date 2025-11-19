@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    background-image: url("img/background.png");
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+main, header, footer {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+header {
+    height: 22vh;
+    background-color: rgb(229, 177, 140);
+
+    border-radius: 1vh;
+    border: rgb(223, 191, 161) solid 0.5vw;
+
+    width : 60%;
+    margin-top: 7vh;
+}
+
+header h2 {
+    line-height: 17vh;
+    font-size: 2.3vw;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    margin: 0;
+}
+
+nav{
+    height: 5vh;
+    background-color: rgb(100, 68, 44);
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0;
+    padding: 0 3vw;
+    line-height: 5vh;
+    font-size: 0.8vw;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(255, 221, 68);
+    transition: color 0.15s ease-in-out;
+
+}
+
+nav ul li a:hover {
+    color: white;
+}
+
+main{
+    text-align: center;
+    width : 60vw;
+    background-color: rgb(252, 229, 217);
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    border-radius: 1vw;
+    border: rgb(223, 191, 161) solid 0.5vw;
+}
+
+h2{
+    font-size: 1.8vw;
+}
+
+h3{
+    margin-top: 10vh;
+    font-size: 1.2vw;
+}
+
+.titre{
+    margin-top: 3vw;
+}
+
+main p{
+    margin: 1vh 1vw;
+    font-size: 1.1vw;
+    text-align :left;
+}
+
+.infos{
+    margin-top: 5vh;
+}
+
+.infos p{
+    font-size: 0.9vw;
+}
+
+.presentation{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Leandre, .Raphael{
+    width : 26vw;
+    height: 90vh;
+
+    margin: 1vw;
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    border-radius: 1vw;
+    border: rgb(223, 191, 161) solid 0.5vw;
+
+}
+
+.titre_nom{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: center;
+}
+
+.titre_nom img{
+    height: 4vw;
+    width: 4vw;
+    margin: 0 1vw;
+}
+
+.Raphael img{
+    image-rendering: pixelated;
+}
+
+footer{
+    margin-bottom: 7vh;
+    height: 2vh;
+    line-height: 2vh;
+    background-color: rgb(100, 68, 44);
+    border: rgb(73, 50, 32) solid 0.5vw;
+    border-radius: 1vw;
+    
+    width : 60vw;
+    height: 6vh;
+}
+
+footer p{
+    font-size: 1vw;
+    text-align: center;
+    height: 1.5vw;
+    color: rgb(255, 221, 68);
+    font-weight: bold;
+}
+
+.valide_css img{
+    width: 8.8vw;
+    height: 3.1vw;
+}

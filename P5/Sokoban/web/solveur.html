@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Sokoban - Solveur</title>
+    <link rel="stylesheet" href="solveur.css">
+</head>
+
+<body>
+    <header>
+        <h2>
+            Rapport Sokoban
+        </h2>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="solveur.html">Notre Solveur Sokoban</a></li>
+                <li><a href="credit.html">Présentation du groupe</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <main>
+        <section>
+            <h2>
+                Présentation :
+            </h2>
+
+            <p>
+                Notre solveur repose sur un algorithme très connu de pathfinding, l'<b>A*</b> (A Star). Les algorithmes
+                de ce type là ont pour but de trouver dans un graphe, un chemin entre un noeud de départ et un noeud
+                d'arrivé.
+                Dans notre cas, le grahe est représenté par notre plateau de jeu où les cases sont les différents noeuds
+                qui le composent.
+                Chaque noeud/case possède des coordonées x et y ainsi que quatre autres
+                voisines, elles-mêmes d'autre noeuds/cases.
+                Contrairement à d'autres algorithmess de pathfinding tel que celui de Dijkstra, l'A* n'a pas pour but de
+                renvoyer le meilleur chemin, mais de renvoyer un chemin <b>optimal rapidement</b>.
+
+            </p>
+        </section>
+
+        <section class="detailA_star">
+            <h2>
+                L'A* plus en détail :
+            </h2>
+
+            <p>
+                L'A* est un algorithme itératif qui utilise des évaluations heuristiques. Chaque noeud possède un
+                "poids"
+                en fonction de sa position par rapport au point de départ et au point d'arrivé.
+                Les noeuds possèdent trois valeurs permettant de représenter ce "poid" :
+
+            </p>
+
+            <ul>
+                <li>
+                    <b>g</b> : représente la distance parcourue entre la case de départ et la case courante. A chaque
+                    déplacement, g augmente de 1.
+                </li>
+
+                <li>
+                    <b>h</b> : représente la distance de Manhatann (|x2-x1| + |y2-y1|) entre la case courante et celle
+                    d'arrivée.
+                </li>
+
+                <li>
+                    <b>f</b> : la somme de g et h.
+                </li>
+            </ul>
+
+            <p>
+                Bien sûr, selon les déplacements que l'on souhaite donner au personnage, nous pouvons modifier les
+                valeurs de g et h.
+                Par exemple, en utilisant le théorème de Pythagore pour calculer h, l'A* privilégiera les déplacements
+                en diagonale, tandis que la distance de Manhattan favorise les déplacements en ligne droite.
+                Dans un A* "classique", chaque noeud possède un pointeur vers son parent, ce qui permet de reconstruire
+                rapidement le chemin à la fin de l'algorithme.
+                Dans notre cas, le parent d'un noeud est représenté sous la forme d'un caractère indiquant sa direction
+                (ex. : 'h' -> le parent est en haut).
+            </p>
+
+            <h3> La liste ouverte et fermée :</h3>
+            <p>
+                L'A* utilise deux listes importantes : la liste ouverte et la liste fermée. La liste fermée contient
+                les cases/noeuds déjà traités et visités, tandis que la liste ouverte contient les cases sur
+                lequelles un déplacement est possible mais qui n'ont pas encore éé explorées.
+                A chaque itération de l'algorithme, l'A* cherche dans la liste ouverte, la case possède ayant le plus
+                faible f (soit la case le plus proche de de l'arrivée). Cette case est alors déplacée dans la liste
+                fermée,
+                et toutes ses voisines sont ajoutées à la liste ouverte.
+            </p>
+        </section>
+
+
+        <section>
+            <h2>
+                Exemple :
+            </h2>
+
+            <p>
+                Une image vaut mieux que mille mots, voici ci-dessous une explication, pas à pas, du fonctionnement de
+                notre algorithme A* sur un exemple. <br>
+                Les cases vertes représentent celles de la liste fermée, les rouges correspondent à celles de la
+                liste ouverte.
+            </p>
+
+
+            <section class="exemple">
+                <h4>Etape 0</h4>
+                <div class="etape">
+                    <p>
+                        Avant toute chose, la case de départ est ajoutée à la liste fermée. On calcul bien sur son
+                        g, h et f. Elle n'a pas de parent, donc 'o' :
+                    </p>
+                    <img src="img/illu0.png" alt="illustration n°0">
+                </div>
+
+                <h4>Etape 1</h4>
+                <div class="etape">
+                    <p>
+                        On place ses voisines dans la liste ouverte :
+                    </p>
+                    <img src="img/illu1.png" alt="illustration n°1">
+                </div>
+
+                <h4>Etape 2</h4>
+                <div class="etape">
+                    <p>
+                        On choisie ensuite la case de la liste ouverte ayant le plus faible f, et encore une fois, on place
+                        ses voisines dans la liste ouverte :
+                    </p>
+                    <img src="img/illu2.png" alt="illustration n°2">
+                </div>
+
+                <h4>Etape 3</h4>
+                <div class="etape">
+                    <p>On déroule l'algorithme :</p>
+                    <img src="img/illu4.png" alt="illustration n°4">
+                </div>
+
+                <h4>Etape 4</h4>
+                <div class="etape">
+                    <p>
+                        La prochaine case choisie dans la liste ouverte est bien celle en dessous du personnage.<br>
+                        C'est ici qu'on voit la vraie utilité des listes :
+                    </p>
+                    <img src="img/illu5.png" alt="illustration n°5">
+                </div>
+
+                <h4>Etape 5</h4>
+                <div class="etape">
+                    <img src="img/illu6.png" alt="illustration n°6">
+                </div>
+
+                <h4>Etape 6</h4>
+                <div class="etape">
+                    <p>On continue de dérouler l'algorithme :</p>
+                    <img src="img/illu7.png" alt="illustration n°7">
+                </div>
+
+                <h4>Etape 7</h4>
+                <div class="etape">
+                    <img src="img/illu8.png" alt="illustration n°8">
+                </div>
+
+                <h4>Etape 8</h4>
+                <div class="etape">
+                    <img src="img/illu9.png" alt="illustration n°9">
+                </div>
+
+                <h4>Etape 9</h4>
+                <div class="etape">
+                    <img src="img/illu10.png" alt="illustration n°10">
+                </div>
+
+                <h4>Etape 10</h4>
+                <div class="etape">
+                    <p>Encore une fois, on voit bien l'utilité des listes ici :</p>
+                    <img src="img/illu11.png" alt="illustration n°11">
+                </div>
+
+                <h4>Etape 11</h4>
+                <div class="etape">
+                    <p>Et on continue jusqu'à atteindre la destination :</p>
+                    <img src="img/illu15.png" alt="illustration n°15">
+                </div>
+
+                <h4>Dernière étape</h4>
+                <div class="etape">
+                    <p>Pour trouver le chemin final, on suit la direction des parents depuis la fin, et on s'arrête quand on
+                        recontre le 'o'. <br>
+                        On stocke les déplacements dans une chaîne de caractères, puis on l'inverse <br>
+                        On a donc ici "hddhhhhh" -> "bbbbbggb". <br>
+                    </p>
+                    <img src="img/illu16.png" alt="illustration n°16">
+                </div>
+
+            </section>
+
+        </section>
+
+        <section class="integration">
+            <h3>Intégration de l'A*</h3>
+            <p>
+                Pour résoudre un plateau, nous générons au hasard des couples caisse-destination où nous appliquons
+                l'A* pour chacun d'entre eux. Si un chemin entre une caisse et une destination est trouvé, pour chaque mouvement, nous allons
+                appliquer à nouveau l'A*, mais cette fois ci sur le personnage pour qu'il se place au bon endroit pour
+                être capable de pousser la caisse.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Par Léandre Bodo et Raphaël Croix</p>
+    </footer>
+
+    <div class="valide_css">
+        <p>
+            <a href="https://jigsaw.w3.org/css-validator/check/referer">
+                <img
+                    src="https://jigsaw.w3.org/css-validator/images/vcss"
+                    alt="CSS Valide !">
+            </a>
+        </p>
+    </div>
+
+</body>
+
+</html>
