@@ -3,18 +3,18 @@
 
 using Element = int;
 
-struct Noeud{
+struct NoeudAbr{
     Element elem;
-    Noeud* sag;
-    Noeud* sad;
+    NoeudAbr* sag;
+    NoeudAbr* sad;
 };
 
-using Abr = Noeud*;
+using Abr = NoeudAbr*;
 
 //Q2 ---------------------
 void ajouter(Abr & abr, const Element & e){
     if(abr==nullptr){
-        abr = new Noeud;
+        abr = new NoeudAbr;
         abr->elem = e;
         abr->sag=nullptr;
         abr->sad=nullptr;
@@ -97,12 +97,12 @@ void supprime(Abr & abr, const Element & n){
 
             //si qu'un seul fils
             else if(abr->sag!=nullptr and abr->sad==nullptr){
-                Noeud* aux = abr;
+                NoeudAbr* aux = abr;
                 abr=abr->sag;
                 delete aux;
             }
             else if(abr->sag==nullptr and abr->sad!=nullptr){
-                Noeud* aux = abr;
+                NoeudAbr* aux = abr;
                 abr=abr->sad;
                 delete aux;
             }
@@ -110,7 +110,7 @@ void supprime(Abr & abr, const Element & n){
             //si deux fils
             else{
                 //on remplace sa valeur par celle de son prédécésseur
-                Noeud* pred = predecesseur(abr->sag);
+                NoeudAbr* pred = predecesseur(abr->sag);
                 abr->elem=pred->elem;
                 std::cout<<"Pred : "<<abr->elem<<"\n";
                 supprime(abr->sag, pred->elem);
@@ -208,32 +208,3 @@ void detruit(Abr & abr){
     }
 }
 //------------ Q10
-
-int main(){
-    Abr abr1 = nullptr;
-    Element t1[] = {10, 9, 7, 13, 10, 26, 26, 23, 26, 15};
-    genere(abr1, t1, 10);
-    affiche(abr1);
-
-    Abr abr2 = nullptr;
-    Element t2[]= {15 , 10 , 26 , 7 , 9 , 23 , 13 , 26 , 10 , 26};
-    genere(abr2, t2, 10);
-    affiche(abr2);
-
-    Abr abr3 = nullptr;
-    Element t3[]= {11, 4, 15, 3, 7, 17, 6};
-    genere(abr3, t3, 7);
-    affiche(abr3);
-
-    std::cout<<estEquilibre(abr1)<<"\n";
-    std::cout<<estEquilibre(abr2)<<"\n";
-    std::cout<<estEquilibre(abr3)<<"\n";
-    
-    detruit(abr1);
-    detruit(abr2);
-    detruit(abr3);
-
-
-
-    return 0;
-}

@@ -3,16 +3,16 @@
 
 using Element = int;
 
-struct Noeud{
+struct NoeudAvl{
     Element elem;
-    Noeud* sag;
-    Noeud* sad;
+    NoeudAvl* sag;
+    NoeudAvl* sad;
     int hauteur; //hauteur de l'arbre dont il est la racine
 };
 
-using Arbre = Noeud*;
+using Avl = NoeudAvl*;
 
-int hauteur(Arbre a){
+int hauteur(Avl a){
     if(a==nullptr)
         return -1;
     else
@@ -21,15 +21,15 @@ int hauteur(Arbre a){
 
 // maj de la hauteur de l'arbre de racine a
 // à partir de ses sous-arbres
-int majHauteur(Arbre a){
+int majHauteur(Avl a){
     if(a==nullptr) return -1;
         a->hauteur = 1 + std::max(majHauteur(a->sag),majHauteur(a->sad));
     return a->hauteur;
 }
 
-void rotationDroite(Arbre & a){
-    Noeud* b=a->sag;
-    Noeud* c=b->sad;
+void rotationDroite(Avl & a){
+    NoeudAvl* b=a->sag;
+    NoeudAvl* c=b->sad;
 
     b->sad = a;
     a->sag = c;
@@ -38,9 +38,9 @@ void rotationDroite(Arbre & a){
 
 }
 
-void rotationGauche(Arbre & a){
-    Noeud* b=a->sad;
-    Noeud* c=b->sag;
+void rotationGauche(Avl & a){
+    NoeudAvl* b=a->sad;
+    NoeudAvl* c=b->sag;
 
     b->sag = a;
     a->sad = c;
@@ -48,18 +48,18 @@ void rotationGauche(Arbre & a){
     a=b;
 }
 
-void rotationGaucheDroite(Arbre & a){
+void rotationGaucheDroite(Avl & a){
     rotationGauche(a->sag);
     rotationDroite(a);
 }
 
-void rotationDroiteGauche(Arbre & a){
+void rotationDroiteGauche(Avl & a){
     rotationDroite(a->sad);
     rotationGauche(a);
 }
 
 //suppose que les sous arbres de a sont équilibrés
-void reequilibre(Arbre & a){
+void reequilibre(Avl & a){
     int fact_a = hauteur(a->sad) - hauteur(a->sag);
     if(fact_a==-2){
         int fact_sag = hauteur(a->sag->sad) - hauteur(a->sag->sag);
@@ -81,9 +81,9 @@ void reequilibre(Arbre & a){
 }
 
 
-void ajouterAVL(Arbre & a, Element e){
+void ajouterAVL(Avl & a, Element e){
     if(a==nullptr){
-        a = new Noeud;
+        a = new NoeudAvl;
         a->elem = e;
         a->sag=nullptr;
         a->sad=nullptr;
@@ -101,7 +101,7 @@ void ajouterAVL(Arbre & a, Element e){
 }
 
 
-void aff(Arbre a){
+void aff(Avl a){
     if(a!=nullptr){
         aff(a->sag);
         std::cout<<"Val : "<<a->elem<<" Hauteur : "<<a->hauteur<<"\n";
@@ -109,19 +109,8 @@ void aff(Arbre a){
     }
 }
 
-void genereAVL(Arbre & a, Element* t, uint n){
+void genereAVL(Avl & a, Element* t, uint n){
     for(uint i=0; i<n; ++i){
         ajouterAVL(a,t[i]);
     }
-}
-
-int main(){
-    Arbre a = nullptr;
-    Element t1[] = {5 , 3 , 7 , 1 , 8 , 10 , 9};
-    genereAVL(a, t1, 7);
-    majHauteur(a);
-    aff(a);
-    std::cout<<"\n";
-
-    return 0;   
 }
