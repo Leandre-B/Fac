@@ -235,27 +235,47 @@ AS(
 
 --6. Titre des campagnes dont au moins un spot est diffusé le 20 février 2025 
 --sur TF1 sans être diffusé sur une autre chaîne le même jour.
-CREATE VIEW Q
+CREATE VIEW Q6
 AS(
-
+    SELECT DISTINCT c.titre
+    FROM spot s JOIN campagne c
+    ON s.CodeCamp=c.CodeCamp
+    JOIN programmation p
+    ON p.CodeSpot = s.CodeSpot
+    WHERE p.datep='20/02/25'
 );
 
 
 
 --7. Code, libellé et coût des spots qui ont été facturés plus de 40 000 euros.
-CREATE VIEW Q
+CREATE VIEW Q7
 AS(
-
+    SELECT DISTINCT s.CodeSpot, s.libelle,t.prix
+    FROM tarif t JOIN programmation p
+    ON t.media = p.media AND t.moment = p.moment
+    JOIN spot s ON s.CodeSpot = p.CodeSpot
+    WHERE t.prix>40;
 );
 
 --8. Moyenne des prix pratiqués par chaque média.
-CREATE VIEW Q
+CREATE VIEW Q8
 AS(
-
+    SELECT media, AVG(Prix)
+    FROM tarif
+    GROUP BY media
 );
 
---9. Libellés des campagnes qui sont passées sur toutes les chaînes
-CREATE VIEW Q
+--9. Libellés/(titres?) des campagnes qui sont passées sur toutes les chaînes
+CREATE VIEW Q9
 AS(
-
+    SELECT c.titre
+    FROM spot s JOIN campagne c
+    ON s.CodeCamp=c.CodeCamp
+    JOIN programmation p
+    ON p.CodeSpot = s.CodeSpot
+    GROUP BY c.titre
+    HAVING COUNT(DISTINCT p.media) = (
+        SELECT COUNT(DISTINCT media)
+        FROM programmation
+    )
 );
