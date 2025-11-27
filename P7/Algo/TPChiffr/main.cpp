@@ -168,6 +168,15 @@ void afficheMessageChiff(MessageChiff m){
 	}
 }
 
+int taille(MessageChiff m){
+	if(m==nullptr)
+		return 0;
+	else{
+		int n = 1 + taille(m->sag);
+		return n + taille(m->sad);
+	}
+}
+
 void supprimeFeuille(MessageChiff & m, Chemin chemin){
 	//si c'est un feuille
 	if(m->sag == m->sad){
@@ -184,6 +193,21 @@ void supprimeFeuille(MessageChiff & m, Chemin chemin){
 }
 
 //=====================
+
+
+MessageChiff chiffrement(Message message, Cle cle){
+	Chemin chemin;
+	MessageChiff messageChiff;
+	for(int i=0; i<message.longueur; ++i){
+		chemin = construireChemin(message.tab[i]+i);
+		ajoutNombre(messageChiff, chemin, message.tab[i]+cle.tete->val);
+		cle.tete=cle.tete->suiv;
+		supprimeChemin(chemin);
+	}
+	return messageChiff;
+}
+
+
 int main(){
 	srand(time(nullptr));
 
@@ -202,7 +226,8 @@ int main(){
 	ajoutNombre(messageChiff, chemin, 1);
 	ajoutNombre(messageChiff, chemin, 1203);
 	afficheMessageChiff(messageChiff);
-
+	supprimeFeuille(messageChiff,chemin);
+	std::cout<<"\n"<<taille(messageChiff);
 	supprimeChemin(chemin);
 
 	return 0;
