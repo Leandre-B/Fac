@@ -1,50 +1,50 @@
 
 CREATE TABLE Groupe(
-    NomGroupe CHAR(5),
-    IntituleGroupe VARCHAR(20),
+    NomGroupe VARCHAR(5),
+    IntituleGroupe VARVARCHAR(20),
 
     PRIMARY KEY (NomGroupe)
 );
 
 CREATE TABLE Etudiant(
     NumEt INTEGER,
-    NomEt CHAR(30),
-    PrenomEt VARCHAR(30),
-    AdrEt CHAR(50),
+    NomEt VARCHAR(30),
+    PrenomEt VARVARCHAR(30),
+    AdrEt VARCHAR(50),
     DatNais DATE,
-    NomGr CHAR(5),
+    NomGr VARCHAR(5),
 
     PRIMARY KEY (NumEt),
     FOREIGN KEY (NomGr) REFERENCES Groupe(NomGroupe)
-        ON DELETE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Enseignant(
-    NumEns CHAR(30),
-    NomEns CHAR(30),
+    NumEns VARCHAR(30),
+    NomEns VARCHAR(30),
 
     PRIMARY KEY (NumEns)
 );
 
 CREATE TABLE Matiere(
-    NomMat CHAR(15),
+    NomMat VARCHAR(15),
     Coef INTEGER,
-    NumEns CHAR(30),
+    NumEns VARCHAR(30),
 
     PRIMARY KEY (NomMat),
     FOREIGN KEY (NumEns) REFERENCES Enseignant (NumEns)
-        ON DELETE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Controle (
     NumCont INTEGER,
-    NomMat CHAR(15),
+    NomMat VARCHAR(15),
     DatConf DATE,
     Coef INTEGER,
 
     PRIMARY KEY (NumCont),
     FOREIGN KEY (NomMat) REFERENCES Matiere (NomMat)
-        ON DELETE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE PassCont(
@@ -55,10 +55,10 @@ CREATE TABLE PassCont(
     PRIMARY KEY (NumEt, NumCont),
 
     FOREIGN KEY (NumEt) REFERENCES Etudiant(NumEt)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE,
 
     FOREIGN KEY (NumCont) REFERENCES Controle (NumCont)
-        ON DELETE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -113,7 +113,7 @@ INSERT INTO Enseignant VALUES
 (3, 'Bush'),
 (4, 'Paolo'),
 (5, 'Vissou'),
-(6, 'Charlemagne'),
+(6, 'VARCHARlemagne'),
 (7, 'Léandri');
 
 INSERT INTO Matiere VALUES
@@ -156,5 +156,65 @@ INSERT INTO Passcont VALUES
 (1115, 3, 20),
 (1116, 3, 9.5);
 
+--2 fonctionne pas car trop vieux
+INSERT INTO Etudiant VALUES
+(1200, 'ZIDANE', 'Zinedine', 'Marseille','23/06/1972','A1');
 
---12 set salle='Lou'||subtring(nomgroupe, 2, 1)
+--3 fonctionne pas -> cle A6 dans groupe inexistant 
+INSERT INTO Etudiant VALUES
+(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
+
+--4
+INSERT INTO groupe VALUES
+('A6', 'Football');
+
+--5 là fonctionne 
+INSERT INTO Etudiant VALUES
+(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
+
+--6 fontionne pas -> cle etudiant num 1118 n'existe pas
+INSERT INTO PassCont VALUES
+(1118, 1, 15);
+
+--7
+INSERT INTO etudiant VALUES
+(nextval('sqc_numEt'), 'DOUE', 'Désiré', 'Paris', '3/06/2005', 'A1');
+
+--8 fontionne maintenant
+INSERT INTO PassCont VALUES
+(1118, 1, 15);
+
+--9
+UPDATE Enseignant
+SET NumEns=101
+WHERE NomEns='Carter';
+
+--10
+INSERT INTO etudiant VALUES
+(nextval('sqc_numEt'), 'CAMAVINGA', 'Eduardo', 'Madrid', '10/10/2002',
+(select nomgroupe from groupe where IntituleGroupe='Informatique'));
+
+--11
+ALTER TABLE groupe
+ADD salle VARCHAR(5);
+
+--12
+UPDATE groupe
+set salle = 'L00' || (substring(nomgroupe, 2, 1));
+
+--13
+UPDATE PassCont
+set note = note + 1
+where NumCont IN(
+    select NumCont
+    from Passcont
+    group by NumCont
+    having avg(note)<8
+);
+
+--14
+CREATE VIEW v14 AS(
+    select NumEt, NomEt, NomGr
+    from etudiant
+    order by NomGr
+);
