@@ -42,29 +42,33 @@ struct Maillon{
 
 struct Cle{
 	unsigned int taille;
-	Maillon* tete;
-	Maillon* queue;
+	Maillon* m;
 };
 
 
 void ajouteTete(Cle & cle, unsigned int val){
 	Maillon* new_maillon = new Maillon;
 	new_maillon->val = val;
-	new_maillon->suiv=cle.tete;
-	new_maillon->prec = cle.tete;
 
-	if(cle.tete==nullptr)
-		cle.queue = new_maillon;
-	else
-		cle.tete->suiv=new_maillon;
 
-	cle.tete=new_maillon;
+	if(cle.m==nullptr){ //pas de maillon
+		new_maillon->suiv=new_maillon;
+		new_maillon->prec = new_maillon;
+		cle.m = new_maillon;
+	}
+	else{
+		new_maillon->suiv=cle.m;
+		new_maillon->prec = cle.m->prec;
+		cle.m->prec->suiv = new_maillon;
+		cle.m->prec=new_maillon;
+		cle.m = new_maillon;
+	}
 }
 
 Cle genCleAlea(unsigned int taille){
 	Cle cle;
 	cle.taille=taille;
-	cle.tete= nullptr; cle.queue = nullptr;
+	cle.m= nullptr;
 
 	for(unsigned int i=0; i<taille; ++i)
 		ajouteTete(cle, rand()%TMAX_CLE);
@@ -73,12 +77,12 @@ Cle genCleAlea(unsigned int taille){
 }
 
 void afficheCle(const Cle & cle){
-	Maillon* m = cle.tete;
-	for(unsigned int i=0; i<cle.taille -1; ++i){
+	Maillon* m = cle.m;
+	for(unsigned int i=0; i<cle.taille; ++i){
 		std::cout<<m->val<<" ";
 		m=m->suiv;
 	}
-	std::cout<<m->val<<"\n";
+	std::cout<<"\n";
 }
 
 //=============
@@ -98,7 +102,7 @@ void construireBis(Chemin & chemin, unsigned int taille){
 		chemin->suiv=nullptr;
 	}else{
 		chemin = new MaillonBool;
-		chemin->val = taille%2!=0;
+		chemin->val = !(taille%2==0);
 		construireBis(chemin->suiv, taille/2);
 	}
 }
@@ -112,9 +116,9 @@ Chemin construireChemin(unsigned int taille){
 void afficheCheminBis(Chemin chemin){
 	if(chemin!=nullptr){
 		if(chemin->val)
-			std::cout<<'F';
-		else
 			std::cout<<'T';
+		else
+			std::cout<<'F';
 		afficheCheminBis(chemin->suiv);
 	}
 }
@@ -197,11 +201,12 @@ void supprimeFeuille(MessageChiff & m, Chemin chemin){
 
 MessageChiff chiffrement(Message message, Cle cle){
 	Chemin chemin;
-	MessageChiff messageChiff;
-	for(int i=0; i<message.longueur; ++i){
-		chemin = construireChemin(message.tab[i]+i);
-		ajoutNombre(messageChiff, chemin, message.tab[i]+cle.tete->val);
-		cle.tete=cle.tete->suiv;
+	MessageChiff messageChiff = nullptr;
+	for(unsigned int i=0; i<message.longueur; ++i){
+		chemin = construireChemin(cle.m->val+i);
+		//afficheChemin(chemin);std::cout<<std::endl;
+		ajoutNombre(messageChiff, chemin, message.tab[i]+cle.m->val);
+		cle.m=cle.m->suiv;
 		supprimeChemin(chemin);
 	}
 	return messageChiff;
@@ -211,24 +216,26 @@ MessageChiff chiffrement(Message message, Cle cle){
 int main(){
 	srand(time(nullptr));
 
-	Message message = genMessageAlea(12);
-	afficheMessage(message);
+	Message message;
+	message.longueur = 6;
+	message.tab = new unsigned int [6];
+	message.tab[0]= 97;
+	message.tab[1]= 31;
+	message.tab[2]= 40;
+	message.tab[3]= 22;
+	message.tab[4]= 70;
+	message.tab[5]= 87;
 
-	Cle cle = genCleAlea(10);
+	Cle cle;
+	cle.m= nullptr;
+	cle.taille = 3;
+	ajouteTete(cle, 74);
+	ajouteTete(cle, 1);
+	ajouteTete(cle, 11);
 	afficheCle(cle);
-	
-	Chemin chemin = construireChemin(8);
-	afficheChemin(chemin);
 
-	MessageChiff messageChiff = nullptr;
-	ajoutNombre(messageChiff, chemin, 10);
-	ajoutNombre(messageChiff, chemin, 2);
-	ajoutNombre(messageChiff, chemin, 1);
-	ajoutNombre(messageChiff, chemin, 1203);
-	afficheMessageChiff(messageChiff);
-	supprimeFeuille(messageChiff,chemin);
-	std::cout<<"\n"<<taille(messageChiff);
-	supprimeChemin(chemin);
+	MessageChiff messageChiff = chiffrement(message, cle);
+	afficheMessageChiff(messageChiff); std::cout<<std::endl;
 
 	return 0;
 }
