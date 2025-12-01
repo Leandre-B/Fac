@@ -1,7 +1,7 @@
 
 CREATE TABLE Groupe(
     NomGroupe VARCHAR(5),
-    IntituleGroupe VARVARCHAR(20),
+    IntituleGroupe VARCHAR(20),
 
     PRIMARY KEY (NomGroupe)
 );
@@ -9,7 +9,7 @@ CREATE TABLE Groupe(
 CREATE TABLE Etudiant(
     NumEt INTEGER,
     NomEt VARCHAR(30),
-    PrenomEt VARVARCHAR(30),
+    PrenomEt VARCHAR(30),
     AdrEt VARCHAR(50),
     DatNais DATE,
     NomGr VARCHAR(5),
@@ -136,7 +136,7 @@ INSERT INTO Controle VALUES
 (nextval('sqc_numCont'), 'Math2', TO_DATE('17/01/2023', 'DD/MM/YYYY'), 1),
 (nextval('sqc_numCont'), 'Anglais', TO_DATE('27/01/2023', 'DD/MM/YYYY'), 2);
 
-INSERT INTO Passcont VALUES
+INSERT INTO PassCont VALUES
 (1111, 1, 10),
 (1112, 1, 20),
 (1113, 1, 11.5),
@@ -157,12 +157,12 @@ INSERT INTO Passcont VALUES
 (1116, 3, 9.5);
 
 --2 fonctionne pas car trop vieux
-INSERT INTO Etudiant VALUES
-(1200, 'ZIDANE', 'Zinedine', 'Marseille','23/06/1972','A1');
+-- INSERT INTO Etudiant VALUES
+-- (1200, 'ZIDANE', 'Zinedine', 'Marseille','23/06/1972','A1');
 
 --3 fonctionne pas -> cle A6 dans groupe inexistant 
-INSERT INTO Etudiant VALUES
-(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
+--INSERT INTO Etudiant VALUES
+--(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
 
 --4
 INSERT INTO groupe VALUES
@@ -173,8 +173,8 @@ INSERT INTO Etudiant VALUES
 (1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
 
 --6 fontionne pas -> cle etudiant num 1118 n'existe pas
-INSERT INTO PassCont VALUES
-(1118, 1, 15);
+--INSERT INTO PassCont VALUES
+--(1118, 1, 15);
 
 --7
 INSERT INTO etudiant VALUES
@@ -218,3 +218,132 @@ CREATE VIEW v14 AS(
     from etudiant
     order by NomGr
 );
+
+--15
+select e.nomet, p.note, c.NomMat
+from etudiant e join PassCont p
+on e.NumEt=p.NumEt
+join Controle c
+on c.NumCont=p.NumCont
+order by e.nomet;
+
+--16
+select p.note
+from etudiant e join PassCont p
+on e.NumEt=p.NumEt
+join Controle c
+on c.NumCont=p.NumCont
+where c.DatConf = TO_DATE('12/12/2022', 'DD/MM/YYYY') and e.nomet='TOTO'
+    and c.NomMat='Algo 2';
+
+--17
+select nomet
+from etudiant
+where substring(nomet, 1, 1) IN ('a', 'A');
+
+--18
+select m.Coef as CoefMat, c.Coef as CoefCtrl
+from PassCont p join Controle c
+ON p.NumCont = c.NumCont
+join Matiere m on m.NomMat=c.NomMat
+where p.note=20;
+
+--19
+select e.nomet
+from etudiant e join PassCont p
+on e.NumEt=p.NumEtselect min(note), max(note), avg(note)
+from PassCont;
+join Controle c
+on c.NumCont=p.NumCont
+where c.DatConf = TO_DATE('12/12/2022', 'DD/MM/YYYY')
+    and c.NomMat='Algo 2'
+    and p.note>=(
+        select avg(p.note)
+        from PassCont p join Controle c
+        on c.NumCont=p.NumCont
+        group by c.NomMat
+        having c.NomMat = 'Algo 2'
+);
+
+--20
+select e.NomEns
+from Enseignant e join Matiere m
+on e.NumEns = m.NumEns
+join Controle c on c.NomMat = m.NomMat
+where c.NumCont in(
+    select NumCont
+    from PassCont
+);
+
+--21
+select nomet
+from etudiant
+where adret not in(
+    'Angers', 'Cholet', 'tours'
+);
+
+--22
+INSERT INTO PassCont VALUES
+(1114, 4, 6),
+(1116, 4, 18);
+
+
+select e.nomet
+from etudiant e join PassCont p
+on e.NumEt=p.NumEt
+join Controle c
+on c.NumCont=p.NumCont
+where c.DatConf = TO_DATE('27/03/2023', 'DD/MM/YYYY')
+    and c.NomMat='Algo 3'
+    and p.note>(
+        select p.note
+        from etudiant e join PassCont p
+        on e.NumEt=p.NumEt
+        join Controle c
+        on c.NumCont=p.NumCont
+        where c.DatConf = TO_DATE('27/03/2023', 'DD/MM/YYYY')
+        and c.NomMat='Algo 3' and e.nomet = 'GHULAM'
+);
+
+--23
+select e.nomet
+from etudiant e join PassCont p
+on e.NumEt=p.NumEt
+join Controle c
+on c.NumCont=p.NumCont
+where
+p.note<10 and 
+c.DatConf = TO_DATE('27/03/2023', 'DD/MM/YYYY')
+and c.NomMat='Algo 3'
+
+INTERSECT
+
+select e.nomet
+from etudiant e join PassCont p
+on e.NumEt=p.NumEt
+join Controle c
+on c.NumCont=p.NumCont
+where
+p.note<10 and 
+c.DatConf = TO_DATE('12/12/2022', 'DD/MM/YYYY')
+and c.NomMat='Algo 2'
+;
+
+
+--24
+select min(note), max(note), avg(note)
+from PassCont;
+
+--25
+select e.nomet, e.PrenomEt, min(note), max(note), avg(note)
+from etudiant e join PassCont p
+on e.numet=p.numet
+group by e.numet;
+
+--26
+select e.nomgr, min(note), max(note), avg(note)
+from etudiant e join PassCont p
+on e.numet=p.numet
+group by e.NomGr;
+
+--27
