@@ -181,24 +181,26 @@ int taille(MessageChiff m){
 	}
 }
 
-void supprimeFeuille(MessageChiff & m, Chemin chemin){
+unsigned int supprimeFeuille(MessageChiff & m, Chemin chemin){
 	//si c'est un feuille
 	if(m->sag == m->sad){
+		unsigned int n = m->val;
 		delete m;
 		m=nullptr;
+		return n;
 	}else if(chemin==nullptr)
-		supprimeFeuille(m->sag, chemin);
+		return supprimeFeuille(m->sag, chemin);
 	else{
 		if(chemin->val)
-			supprimeFeuille(m->sad, chemin->suiv);
+			return supprimeFeuille(m->sad, chemin->suiv);
 		else
-			supprimeFeuille(m->sag, chemin->suiv);
+			return supprimeFeuille(m->sag, chemin->suiv);
 	}
 }
 
 //=====================
 
-
+//=== Chiffrement ============
 MessageChiff chiffrement(Message message, Cle cle){
 	Chemin chemin;
 	MessageChiff messageChiff = nullptr;
@@ -211,31 +213,71 @@ MessageChiff chiffrement(Message message, Cle cle){
 	}
 	return messageChiff;
 }
+//==================
 
 
+//====== Dechiffrement ====
+
+void positionneCle(Cle & cle, uint l){
+	for(int i=0; i<l-1; ++i)
+		cle.m = cle.m->suiv;
+}
+
+Message dechiffrement(MessageChiff messageChiff, Cle cle){
+	Message message;
+	message.longueur = taille(messageChiff);
+	message.tab = new unsigned int[message.longueur];
+	positionneCle(cle, message.longueur);
+
+	for(int i=message.longueur-1; i>=0; --i){
+		Chemin chemin;
+		std::cout<<"cle : "<<cle.m->val + i<<"\n";
+		chemin = construireChemin(cle.m->val+i);
+		unsigned int val_noeud;
+		val_noeud = supprimeFeuille(messageChiff, chemin);
+
+		std::cout<<i<<" : "<<val_noeud<<std::endl;
+		message.tab[i] = val_noeud - cle.m->val;
+		cle.m=cle.m->prec;
+		supprimeChemin(chemin);
+		std::cout<<"fin for\n";
+	}
+	std::cout<<"end\n";
+	return message;
+}
+
+//==============
+
+Message stringToMessage(const std::string & str){
+	Message m;
+	m.tab = new unsigned int [str.length()];
+	m.longueur = str.length();
+	for(int i=0; i<str.length(); ++i)
+		m.tab[i] = int(str[i]);
+	return m;
+}
+
+std::string messageToString(const Message & m){
+	std::string str;
+	for(int i=0; i<m.longueur; ++i)
+		str += char(m.tab[i]);
+	return str;
+}
 int main(){
 	srand(time(nullptr));
 
-	Message message;
-	message.longueur = 6;
-	message.tab = new unsigned int [6];
-	message.tab[0]= 97;
-	message.tab[1]= 31;
-	message.tab[2]= 40;
-	message.tab[3]= 22;
-	message.tab[4]= 70;
-	message.tab[5]= 87;
+	std::string mess;
+	std::getline(std::cin, mess);
+	Message m = stringToMessage(mess);
+	Cle cle = genCleAlea(8);
 
-	Cle cle;
-	cle.m= nullptr;
-	cle.taille = 3;
-	ajouteTete(cle, 74);
-	ajouteTete(cle, 1);
-	ajouteTete(cle, 11);
-	afficheCle(cle);
+	MessageChiff mChiff= chiffrement(m, cle);
+	afficheMessageChiff(mChiff);
+	std::cout<<std::endl;;
 
-	MessageChiff messageChiff = chiffrement(message, cle);
-	afficheMessageChiff(messageChiff); std::cout<<std::endl;
+	Message mm = dechiffrement(mChiff, cle);
+	//std::cout<<messageToString(m)<<std::endl;
+
 
 	return 0;
 }
