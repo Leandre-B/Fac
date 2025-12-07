@@ -170,7 +170,7 @@ INSERT INTO groupe VALUES
 
 --5 là fonctionne 
 INSERT INTO Etudiant VALUES
-(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
+(1200, 'MBAPPE', 'Kylian', 'Madrir',TO_DATE('20/12/1998', 'DD/MM/YYYY'),'A6');
 
 --6 fontionne pas -> cle etudiant num 1118 n'existe pas
 --INSERT INTO PassCont VALUES
@@ -251,8 +251,7 @@ where p.note=20;
 --19
 select e.nomet
 from etudiant e join PassCont p
-on e.NumEt=p.NumEtselect min(note), max(note), avg(note)
-from PassCont;
+on e.NumEt=p.NumEt
 join Controle c
 on c.NumCont=p.NumCont
 where c.DatConf = TO_DATE('12/12/2022', 'DD/MM/YYYY')
@@ -347,3 +346,42 @@ on e.numet=p.numet
 group by e.NomGr;
 
 --27
+SELECT c.nomat, avg(note), min(note), max(note)
+from PassCont p join Controle c
+on p.NumCont=c.NumCont
+group by NomMat;
+
+--28
+select sum(note*coef)/sum(c.coef) as moyenne
+from PassCont p join Controle c
+on p.NumCont=c.NumCont;
+
+--29
+select nomet, sum(note*coef)/sum(c.coef) as moyenne
+from PassCont p join Controle c
+on p.NumCont=c.NumCont
+join etudiant e
+on e.numet=p.NumEt
+group by nomet;
+
+--30
+select nomet, sum(note*coef)/sum(c.coef) as moyenne
+from PassCont p join Controle c
+on p.NumCont=c.NumCont
+right join etudiant e
+on e.numet=p.NumEt
+group by nomet;
+
+--31
+select count(nomet), adret
+from etudiant
+group by adret;
+
+--32
+select nommat, count(nommat)
+from PassCont p join Controle c
+on p.NumCont=c.NumCont
+where note>=10
+group by numcont;
+
+
