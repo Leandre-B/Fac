@@ -160,7 +160,7 @@ INSERT INTO PassCont VALUES
 -- INSERT INTO Etudiant VALUES
 -- (1200, 'ZIDANE', 'Zinedine', 'Marseille','23/06/1972','A1');
 
---3 fonctionne pas -> cle A6 dans groupe inexistant 
+--3 fonctionne pas -> cle A6 dans groupe inexistant
 --INSERT INTO Etudiant VALUES
 --(1200, 'MBAPPE', 'Kylian', 'Madrir','20/12/1998','A6');
 
@@ -168,7 +168,7 @@ INSERT INTO PassCont VALUES
 INSERT INTO groupe VALUES
 ('A6', 'Football');
 
---5 là fonctionne 
+--5 là fonctionne
 INSERT INTO Etudiant VALUES
 (1200, 'MBAPPE', 'Kylian', 'Madrir',TO_DATE('20/12/1998', 'DD/MM/YYYY'),'A6');
 
@@ -311,7 +311,7 @@ on e.NumEt=p.NumEt
 join Controle c
 on c.NumCont=p.NumCont
 where
-p.note<10 and 
+p.note<10 and
 c.DatConf = TO_DATE('27/03/2023', 'DD/MM/YYYY')
 and c.NomMat='Algo 3'
 
@@ -323,7 +323,7 @@ on e.NumEt=p.NumEt
 join Controle c
 on c.NumCont=p.NumCont
 where
-p.note<10 and 
+p.note<10 and
 c.DatConf = TO_DATE('12/12/2022', 'DD/MM/YYYY')
 and c.NomMat='Algo 2'
 ;
@@ -378,10 +378,71 @@ from etudiant
 group by adret;
 
 --32
-select nommat, count(nommat)
+select numcont, count(numcont) as cpt
+from PassCont p
+where note>=10
+group by p.numcont;
+
+--33
+select nomet
 from PassCont p join Controle c
 on p.NumCont=c.NumCont
-where note>=10
-group by numcont;
+join etudiant e
+on e.numet=p.NumEt
+EXCEPT(
+    select nomet
+    from PassCont p join Controle c
+    on p.NumCont=c.NumCont
+    join etudiant e
+    on e.numet=p.NumEt
+    WHERE note<10
+);
 
+--34
+select numcont
+from PassCont p
+join etudiant e
+on e.numet=p.NumEt
+where nomgr='A1'
+EXCEPT(
+    select numcont
+    from PassCont p
+    join etudiant e
+    on e.numet=p.NumEt
+    where nomgr='A1' and note<10
+);
 
+--35
+select numcont
+from PassCont
+where note>10
+group by numcont
+having count(numet) >= ALL(
+    select count(numet)
+    from PassCont
+    where note>10
+    group by numcont
+);
+
+--36
+select NomMat
+from PassCont p join Controle c
+on c.numcont = p.numcont
+where note>10
+group by numcont
+having count(numet) >= ALL(
+    select count(numet)
+    from PassCont
+    where note>10
+    group by numcont
+);
+
+--37
+select numcont
+from PassCont p
+group by NumCont
+having avg(note)<= ALL(
+    select avg(note)
+    from PassCont p
+    group by NumCont
+);
