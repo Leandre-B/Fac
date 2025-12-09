@@ -216,6 +216,7 @@ void detruit(Arbre & abr){
 
 
 //============ PART 2 =============
+/*
 int hauteur(Arbre a){
     if(a==nullptr)
         return -1;
@@ -230,13 +231,27 @@ int majHauteur(Arbre a){
         a->hauteur = 1 + std::max(majHauteur(a->sag),majHauteur(a->sad));
     return a->hauteur;
 }
+*/
 
+int hauteur(Arbre a){
+    if(a==nullptr)
+        return -1;
+    return a->hauteur;
+}
+
+void majHauteur(Arbre a){
+    if(a!=nullptr)
+        a->hauteur = 1 + std::max(hauteur(a->sag), hauteur(a->sad));
+}
 void rotationDroite(Arbre & a){
     Noeud* b=a->sag;
     Noeud* c=b->sad;
 
     b->sad = a;
     a->sag = c;
+
+    majHauteur(a);
+    majHauteur(b);
 
     a=b;
 
@@ -248,6 +263,9 @@ void rotationGauche(Arbre & a){
 
     b->sag = a;
     a->sad = c;
+
+    majHauteur(a);
+    majHauteur(b);
 
     a=b;
 }
@@ -345,7 +363,7 @@ void comparer(int* t, uint n){
     std::cout<<"\n\nAbr : \n duree gen :" <<std::chrono::duration<float>(moment_fin - moment_debut).count()
     <<"\nhauteur "<<hauteurArb(abr)<<"\nEst equilibre ? "<<estEquilibre(abr);
 
-    majHauteur(abr);
+    //majHauteur(abr);
     //affiche(abr);
 
     moment_debut = std::chrono::system_clock::now();
@@ -366,16 +384,17 @@ int main(){
     int t1[] = {5 , 3 , 7 , 1 , 8 , 10 , 9 , 5 , 7 , 7};
     int t2[] = {1, 3, 5, 5, 7, 7, 7, 8, 9, 10 };
     int t3[] = {5 , 10 , 26 , 7 , 9 , 23 , 13 , 26 , 10 , 26 }; 
-    int* t4 = new int[100000];
+    int n =100000;
+    int* t4 = new int[n];
 
-    for(int i=0; i<100000; ++i)
-        t4[i]=rand()%100000;
+    for(int i=0; i<n; ++i)
+        t4[i]=rand()%n;
 
-    comparer(t4, 100000);
+    comparer(t4, n);
 
-    for(int i=0; i<10000; ++i)
-        t4[i]=i;
-    comparer(t4, 100000);
+    for(int i=0; i<n; ++i)
+        //t4[i]=i;
+    comparer(t4, n);
     // comparer(t1, 10);
     // comparer(t2, 10);
     // comparer(t3, 10);

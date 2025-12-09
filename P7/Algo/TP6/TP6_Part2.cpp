@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <ctime>
+#include <cmath>
 
 using Element = int;
 
@@ -12,19 +13,32 @@ struct NoeudAvl{
 
 using Avl = NoeudAvl*;
 
-int hauteur(Avl a){
+/*
+ i *nt hauteur(Arbre a){
+ if(a==nullptr)
+     return -1;
+ else
+     return a->hauteur;
+ }
+
+ // maj de la hauteur de l'arbre de racine a
+ // à partir de ses sous-arbres
+ int majHauteur(Arbre a){
+ if(a==nullptr) return -1;
+ a->hauteur = 1 + std::max(majHauteur(a->sag),majHauteur(a->sad));
+ return a->hauteur;
+ }
+ */
+
+int hauteur(Arbre a){
     if(a==nullptr)
         return -1;
-    else
-        return a->hauteur;
+    return a->hauteur;
 }
 
-// maj de la hauteur de l'arbre de racine a
-// à partir de ses sous-arbres
-int majHauteur(Avl a){
-    if(a==nullptr) return -1;
-        a->hauteur = 1 + std::max(majHauteur(a->sag),majHauteur(a->sad));
-    return a->hauteur;
+void majHauteur(Arbre a){
+    if(a!=nullptr)
+        a->hauteur = 1 + std::max(hauteur(a->sag), hauteur(a->sad));
 }
 
 void rotationDroite(Avl & a){
@@ -34,8 +48,10 @@ void rotationDroite(Avl & a){
     b->sad = a;
     a->sag = c;
 
-    a=b;
+    majHauteur(a);
+    majHauteur(b);
 
+    a=b;
 }
 
 void rotationGauche(Avl & a){
@@ -44,6 +60,9 @@ void rotationGauche(Avl & a){
 
     b->sag = a;
     a->sad = c;
+
+    majHauteur(a);
+    majHauteur(b);
 
     a=b;
 }
@@ -113,4 +132,15 @@ void genereAVL(Avl & a, Element* t, uint n){
     for(uint i=0; i<n; ++i){
         ajouterAVL(a,t[i]);
     }
+}
+
+int main(){
+    srand(time(nullptr));
+    int n = 100000;
+    int* t =new int[n];
+    for(int i=0; i<n; ++n){
+        t[i] = rand()%10000000;
+    }
+
+    return 0;
 }
