@@ -13,7 +13,7 @@ bool isSorted(int * t, uint n){
 }
 void randomize(int* & t, uint n){
     for(uint i=0; i<n; ++i)
-        t[i] = std::rand()%10000;
+        t[i] = std::rand()%10000000;
 }
 
 void affiche(int* & t, uint n){
@@ -80,13 +80,13 @@ void insertion_sort(int* & t, int d, int f){
 
 //====== HEAP / TAS =========
 //tri par tas, de i a n incluent !!
-void tamisage(int* & t, int i, int n){
-    int f=2*i +1;
+void tamisage(int* & t, int i, int n, int offset){
+    int f=2*i +1 ;
     while(f<=n){
-        if(f<n and t[f+1]>t[f])
+        if(f<n and t[f+offset+1]>t[f+offset])
             ++f;
-        if(t[f]>t[i]){
-            echange(t[f], t[i]);
+        if(t[f+offset]>t[i+offset]){
+            echange(t[f+offset], t[i+offset]);
             i=f;
             f=2*i +1;
         }else
@@ -95,11 +95,11 @@ void tamisage(int* & t, int i, int n){
 }
 void heap_sort(int* & t, int d, int f){
     for(int i=(f-d)/2 -1; i>=0; --i){
-        tamisage(t, i, f);
+        tamisage(t, i, (f-d), d);
     }
-    for(int i=f-1; i>=d; --i){
-        echange(t[0],t[i]);
-        tamisage(t,0, i-1);
+    for(int i=(f-d)-1; i>=1; --i){
+        echange(t[d],t[i+d]);
+        tamisage(t,0, i-1, d);
     }
 }
 //===============
@@ -162,7 +162,7 @@ for(int i = 1024; i<=10000000000; i*=2){
     copie(t,t_copie,i);
     std::cout<<"quick_sort :"<<std::endl;
     moment_debut = std::chrono::system_clock::now();
-    quick_sort(t_copie, i);
+    //quick_sort(t_copie, i);
     moment_fin = std::chrono::system_clock::now();
     std::cout<< std::chrono::duration<float>(moment_fin - moment_debut).count() <<"s\n";
 
@@ -175,8 +175,13 @@ for(int i = 1024; i<=10000000000; i*=2){
 
 
 int main(){
-    srand(time(nullptr));
+    srand(1);
     compare_tri();
-
+    // int n=10;
+    // int* t = new int [n];
+    // randomize(t, n);
+    // affiche(t, n);
+    // heap_sort(t, 3, n);
+    // affiche(t, n);
     return 0;
 }
