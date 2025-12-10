@@ -27,16 +27,15 @@ TabHachage initTabHachage(uint m){
     return t;
 }
 
-int fctBerstein(std::string mot, int i, uint m){
-    if(i==-1)
-        return 5381;
-    else{
-        return (33  * fctBerstein(mot, i-1, m) + int(mot[i]))%m;
-    }
+int fctBerstein(std::string mot, uint m){
+    int h= 5381;
+    for(int i=0; i<mot.length(); ++i)
+        h = (33  * h + int(mot[i]))%m;
+    return h;
 }
 
 void ajout(TabHachage & t, std::string mot){
-    uint index = fctBerstein(mot, mot.size()-1, t.m);
+    uint index = fctBerstein(mot, t.m);
     bool placed = false;
     while(!placed and t.pos_libre>=0){
         std::cout<<t.pos_libre<<"\n";
@@ -77,7 +76,7 @@ void ajout(TabHachage & t, std::string mot){
 }
 
 uint nbOcc(TabHachage t, std::string mot){
-    uint index = fctBerstein(mot, mot.size()-1, t.m);
+    uint index = fctBerstein(mot, t.m);
 
     while(index!=-1){
         if(t.alv[index].mot.mot==mot)
