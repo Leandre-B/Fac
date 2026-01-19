@@ -13,9 +13,37 @@
 require("tabEmployees.php");
 
 $ageMoyen = 0;// Age moyen des employés
+foreach($employees as $k=>$v){
+    $ageMoyen = $ageMoyen + $v["age"];
+}
+$ageMoyen = $ageMoyen/count($employees);
+
+function sort_age($a, $b){
+    return $a["age"]<$b["age"];
+}
+usort($employees, "sort_age");
+
+
 $salaireMoyen = 0; // Salaire moyen des plus de 55 ans
+$nb_plus50 = 0;
+foreach($employees as $emp){
+    if($emp["age"]<50)
+        break;
+    $nb_plus50 ++;
+    $salaireMoyen = $salaireMoyen + $emp["salary"];
+}
+$salaireMoyen = $salaireMoyen/$nb_plus50;
 
 $tenRichest = array(); // Tableau contenant les 10 employés ayant le plus haut salaire
+function sort_salary($a, $b){
+    return $a["salary"]<$b["salary"];
+}
+usort($employees, "sort_salary");
+
+for($i=0; $i<10; $i++){
+    $tenRichest[] = $employees[$i]["name"]." (".$employees[$i]["salary"].")";
+}
+
 
 // A COMPLETER
 // Q1 : age moyen de tous les employés

@@ -69,20 +69,30 @@
     
     echo("<table>");
     foreach($employees as $k=>$v){
-        if($v["salary"]>5000)
+        if($v["salary"]<=5000)
             echo("<tr class=\"bassalaire\">");
         else
             echo("<tr class=\"hautsalaire\">");
-        $name;
-        
-        echo("<td title=\"\">");
+        $name = $v["name"];
+        $nb_voyelle=0;
+        for($i=0; $i<strlen($name); $i++){
+            if(preg_match("/([[:alpha:]])/", $name[$i]))
+                $nb_voyelle++;
+        }
+        echo("<td title=\"$nb_voyelle\ voyelles, ".$v["salary"]."€\">".$name."</td>");
+        if($v["age"]>50)
+            echo("<td><input type=\"number\" min=\"0\" max=\"100\" value=\"".$v["age"]."\" disabled></td>");
+        else
+            echo("<td><input type=\"number\" min=\"0\" max=\"100\" value=\"".$v["age"]."\"></td>");
+        echo("</tr>");
     }
+    echo("</table>");
     
     ?>
 
-    
 
-    EXEMPLE DE GENERATION HMTL POUR LES 3 PREMIERS EMPLOYES
+
+    <!--EXEMPLE DE GENERATION HMTL POUR LES 3 PREMIERS EMPLOYES
     <table>
         <tr class="bassalaire">
             <td title="7 voyelles, 872€">Geraldine Meyer</td>
@@ -97,6 +107,7 @@
             <td><input type="number" min="0" max="100" value="70" disabled /></td>
         </tr>
     </table>
+        -->
 
 </body>
 
