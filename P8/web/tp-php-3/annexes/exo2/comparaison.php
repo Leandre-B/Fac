@@ -54,6 +54,17 @@ $langues = [
 
 // A COMPLETER
 
+function compare($a, $b){
+    global $voyelles;
+    foreach($voyelles as $v){
+        if($a[1][$v]>$b[1][$v])
+            return 1;
+        if($a[1][$v]<$b[1][$v])
+            return -1;
+    }
+    return 0;
+}
+
 // TESTS
 $voyelles = [
     'o',
@@ -74,4 +85,5 @@ echo "Tri selon l'ordre " . implode(',', $voyelles) . ":\n";
 print_r(array_map(function ($v) {
     return $v[0];
 }, $langues));
+
 ?>
