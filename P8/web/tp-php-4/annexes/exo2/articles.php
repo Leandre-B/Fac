@@ -20,11 +20,17 @@
     <h2 align="center">Recherche d'articles</h2>
 	<form action="" method="post">
 		<!-- A MODIFIER POUR, LE CAS ECHEANT, RE-AFFICHER LE MOTIF ET L'OPTION CHOISIE -->
-		<input type="text" name="motif"/>
+		<?php $motif = htmlspecialchars($_POST["motif"] ?? ".*"); ?>
+		<input type="text" name="motif" value="<?= $motif ?>"/>
+		<?php
+		foreach(["auteur", "titre"] as $v) {
+			$cheked[$v] = ($_POST["cible"] ?? "")===$v ? "checked" : ""; 
+		}
+		?>
 		<label for="auteur">Par auteur/année</label>
-		<input type="radio" name="cible" id="auteur" value="auteur" default/>
+		<input type="radio" name="cible" id="auteur" value="auteur" <?= $cheked['auteur'] ?>/>
 		<label for="titre">Par titre</label>
-		<input type="radio" name="cible" id="titre" value="titre"/>
+		<input type="radio" name="cible" id="titre" value="titre" <?= $cheked['titre'] ?>/>
 		<input type="submit" name="submit" value="Rechercher">
 	</form>
 	<br><br>
@@ -32,30 +38,47 @@
 	<legend><strong>Résultat</strong></legend>
     <?php
 
-		$motif = "/".htmlspecialchars($_POST["motif"] ?? "*")."/";
-		echo $motif;
-		echo "<br><br><br><br>";
-
-		//preg_match($motif,$ch1,$result);
+		$motif = "/".$motif."/";
 		$choix = htmlspecialchars($_POST["cible"] ?? "");
-		echo $choix;
 
 		$fic = fopen("articles.txt", "r");
 		while ( ($ligne = fgets($fic)) !== FALSE )
 			$txt[]= $ligne;
 		//print_r($txt);
+		$match=[];
 		foreach ($txt as $v){
-			if($choix==="titre"){
-				preg_match("/\\[.*\\]/",$v,$a_rechercher_v);
-				$a_rechercher_v = $a_rechercher_v[0];
-				echo $a_rechercher_v;
-			}
+			//trouve index ']'
+			$i=0;
+			while($v[$i]!=']')
+				++$i;
 
-			if (preg_match($motif,$a_rechercher_v)==1){
-				echo $v;
-				echo "<br>";
-			}
+			$subtr_v="";
+			if($choix=="auteur")
+				$subtr_v=substr($v, 0, $i);
+			else if($choix=="titre")
+				$subtr_v=substr($v, $i);
 
+			//echo $subtr_v;
+			if (preg_match($motif,$subtr_v)==1){
+				$match[]=$v;
+			}
+		}
+
+		foreach($match as $k=>$v){
+			preg_match('/[0-9]{4}\]/', $v, $year);
+			preg_match('/\[[A-z]*/', $v, $name);
+			preg_match('/\].*/', $v, $titre);
+			$match[$k] = substr($year[0],0,4)." (".(substr($name[0],1)).") : ".substr($titre[0],1);
+		}
+
+		function cmp($a, $b){
+			return $a>$b;
+		}
+
+		usort($match, "cmp");
+		foreach($match as $k=>$v){
+			echo $match[$k];
+			echo "<br>";
 		}
 
     ?>
