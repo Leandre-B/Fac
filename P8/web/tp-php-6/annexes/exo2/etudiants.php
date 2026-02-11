@@ -26,17 +26,12 @@
             </fieldset>
         </form>
         <?php
-            
-            
-            $nom=($_POST["nom"]);
-            $prenom=($_POST["prenom"]);
-            $groupe=($_POST["groupe"]);
-
-            $envoie=isset($_POST["envoi"]);
-
-            if($envoie){
+            if(isset($_POST["envoi"]) && isset($_POST["nom"]) && isset($_POST["prenom"])){
+                $nom=($_POST["nom"]);
+                $prenom=($_POST["prenom"]);
+                $groupe=($_POST["groupe"]);
                 $file=fopen("etudiants.csv", "a");
-                fputcsv($file, ['"'.$nom, $prenom, $groupe], ";", '"', NULL, PHP_EOL);
+                fputcsv($file, [$nom, $prenom, $groupe], ';');
                 fclose($file);
 
             }
