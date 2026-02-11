@@ -30,14 +30,30 @@
 //     ]
 // ];
 
+$stream=fopen("disciplines.json", "r");
+$json=fread($stream, filesize("disciplines.json"));
+
+
+$disciplines = json_decode( $json, true );
+
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Q1.2 Récupérer les données <n° discipline, année de soutenance> soumises en HTTP POST, 
 // ou, s'il s'agit du premier chargement du fichier en HTTP GET, utiliser les valeurs suivantes :
 // - pour le numéro de discipline : le 1er numéro apparaissant dans le fichier "disciplines.json" (!! ne pas coder en dur !!)
-// - pour l'année de soutenance : 2020 (à coder en dur) 
-$numero_ds        = null;
-$annee_soutenance = null;
-
+// - pour l'année de soutenance : 2020 (à coder en dur)
+if (isset($_POST["numero_ds"]) && isset($_POST["annee_soutenance"])){
+    $numero_ds        = $_POST["numero_ds"];
+    $annee_soutenance = $_POST["annee_soutenance"];
+}
+else{
+    $numero_ds        = key($disciplines);
+    $annee_soutenance = 2020;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Q1.3 Extraire la discipline (tableau associatif) correspondant au n° de discipline.
@@ -46,6 +62,13 @@ $annee_soutenance = null;
 //     'discipline'       => 'Mathématiques et leurs interactions',
 //     'sous-disciplines' => [ 'Mathématiques et leurs interactions' ]
 // ];
+
+
+
+$nom_ds=$disciplines[$numero_ds]["discipline"];
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Q1.4 Extraire les statistiques de soutenances sous forme de tableau associatif 
@@ -67,6 +90,30 @@ $annee_soutenance = null;
 //     'de_52_a_72_mois'      => 0,
 //     'plus_de_6_ans'        => 0
 // ];
+
+
+
+
+$url = "http://localhost/web/Fac/P8/web/CC/cc-24-php/annexes/exercice-3/api/api.php?";
+$parameters = [
+    "numero_ds" => $numero_ds,
+    "annee_soutenance" => $annee_soutenance
+];
+
+// Encodage des paramètres au format query-string
+$url .= http_build_query( $parameters );
+
+// Envoi de la requête en HTTP GET par défaut
+$response=file_get_contents($url);
+
+if ( $response === false )
+    echo "Erreur lors de l’envoi de la requête !";
+else {
+    // Conversion de la réponse au format JSON en tableau associatif
+    $statistique = json_decode( $response, TRUE );
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +139,15 @@ $annee_soutenance = null;
             // - a pour attribut HTML `value` le numéro de la discipline,
             // - a pour noeud texte le nom de la discipline,
             // - et est préselectionnée si son numéro est égal au numéro par défaut ou à celui qui a été soumis 
+
+            foreach ($disciplines as $k=>$v){
+                if ($k==$numero_ds)
+                    echo "<option selected value=\"".$k."\" >".$v["discipline"]."</option>";
+                else
+                    echo "<option value=\"".$k."\" >".$v["discipline"]."</option>";
+            }
+
+
             ?>
         </select>
         <br><br>
@@ -113,6 +169,18 @@ $annee_soutenance = null;
         // Pour la première "ligne", créez 2 DIV donnant le nom de la discipline et son numéro.
         // Remplacez les tirets-bas '_' par une espace dans tous les libellés.
         
+
+        foreach($statistique as $k=>$v){
+            if($k=="numero_ds"){
+                echo "<div>".$disciplines[$numero_ds]["discipline"]."</div>";
+                echo "<div>".$numero_ds."</div>";
+            }else{
+                echo "<div>".str_replace('_', ' ', $k)."</div>";
+                echo "<div>".$v."</div>";
+            }
+        }
+
+
         // Exemple de code HTML à générer pour la paire <1,2020> :
             // <div>Mathématiques et leurs interactions</div>
             // <div>1</div>

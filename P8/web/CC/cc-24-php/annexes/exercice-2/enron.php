@@ -147,7 +147,26 @@
             <p>Résultat:</p>
             <div id="courriels">
                 <?php
-                    // A COMPLETER
+                    include("fonctions.php");
+                    if(isset($_POST["rechercher"])){
+                        if(isset($_POST["fichier"])){
+                            $csv=fichier_a_tableau($_POST["fichier"]);
+                            if(isset($_POST["fichier"])){
+                                //print_r($csv);
+                                $motif="/".$_POST["motif"]."/";
+                                foreach ($csv as $k=>$v){
+                                    if(preg_match($motif, $v["BODY"], $result)){
+                                        foreach ($result as $r){
+                                            $v=str_replace($r , '<span>'.$r.'</span>', $v);
+                                        }
+                                        generer_html_table_vertical($v);
+                                    }
+                                }
+
+                            }else
+                                echo "Pas motif";
+                        }
+                    }
                 ?>
 
             </div>
