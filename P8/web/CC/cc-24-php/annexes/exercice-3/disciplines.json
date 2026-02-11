@@ -1,0 +1,68 @@
+{
+    "1": {
+        "discipline": "Mathématiques et leurs interactions",
+        "sous-disciplines": [
+            "Mathématiques et leurs interactions"
+        ]
+    },
+    "2": {
+        "discipline": "Physique",
+        "sous-disciplines": [
+            "Constituants élémentaires, physique théorique, plasmas chauds",
+            "Milieux denses, matériaux et composants",
+            "Milieux dilués et optique fondamentale",
+            "Physique et science des matériaux"
+        ]
+    },
+    "3": {
+        "discipline": "Sciences de la terre et de l’univers, espace",
+        "sous-disciplines": [
+            "Astronomie, astrophysique",
+            "Sciences de la terre et de l’univers",
+            "Terre, enveloppes fluides",
+            "Terre solide et couches profondes",
+            "Terre solide et enveloppes superficielles"
+        ]
+    },
+    "4": {
+        "discipline": "Chimie",
+        "sous-disciplines": [
+            "Chimie des matériaux",
+            "Chimie et chimie physique",
+            "Chimie organique, minérale, industrielle",
+            "Chimie théorique, physique, analytique",
+            "Génie des matériaux"
+        ]
+    },
+    "5": {
+        "discipline": "Biologie, médecine et santé",
+        "sous-disciplines": [
+            "Aspects moléculaires et cellulaires de la biologie",
+            "Sciences de la vie et de la santé",
+            "Biomolécules, Pharmacologie, Thérapeutique",
+            "Physiologie, Biologie des organismes, populations, interactions",
+            "Recherche clinique, Innovation technologique, Santé publique"
+        ]
+    },
+    "6": {
+        "discipline": "Sciences humaines et humanités",
+        "sous-disciplines": [
+            "Cultures et langues régionales",
+            "Langue et littérature françaises",
+            "Langues et littératures anciennes",
+            "Langues et littératures anglaises et anglo-saxonnes",
+            "Langues et littératures arabes, chinoises, japonaises, hébraïques",
+            "Langues et littératures germaniques et scandinaves",
+            "Langues et littératures romanes : espagnol, italien, portugais, autres langues",
+            "Langues et littératures slaves",
+            "Lettres et langues",
+            "Littératures comparées",
+            "Sciences du langage : linguistique et phonétique générales",
+            "Arts : plastiques, spectacle, musique, esthétique, sciences et histoire de l’art",
+            "Épistémologie, histoire des sciences et des techniques",
+            "Éthique et déontologie",
+            "Philosophie",
+            "Théologie"
+        ]
+    }
+}
