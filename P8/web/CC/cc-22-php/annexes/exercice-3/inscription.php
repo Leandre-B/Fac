@@ -8,7 +8,32 @@
     'senior'   => range(18,35)
   ];
 
-  // A COMPLETER --------------------------------------------
+
+
+
+  $nom=isset($_POST["nom"]) ? $_POST["nom"] : "";
+  $prenom=isset($_POST["prenom"]) ? $_POST["prenom"] : "";
+
+  $good_age=false;
+  $age=$_POST["age"];
+  $cat=$_POST["categorie"];
+  if ($cat=="senior"){
+    foreach($categorie_age['senior'] as $i){
+      if ($i==intval($age)){
+        $good_age=true;
+      }
+    }
+  }
+  else if ($age >=$categorie_age[$cat][0] && $age<=$categorie_age[$cat][1] ){
+    $good_age=true;
+  }
+
+  $club=$_POST["club"];
+  $err_club=true;
+  foreach($club_exclus as $c){
+    if($c!=$club)
+      $err_club=false;
+  }
 
 ?>
 
@@ -47,15 +72,19 @@
 </head>
 
 <body>
-  <!-- A COMPLETER -------------------------------------------->
+  <?php
+
+  ?>
   <form action="" method="POST">
     <fieldset>
       <legend>Inscription compétiteur</legend>
       <label for="nom">Nom: </label>
-      <input type="text" name="nom" id="nom" value=""/>
+      <?php $v = htmlspecialchars($_POST["nom"] ?? "");?>
+      <input type="text" name="nom" id="nom" value="<?php $v ?>"/>
       <br />
       <label for="nom">Prénom: </label>
-      <input type="text" name="prenom" id="prenom" value=""/>
+      <?php $v = htmlspecialchars($_POST["prenom"] ?? "");?>
+      <input type="text" name="prenom" id="prenom" value="<?php $v ?>"/>
       <br />
       <label for="nom">Age: </label>
       <input type="number" name="age" id="age" value=""/>
@@ -78,7 +107,17 @@
 
     <div id="messages">
       <?php
-        // A COMPLETER --------------------------------------------
+        
+        if(($nom=="" || $prenom=="")){
+            echo "Pas de nom et/ou prenom";
+        }
+        else if(!$good_age){
+          echo "Compétiteur non inscrit. Erreur : L’age indiqué ne correspond pas à la catégorie demandée";
+        }
+        else if($err_club){
+          echo "ompétiteur non inscrit. Erreur : Le club ".$club."ne participe pas à cette compétition";
+        }else
+          echo "Compétiteur inscrit(e) : ".$_POST["nom"].", ".$_POST["prenom"];
       ?>
     </div>
   </body>

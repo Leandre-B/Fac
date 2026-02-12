@@ -25,7 +25,7 @@
         while ( ($ligne = fgets($handle)) !== FALSE ){
             if($ligne!="\n"){
                 $v=explode(": ", $ligne);
-                array_push($logs[$i],array($v[0]=>$v[1]));
+                $logs[$i]+=[$v[0]=>$v[1]];
             }else{
 
                 $i+=1;
@@ -46,28 +46,29 @@
     foreach($logs as $k=>$v){
         echo "<div>";
         echo "<h2>";
-        echo $v["Start-Date"];
+        echo date('l F Y', strtotime($v["Start-Date"]))." :";
         echo "</h2>";
 
         echo "<table>";
         echo "<tbody>";
 
         //------------
-        $key=array("Commandline", "Requested-By", "Upgrade", "End-Date");
-        print_r($v);
+        $key=array("Commandline", "Requested-By", "Upgrade", "End-Date");   
         $index=1;
         foreach($key as $vk){
             echo "<tr>";
             echo "<td>";
             echo $vk.":";
             echo "</td>";
-            echo "<td>";
-            if(array_key_exists($vk[$index], $v)){
+            if(array_key_exists($vk, $v)){
+                if ($vk=="Commandline")
+                    echo "<td class=\"code\">";
+                else 
+                    echo "<td>";
                 echo $v[$vk];
                 $index+=1;    
-            }
-            else
-                echo "nothing";
+            }else
+                echo "<td>";
             echo "</td>";
             echo "</tr>";
         }
