@@ -50,19 +50,83 @@ $angers = [
 // pression minimale 971
 // et maximale 1036.9.
 
+
+array_unshift($angers, ["année" => 2000, "Tmin" => -6.3 , "Tmax" => 34.3, "Tmean" => 12.7,
+    "vent" => 94.5, "soleil" => "1533h 6min", "pluie" => 775.4, "Pmin" => 971, "Pmax" => 1036.9]);
+
 // Question 2 : Supprimez le dernier tableau d'$angers.
+array_pop($angers);
 
 // Question 3 : Supprimez tout tableau d'$angers ayant pour pression minimale la valeur "--".
+function delUnsetPMin($a){
+    return ($a["Pmin"]!="--");
+}
+$angers=array_filter($angers, "delUnsetPMin");
+
 
 // Question 4 : Supprimez la ``colonne'' d'$angers correspondant aux températures moyennes.
+foreach($angers as $k=>$v){
+    unset($angers[$k]['Tmean']);
+}
 
 // Question 5 : Triez les tableaux d'$angers par température maximum croissante et, en cas d'égalité, par précipitations décroissantes. 
+function sortAngers($a, $b){
+    if($a["Tmax"]>$b["Tmax"]){
+        return 1;
+    }else if($a["Tmax"]<$b["Tmax"]){
+        return -1;
+    }else{
+         if($a["pluie"]<$b["pluie"]){
+            return 1;
+        }else if($a["pluie"]>$b["pluie"]){
+            return -1;
+        }else
+            return 0;
+    }
+}
+
+uasort($angers, "sortAngers");
+
 
 // Question 6 : Créez un tableau $soleils contenant les valeurs d'ensoleillement arrondies à l'heure supérieure quand le nombre de minutes est non nul.
 // Calculez-en la moyenne que vous stockerez dans la variable $soleil.
 
+//ex : 1533h 6min -> 1534
+foreach($angers as $v){
+    preg_match("/[0-9]*h/", $v["soleil"], $result);
+    $h=$result[0];
+    $h=substr($h, 0, strlen($h)-1);
+
+    $m=preg_match("/[0-9]*m/", $v["soleil"], $result);
+    $m=$result[0];
+    $m=substr($m, 0, strlen($m)-1);
+
+    if ($m=="0"){
+        $soleils[]=intval($h);
+    }else
+        $soleils[]=intval($h)+1;
+}
+
+$soleil=0;
+foreach($soleils as $v){
+    $soleil+=$v;
+}
+
+$soleil=$soleil/(count($soleils));
+echo $soleil;
 // Question 7 : Remplacez chaque valeur d'ensoleillement dans $angers par une paire contenant la valeur arrondie (calculée dans  $soleils) 
 // et le caractère 'S'  (respectivement, 'I') si cette valeur est supérieure (resp. inférieure) à la moyenne $soleil.
+
+$index=0;
+foreach($angers as $k=>$v){
+
+    if($soleils[$index]>$soleil){
+        $angers[$k]["soleil"]=array(0=>$soleils[$index], 1=>'S');
+    }else
+        $angers[$k]["soleil"]=array(0=>$soleils[$index], 1=>'I');
+
+    $index+=1;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
