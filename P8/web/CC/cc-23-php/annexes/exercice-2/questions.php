@@ -26,8 +26,24 @@ require_once __DIR__ . '/data/questions.php';
  **/
 function questions( $n ): array
     {
-    // QUESTION 1
-    // A COMPLETER
-
+        // QUESTION 1
+        // A COMPLETER
+        global $questions;
+        if(is_int($n)){
+            $aux=array_rand($questions ,$n);
+            if(is_int($aux)){
+                $q[$aux]=$questions[$aux];
+            }else{
+                foreach($aux as $k=>$v){
+                    $q[$v]=$questions[$v];
+                }
+            }
+            return $q;
+        }else{
+            foreach($n as $k=>$v){
+                $choose[$v]=$questions[$v];
+            }
+            return $choose;
+        }
     }
 ?>

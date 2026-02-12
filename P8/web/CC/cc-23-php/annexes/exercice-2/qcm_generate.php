@@ -16,13 +16,28 @@
 <body>
     <form method="post" action="qcm_check.php">
         <?php
-        // QUESTION 4
-        // A COMPLETER
-
+        require_once __DIR__ . '/questions.php';
+        require_once __DIR__ . "/questions_answers.php";
+        require_once __DIR__ . "/encode_statement.php";
+        $questions=questions(intval($_GET["questions"], 10));
+        $answers=questionsAnswers($questions);
 
         // QUESTION 5
         // A COMPLETER
-
+        foreach($questions as $kq=>$vq){
+            echo "<div>";
+            echo "<p>";
+            echo encodeStatement($vq);
+            echo "</p>";
+            foreach($answers[$kq] as $ka=>$va){
+                if($ka!="0"){
+                    echo "<input type=\"radio\" name=\"".$kq."\" value=\"".$va["SOLUTION"]."\" checked/>";
+                    echo "<label>".encodeStatement($va["ANSWER"])."</label>";
+                    echo "<br>";
+                }
+            }
+            echo "</div>";
+        }
         ?>
 
         <br />

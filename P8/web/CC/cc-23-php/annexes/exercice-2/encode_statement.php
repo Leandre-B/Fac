@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Convertit les caractères réservés de HTML (& " ' < >) apparaissant dans la chaîne passée en paramètre
  * en entités HTML en laissant inchangées les sous-chaînes <code> et </code> si elles y figurent 
@@ -17,10 +18,17 @@
  * @param string $statement La chaîne à convertir.
  * @return string La chaîne convertie.
  **/
-function encodeStatement( string $statement ) : string
-    {
+function encodeStatement(string $statement): string
+{
     // QUESTION 3
     // A COMPLETER
+    $statement=str_replace("<code>", "BALISECODEOUVERTE", $statement);
+    $statement=str_replace("</code>", "BALISECODEFERMANTE", $statement);
+    $statement= htmlspecialchars($statement);
+    $statement=str_replace("BALISECODEOUVERTE","<code>", $statement);
+    $statement=str_replace("BALISECODEFERMANTE","</code>", $statement);
+    return $statement;
+}
 
-    }
+
 ?>

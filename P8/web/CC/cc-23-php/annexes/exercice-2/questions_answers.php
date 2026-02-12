@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Extrait les réponses du fichier answers.csv qui sont associées au tableau de questions passé
  * en paramètre et les renvoie sous forme de tableau associatif.
@@ -61,10 +62,25 @@
  * @param string[] Tableau indicé dont chaque élément associe l'énoncé d'une question à son numéro.
  * @return mixed[][] Un tableau de questions-réponses.
  **/
-function questionsAnswers( array $questions ): array
-    {
+function questionsAnswers(array $questions): array
+{
     // QUESTION 2
     // A COMPLETER
-
+    if (! $handle = fopen("./data/answers.csv", "r"))
+        die("Echec de l’ouverture du fichier");
+    else {
+        $ligne = fgetcsv($handle, null, "\t");
+        while (($ligne = fgetcsv($handle, null, "\t")) !== FALSE)
+            $csv[] = $ligne;
+        fclose($handle);
     }
-?>
+    foreach($questions as $k=>$v){
+        $answers[$k]=array(0 => $v);
+        foreach($csv as $kc=>$vc){
+            if($k==$vc[0]){
+                array_push($answers[$k], array( "ANSWER" => $vc[1] , "SOLUTION" => $vc[2]));
+            }
+        }
+    }
+    return $answers;
+}
