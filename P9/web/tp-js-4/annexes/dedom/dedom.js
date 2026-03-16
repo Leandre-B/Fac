@@ -1,24 +1,33 @@
-h23 = document.getElementById("TAB");
-h23 === document.querySelector("#TAB");
-h23.__proto__;
-h23.__proto__ === Object.getPrototypeOf(h23);
-h23.nodeType;
-h23.nodeName;
-div = h23.parentNode;
-h23 === div.querySelector("h2:nth-child(17)");
-h23 === div.querySelector("h2:nth-of-type(3)");
-h23 === div.querySelectorAll("h2")[2];
-"BODY" === h23.parentNode.parentNode.tagName;
-h23.hasChildNodes();
-h23.firstChild;
-h23.firstElementChild === null;
-p = h23.nextElementSibling;
-p === div.querySelector("dl+h2+p");
-form = div.lastElementChild.previousElementSibling;
-form.getAttributeNames();
-true === form.hasAttributes();
-"post" === form.getAttribute("method");
-form.action === form.getAttribute("method");
-div.textContent;
-div.innerText;
-document.querySelector("h1").textContent = "Nouveau titre";
+
+//supprime form et titre associé grace a la méthode previousElementSibling
+let form=document.getElementsByTagName("form")[0]; //elem form, sinon form + autre chose lié au form
+(form.previousElementSibling).parentNode.removeChild(form.previousElementSibling);
+form.parentNode.removeChild(form);
+
+//centre texte tableau et ajoute bodure
+Array.from(document.getElementsByTagName("td")).forEach(td=>{
+    td.style.textAlign="center";
+    td.style.border="solid 1px magenta";
+});
+
+document.getElementsByTagName("table")[0].style.borderCollapse="collapse";
+
+//remove intro et titre associé
+let intro=document.getElementById("intro");
+intro.nextElementSibling.parentNode.removeChild(intro.nextElementSibling);
+intro.parentNode.removeChild(intro);
+
+//applique font cursive au elem du sommaire si commence par D, sinon, affiche icone
+Array.from(document.getElementsByTagName("ol")[0].childNodes).forEach(li=>{
+    let txt = li.textContent;
+    if(txt[0]=='D'){
+        li.style.font="Cursive";
+    }else if(li.nodeType==1){
+        li.textContent="\u26A0";
+    }
+});
+
+//centre tout les titres h2
+Array.from(document.getElementsByTagName("h2")).forEach(h=>{
+    h.style.textAlign="center";
+})
