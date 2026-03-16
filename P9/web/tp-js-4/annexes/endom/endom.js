@@ -15,10 +15,14 @@ let toDelete = document.querySelectorAll("#page table")[1];
 toDelete.parentNode.removeChild(toDelete);
 
 // Q6
-//fait mais suppr mdrr
+toDelete=document.querySelectorAll("#page tr")[2];
+toDelete.parentNode.removeChild(toDelete);
 
 // Q7
-//fait mais suppr mdrr
+toDelete=document.querySelectorAll("#page tr");
+Array.from(toDelete).forEach(tr=>{
+  tr.childNodes[3].parentNode.removeChild(tr.childNodes[3]);
+});
 
 // Q8
 console.log(document.getElementsByName("h_adr_rue").value);
