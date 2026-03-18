@@ -3,3 +3,4 @@ build
 a.out
 a.exe
 .vscode
+.class
