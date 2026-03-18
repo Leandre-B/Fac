@@ -3,7 +3,7 @@
 int main()
 {
 
-    const float noteAnglais, noteMath, noteInfo;
+    float noteAnglais, noteMath, noteInfo;
 
     std::cout << "Note en anglais (coeff.2) : ";
     std::cin>>noteAnglais;
