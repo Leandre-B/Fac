@@ -23,7 +23,8 @@ public class Pile {
 	}
 
 	public void depiler() {
-		this.m = this.m.getSuiv();
+		if(!estVide())
+			this.m = this.m.getSuiv();
 	}
 
 	public int sommeDepileEtSommeEntier() {
