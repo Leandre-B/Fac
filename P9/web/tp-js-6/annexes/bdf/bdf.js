@@ -1298,14 +1298,31 @@ Array.prototype.supprimerDoublons = function () {
 
 /************************************************************************ */
 // Question 1 : nombre de sociétés sans numéros de téléphone
-var sans_telephone;
-// A COMPLETER
+var sans_telephone=0;
+for(let s of societes){
+  // s[1] -> tel
+  if(s[1]=="xx-xx-xx-xx-xx"){
+    sans_telephone+=1;
+  }
+}
 console.log("#SOCIETES SANS TELEPHONE = " + sans_telephone); // 114
 
 /************************************************************************ */
 // Question 2 : objet stockant le nombre de sociétés par département
-var distribution = {};
+var distribution = {
+  37:0,
+  41:0,
+  44:0,
+  49:0,
+  53:0,
+  72:0
+};
 // A COMPLETER
+
+for(let s of societes){
+  distribution[Math.floor(s[2]/1000)]+=1;
+}
+
 console.log("#SOCIETES PAR DEPARTEMENT = ");
 console.log(distribution);
 
