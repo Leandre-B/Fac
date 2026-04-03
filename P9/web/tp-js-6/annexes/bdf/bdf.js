@@ -1317,7 +1317,6 @@ var distribution = {
   53:0,
   72:0
 };
-// A COMPLETER
 
 for(let s of societes){
   distribution[Math.floor(s[2]/1000)]+=1;
@@ -1328,18 +1327,64 @@ console.log(distribution);
 
 /************************************************************************ */
 // Question 3 : extraire les prénoms sous forme d'un tableau trié de mots
-var prenoms;
-// A COMPLETER
+var prenoms=[];
+
+for(let s of societes){
+  let p = s[4].split(' ')[0];
+  if(!prenoms.includes(p))
+    prenoms.push(p);
+}
+prenoms.sort();
+
 console.log("PRENOMS TRIES = " + prenoms);
 
 /************************************************************************ */
 // Question 4 : générer le tableau HTML des sociétés
 // A COMPLETER
 
+let table = document.getElementsByTagName("tbody")[0];
+console.log(table);
+
+for(let s of societes){
+  let tr = document.createElement("tr");
+  let td = document.createElement("td");
+  
+  td.innerText=s[4];
+  if(prenoms_feminins.includes(s[4].split(' ')[0])){
+    td.classList="presidente";
+  }
+  tr.insertBefore(td, tr.lastChild);
+
+  td = document.createElement("td");
+  td.innerText=s[0];
+  tr.insertBefore(td, tr.lastChild);
+
+  td = document.createElement("td");
+  td.innerText=s[2];
+  tr.insertBefore(td, tr.lastChild);
+  
+  table.insertBefore(tr, table.lastChild)
+}
 /************************************************************************ */
 // Question 5 : impléménter constructeur et méthode de prototype
+
+function Societe(s, cp, pres){
+  this.societe=s;
+  this.cp=cp;
+  this.pres=pres;
+}
+
+Societe.prototype.toHTML = function(datalist){
+  let opt = document.createElement("option");
+  opt.setAttribute("value", this.societe + " ("+this.cp + ") " + this.pres);
+
+  datalist.insertBefore(opt, datalist.lastChild);
+
+}
+
 societes.forEach(function (s) {
   let societe = new Societe(s[0], s[2], s[4]);
   societe.toHTML(document.getElementById("societes"));
 });
 // A COMPLETER
+
