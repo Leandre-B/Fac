@@ -2,6 +2,19 @@
 // Ce tableau ne doit contenir ni les en-têtes, ni les noms de continents.
 // Tableau attendu : [[48,3,5],[0,0,1],[31,12,6],[29,10,6],[13,10,14],[7,7,14],[12,0,2]]
 
+let t = [];
+let trs = document.querySelectorAll("tbody tr");
+for(let td of trs){
+    let r = [];
+    console.log((td.textContent));
+    if(!isNaN(parseInt(td.textContent))){
+        r.push(parseInt(td.textContent));
+    }
+    t.push(r);
+}
+
+console.log(t);
+
 
 // Q2 Créez un tableau JS qui stocke chaque ligne du tableau HTML, sauf la ligne d'en-têtes, sous la forme d'un objet
 // ayant 4 propriétés dénommées continent, republic, monarchy et other.
