@@ -11,7 +11,7 @@ public class TestBatiment {
         // tabBatiment[2] = immeuble;
 
         // for (Batiment b : tabBatiment) {
-        //     System.out.println(b.toString());
+        //     System.out.println(b);
         // }
 
         // Maison[] tabMaison = new Maison[1];
@@ -24,14 +24,14 @@ public class TestBatiment {
         quartier.ajoutBatiment(batiment);
 
         // for (int i = 0; i < quartier.getNombreBat(); i++) {
-        //     System.out.println(quartier.getBatiments()[i].toString());
+        //     System.out.println(quartier.getBatiments()[i]);
         // }
 
         quartier.ajoutBatiment(maison);
         quartier.ajoutBatiment(immeuble);
 
         // for (int i = 0; i < quartier.getNombreBat(); i++) {
-        //     System.out.println(quartier.getBatiments()[i].toString());
+        //     System.out.println(quartier.getBatiments()[i]);
         // }
 
         // System.out.println(maison.categorie());
@@ -39,7 +39,7 @@ public class TestBatiment {
 
         //quartier.afficherBatiments(1);
 
-        System.out.println(maison.comparer(batiment).toString());
+        System.out.println(maison.comparer(batiment));
 
 
         System.out.println(quartier.plusGrandBatiments());

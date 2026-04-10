@@ -41,7 +41,7 @@ public class Quartier {
     public void afficherBatiments(int cat){
         for (int i = 0; i < nbBatiment; i++) {
             if(batiments[i].categorie()>=cat)
-                System.out.println(batiments[i].toString());
+                System.out.println(batiments[i]);
         }
     }
     
