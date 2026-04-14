@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modification du DOM et Evènement</title>
+</head>
+
+<body>
+    <h1>Questionnaire</h1>
+    <div id="intro">
+        <p><b>Consignes :</b> Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quisquam aliquam atque, nemo illo fugit nostrum maiores rerum provident commodi necessitatibus eos voluptates quibusdam non culpa blanditiis quam dolores animi.
+            Hic mollitia architecto, accusamus minima fugit ex nesciunt veniam ullam delectus vero quibusdam. Quisquam eum odio, voluptate vitae voluptates autem eligendi amet exercitationem sint consequatur corrupti placeat, consequuntur ad? Quo? Beatae
+            maiores, illo reprehenderit natus mollitia omnis nemo culpa doloribus provident quaerat repellendus magnam pariatur maxime, alias id repudiandae atque quis explicabo ipsum ullam facere?
+        </p>
+    </div>
+    <hr>
+    <h2>Informations</h2>
+    <label for="nom_prenom">Prénom NOM : </label><input type="text" name="nom_prenom" id="nom_prenom" value="Anne ONYME">
+    <label for="age">Age : </label><input type="number" name="age" value="18">
+    <hr>
+    <h2>Questions</h2>
+    <p class="info">Merci de répondre à toutes les questions suivantes :</p>
+    <div class="permis">
+        <label for="permis">Avez-vous le permis de conduire ?</label>
+        <input type="radio" name="permis" value="oui"> Oui <input type="radio" name="permis" value="non" checked> Non
+        <br><br>
+        <label for="permisNon">Si non, pourquoi ?</label>
+        <input type="text" name="permisNon">
+    </div><br>
+    <label for="animaux">Nombre d'animaux : <input type="number" name="animaux"></label><br><br>
+    <label for="departement"> Dans quel département vivez-vous ? </label><select name="departement" id="">
+        <option value="53">Mayenne</option>
+        <option value="44">Loire-Atlantique</option>
+        <option value="49">Maine-et-Loire</option>
+        <option value="72">Sarthe</option>
+        <option value="0">Autre</option>
+    </select>
+    <hr>
+    <div id="fin">
+        <p>Merci de votre participation !!!</p>
+        <p class="info">CGU : Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae illum earum aliquam dicta numquam porro magni nisi aut, sit voluptatum non tempore dolore ab in laboriosam inventore omnis corporis suscipit.</p>
+    </div>
+    <script src="page.js"></script>
+</body>
+
+</html>

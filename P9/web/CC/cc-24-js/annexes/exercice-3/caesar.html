@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen - Décodage César</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin: auto;
+    }
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 100px;
+      font-size: 18px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+      color: #333;
+    }
+    td, th {
+      padding: 10px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      border: 1px solid #ddd;
+      font-size: 25px;
+    }
+    th {
+      background-color: #ddd;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .highlight {
+      background-color: yellow;
+    }
+  </style>
+  <script defer src="caesar.js"></script>
+</head>
+<body>
+  <h1>Exercice : Décodage du message</h1>
+
+  <p>Le message codé suivant est affiché dans un tableau. Appliquez le principe du codage par décalage pour retrouver le message original.</p>
+    <!-- Bravo! = Yoxsl! [ 89, 111, 120, 115, 108, 33 ] -->
+  <table id="message-code">
+    <tr>
+      <td>Y</td><!--<td>89</td>-->
+      <td>o</td><!--<td>111</td>-->
+      <td>x</td><!--<td>120</td>-->
+      <td>s</td><!--<td>115</td>-->
+      <td>l</td><!--<td>108</td>-->
+      <td>!</td><!--<td>33</td>-->
+    </tr>
+  </table>
+
+  <p><strong>Résultat :</strong></p>
+
+  <div>
+    <table id="resultat">
+    </table>
+  </div>
+</body>
+</html>

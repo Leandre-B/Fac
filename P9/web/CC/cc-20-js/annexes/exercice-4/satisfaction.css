@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.ligne {
+	display:flex;
+	align-items:center;
+	margin-bottom:1em;
+}
+.ligne:last-of-type {
+	margin-bottom:0;
+}
+
+.col-1 {
+	display:block;
+	margin:0;
+	padding: 0px 3px;
+	width:40%;
+	text-align:right;
+}
+
+.col-2 {
+	display:block;
+	margin:0;
+	width:60%;
+}

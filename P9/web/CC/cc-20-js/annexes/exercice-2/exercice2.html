@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CC2 Dev Web L2 : Exercice 2</title>
+    <script src="exercice2.js"></script>
+</head>
+
+<body>
+    <div>
+        <fieldset>
+            <legend>Tableau</legend>
+            <label for="nrows">Nb lignes: </label>
+            <input type="text" name="nrows" id="nrows">
+            <br>
+            <label for="ncols">Nb colonnes: </label>
+            <input type="text" name="ncols" id="ncols">
+            <br><br>
+            <input type="button" value="Générer tableau" onclick="genererTableau();">
+            <input type="button" value="Supprimer tableau" onclick="supprimerOutput();">
+        </fieldset>
+    </div>
+    <div id="output">
+    </div>
+    <br>
+</body>
+</html>
