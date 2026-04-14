@@ -3,14 +3,18 @@
 // Tableau attendu : [[48,3,5],[0,0,1],[31,12,6],[29,10,6],[13,10,14],[7,7,14],[12,0,2]]
 
 let t = [];
-let trs = document.querySelectorAll("tbody tr");
-for(let td of trs){
-    let r = [];
-    console.log((td.textContent));
+let tds = document.querySelectorAll("tbody td");
+let cpt=0;
+let r = [];
+for(let td of tds){
     if(!isNaN(parseInt(td.textContent))){
+        cpt++;
         r.push(parseInt(td.textContent));
+        if(cpt==3){
+            cpt=0;
+            t.push(r);
+        }
     }
-    t.push(r);
 }
 
 console.log(t);
@@ -64,9 +68,37 @@ console.log(t);
 // }
 // ]
 
+
+let t_obj = [];
+let trs= document.querySelectorAll("tr");
+let first= new Boolean(true);
+for(let th of trs){
+    if(first)
+        first=false;
+    else{
+        let obj = new Object;
+        obj.continent = th.cells[0].textContent;
+        obj.republic = th.cells[1].textContent;
+        obj.monarchy = th.cells[2].textContent;
+        obj.other = th.cells[3].textContent;
+        t_obj.push(obj);
+    }
+}
+console.log(t_obj);
+
 // Q3 - Fonction effacerFormattage() 
 // Applique à toute cellule du tableau HTML contenant un entier la mise en forme suivante : 
 // son fond est blanc, le texte est en noir, et la graisse (weight) des chiffres est normale.
+
+function effacerFormattage() {
+    for(let td of tds){
+        if(!isNaN(parseInt(td.textContent))){
+            td.style.backgroundColor = "white";
+            td.style.color = "black";
+            td.style.fontWeight = "normal";
+        }
+    }
+}
 
 // Q4 - Fonction formaterMinMax(ncol) 
 // Prend en entrée un numéro de colonne du tableau HTML (ncol) et applique aux 2 cellules contenant les valeurs minimale et maximale de la colonne la mise en forme suivante :
@@ -74,13 +106,42 @@ console.log(t);
 // - le texte est de couleur rouge pour la valeur minimale et vert clair pour la valeur maximale,
 // - le fond est de couleur rose pour la valeur minimale et vert pour la valeur maximale.
 
+function formaterMinMax(ncol){
+    let trs = document.querySelectorAll("tbody tr");
+    let min = trs[0].cells[ncol];
+    let max = trs[0].cells[ncol];
+    for(let tr of trs){
+        if(parseFloat(tr.cells[ncol].textContent) < parseInt(min.textContent))
+            min=tr.cells[ncol];
+        if(parseFloat(tr.cells[ncol].textContent) > parseInt(max.textContent))
+            max=tr.cells[ncol];
+    }
+    min.style.fontWeight = "bold";
+    max.style.fontWeight = "bold";
+    max.style.color = "LightGreen";
+    min.style.color = "red";
+    min.style.backgroundColor = "pink";
+    max.style.backgroundColor = "green";
+}
+
 
 // Q5 - Remplacez le texte des en-têtes du tableau HTML ``Republic'', ``Monarchy'' et ``Other'' par des boutons (éléments 
 // button ou input de type button). Chaque bouton affiche le même texte que l’en-tête qu'il remplace.
 
+let ths = document.querySelectorAll("th");
+first=true;
+for(let th of ths){
+    if(first)
+        first=false;
+    else{
+        let txt = th.textContent;
+        th.innerHTML = "<input type<input type=\"button\" value=\""+txt+"\">";
+    }
+}
+
 
 // A COMPLETER
-
+let th = document.querySelectorAll("th");
 th.forEach(function(header,index) {
     if (index > 0) 
     {
