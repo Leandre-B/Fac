@@ -1298,30 +1298,86 @@ Array.prototype.supprimerDoublons = function () {
 
 /************************************************************************ */
 // Question 1 : nombre de sociétés sans numéros de téléphone
-var sans_telephone;
+var sans_telephone=0;
+societes.forEach(s => {
+  if(s[1]=="xx-xx-xx-xx-xx")
+    sans_telephone++;
+});
 // A COMPLETER
 console.log("#SOCIETES SANS TELEPHONE = " + sans_telephone); // 114
 
 /************************************************************************ */
 // Question 2 : objet stockant le nombre de sociétés par département
-var distribution = {};
-// A COMPLETER
+var distribution = {
+  37 : 0,
+  41 : 0,
+  44 : 0,
+  49 : 0,
+  53 : 0,
+  72 : 0
+};
+
+societes.forEach(s => {
+  console.log(Math.floor(s[2]/1000));
+  distribution[Math.floor(s[2]/1000)]+=1;
+});
+
 console.log("#SOCIETES PAR DEPARTEMENT = ");
 console.log(distribution);
 
 /************************************************************************ */
 // Question 3 : extraire les prénoms sous forme d'un tableau trié de mots
-var prenoms;
-// A COMPLETER
+var prenoms = [];
+
+
+societes.forEach(s => {
+  if(!prenoms.includes(s[4].split(' ')[0]))
+    prenoms.push(s[4].split(' ')[0]);
+});
+
+prenoms.sort( (a, b) => a>b);
+
 console.log("PRENOMS TRIES = " + prenoms);
 
 /************************************************************************ */
 // Question 4 : générer le tableau HTML des sociétés
 // A COMPLETER
+let table = document.querySelector("table");
+societes.forEach(s => {
+  let tr = document.createElement("tr");
+  let td = document.createElement("td");
+  td.textContent = s[0];
+  tr.appendChild(td);
+
+  let td2 = document.createElement("td");
+  td2.textContent = s[2];
+  tr.appendChild(td2);
+
+  let td3 = document.createElement("td");
+  td3.textContent = s[4];
+  if(prenoms_feminins.includes(s[4].split(' ')[0]))
+    td3.classList="presidente";
+  tr.appendChild(td3);
+
+  table.appendChild(tr);
+});
+
 
 /************************************************************************ */
 // Question 5 : impléménter constructeur et méthode de prototype
-// A COMPLETER
+
+function Societe(societe, cp, pres){
+  this.societe = societes;
+  this.cp = cp;
+  this.president = pres;
+}
+
+Societe.prototype.toHTML = function (datalist){
+  let opt = document.createElement("option");
+  opt.value = this.societe + " " + " ("+this.cp + ") " + " " + this.president;
+  datalist.appendChild(opt);
+}
+
 for(let i=0; i<318; ++i) {
     let societe = new Societe(societes[i][0],societes[i][2],societes[i][4]);
     societe.toHTML(document.getElementById("societes"));
