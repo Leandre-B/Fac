@@ -32,3 +32,21 @@ for(let tr of table.children){
 }
 
 document.querySelector("body").append(table);
+
+n=0;
+for(let tr of table.children){
+    k=0
+    for(let td of tr.children){
+        //td.innerHTML = "<abbr title = \"C("+n+","+k+")\">"+td.textContent+"</abbr>";
+
+        //ou
+        let abbr = document.createElement("abbr");
+        abbr.textContent = td.textContent;
+        abbr.title = "C("+n+","+k+")"
+        td.textContent="";  
+        td.append(abbr);
+        
+        k++
+    }
+    n++;
+}
