@@ -367,26 +367,52 @@ villes49 = [
 
 // Question 1
 
-// Décommentez la ligne qui suit pour visualiser le résultat
-//console.log(nr_villes_1K); // Résultat attendu : 196
+//2012 était supérieure ou égale à 1000 habitants
+let nr_villes_1K=0;
+villes49.forEach(v => {
+    if(v.pop2012>=1000)
+        nr_villes_1K++;
+});
 
+// Décommentez la ligne qui suit pour visualiser le résultat
+console.log(nr_villes_1K); // Résultat attendu : 196
 
 // Question 2
 
+let cantons = [];
+villes49.forEach(v => {
+    if(!cantons.includes(v.canton))
+        cantons.push(v.canton);
+});
+
 // Décommentez la ligne qui suit pour visualiser le résultat
-//console.log(cantons.length); // Résultat attendu : 42
+console.log(cantons.length); // Résultat attendu : 42
 
 
 // Question 3
+let villes_denses = [];
+villes49.forEach(v => {
+    let canton = [v.commune, v.densité];
+    villes_denses.push(canton);
+});
+
+villes_denses.sort((a, b) => (b[1] - a[1]));
+villes_denses = [villes_denses[0], villes_denses[1], villes_denses[2], villes_denses[3]];
 
 // Décommentez la ligne qui suit pour visualiser le résultat
-//console.log(villes_denses); // Résultat attendu : [["ANGERS",3455],["TRELAZE",1015],["AVRILLE",797],["PELLOUAILLES-LES-VIGNES",696]]
+console.log(villes_denses); // Résultat attendu : [["ANGERS",3455],["TRELAZE",1015],["AVRILLE",797],["PELLOUAILLES-LES-VIGNES",696]]
 
 
 // Question 4
+let dénivellation = 0;
+villes49.forEach(v => {
+    let d = v.altitude_max - v.altitude_min;
+    dénivellation = Math.max(dénivellation, d);
+});
+
 
 // Décommentez la ligne qui suit pour visualiser le résultat
-//console.log(dénivellation); // Résultat attendu : 162
+console.log(dénivellation); // Résultat attendu : 162
 
 
 // Question 5
@@ -394,7 +420,16 @@ function CodePostal(code) {
     this.code = code;
 };
 
+let villes = [];
+villes49.forEach(v => {
+    let cp = new CodePostal(v.code);
+    villes.push(cp);
+});
+
+CodePostal.prototype.departement = function(){
+    return Math.floor(this.code/1000);
+}
 
 // Décommentez les lignes qui suivent pour visualiser le résultat
-//maineetloire = villes.every(function(v) { return v.departement()===49;});
-//console.log(maineetloire); // Résultat attendu : true
+maineetloire = villes.every(function(v) { return v.departement()===49;});
+console.log(maineetloire); // Résultat attendu : true
