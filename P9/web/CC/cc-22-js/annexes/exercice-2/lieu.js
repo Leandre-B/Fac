@@ -3,8 +3,14 @@
 /// une propriété entière dénommée `département` de valeur `49`
 // et une méthode `toText`. 
 
+maine_et_loire = {
+    département : 49,
+    toText : function(){ console.log("Département : "+this.département)}
+};
+
+
 // Q1 - résultat attendu
-// maine_et_loire.toText(); // Département : 49
+maine_et_loire.toText(); // Département : 49
 
 // Q2
 // Implémentez un constructeur `Lieu` acceptant 2 arguments `type` et `département` -
@@ -14,6 +20,8 @@
 // - possède une propriété propre dénommée `type` et égale au premier argument
 // - ait pour prototype l'objet `maine_et_loire`,
 // - possède une propriété propre dénommée `département` uniquement dans le cas où le second argument n'est pas passé à la construction.
+
+//non
 
 // Q2 - résultat attendu
 // var ua = new Lieu("université");

@@ -7,7 +7,15 @@
 // Testez la fonction en console qui retournera `true` sur la 1ère cellule du tableau 
 // et faux sur la 59ème cellule.
 function estElement(td) {
-    // A COMPLETER
+    if(td.children.length==0)
+        return false;
+    for(let e of td.children){
+        if(e.nodeName=="A"){
+            if(e.innerText=="*" || e.innerText=="**")
+                return false;
+        }
+    }
+    return true;
 }
 
 // Q2
@@ -35,5 +43,31 @@ function transformerTableau() {
     }
     tableHTML.appendChild(rowHTML);
 
-    // A COMPLETER
+    for(let td of document.querySelectorAll("td")){
+        if(estElement(td)){
+            let tr = document.createElement("tr");
+            for(let e of td.children){
+                if(e.nodeName!="BR"){
+                    let td = document.createElement("td");
+                    if(e.nodeName=="SPAN")
+                        td.textContent = (e.textContent);
+                    if(e.nodeName=="A"){
+                        td.textContent = (e.title);
+
+                        let td2 = document.createElement("td");
+                        td2.textContent = (e.textContent); 
+                        tr.appendChild(td2);
+                    }
+                    tr.appendChild(td);
+                }
+            }
+            tableHTML.appendChild(tr);
+        }
+    }
+
+    document.getElementById("mendeleiev").parentNode.removeChild(document.getElementById("mendeleiev"))
+    document.querySelector("body").appendChild(tableHTML);
+    
 }
+
+transformerTableau();
