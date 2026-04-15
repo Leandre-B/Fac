@@ -1345,26 +1345,38 @@ console.log("PRENOMS TRIES = " + prenoms);
 let table = document.getElementsByTagName("tbody")[0];
 console.log(table);
 
+
 for(let s of societes){
-  let tr = document.createElement("tr");
-  let td = document.createElement("td");
+  let tr = table.insertRow();
   
-  td.innerText=s[4];
+  tr.insertCell().innerText=s[0];
+  tr.insertCell().innerText=s[2];
+  tr.insertCell().innerText=s[4];
   if(prenoms_feminins.includes(s[4].split(' ')[0])){
-    td.classList="presidente";
+    tr.lastChild.previousSibling.previousSibling.nextSibling.previousSibling.nextSibling.nextSibling.classList="presidente";
   }
-  tr.insertBefore(td, tr.lastChild);
-
-  td = document.createElement("td");
-  td.innerText=s[0];
-  tr.insertBefore(td, tr.lastChild);
-
-  td = document.createElement("td");
-  td.innerText=s[2];
-  tr.insertBefore(td, tr.lastChild);
-  
-  table.insertBefore(tr, table.lastChild)
 }
+
+// for(let s of societes){
+//   let tr = document.createElement("tr");
+//   let td = document.createElement("td");
+  
+//   td.innerText=s[4];
+//   if(prenoms_feminins.includes(s[4].split(' ')[0])){
+//     td.classList="presidente";
+//   }
+//   tr.insertBefore(td, tr.lastChild);
+
+//   td = document.createElement("td");
+//   td.innerText=s[0];
+//   tr.insertBefore(td, tr.lastChild);
+
+//   td = document.createElement("td");
+//   td.innerText=s[2];
+//   tr.insertBefore(td, tr.lastChild);
+  
+//   table.insertBefore(tr, table.lastChild)
+// }
 /************************************************************************ */
 // Question 5 : impléménter constructeur et méthode de prototype
 
