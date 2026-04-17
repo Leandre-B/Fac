@@ -1,6 +1,0 @@
-const nbEmployésSolution =
-    0x4 * 0x23c + -0xcca + 0x448,
-  salaireMoyenSolution =
-    -0xb31 + 0x153 + 0x159b,
-  nbEmployésSalaireSupérieurSolution =
-    0x1692 + 0x201b + -0x366c;
