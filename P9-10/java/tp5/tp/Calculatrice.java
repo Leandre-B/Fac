@@ -1,4 +1,8 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Scanner;
 
 public class Calculatrice {
@@ -14,6 +18,7 @@ public class Calculatrice {
     }
 
     public double lancementCalcul(){
+
         Boolean good = false;
         double nb_1=0, nb_2=0;
 
@@ -62,6 +67,8 @@ public class Calculatrice {
             }
         }
 
+        sauvegarde(String.valueOf(nb_1)+ope+String.valueOf(nb_2));
+        
         if(ope.equals("/"))
             return nb_1 / nb_2;
         if(ope.equals("*"))
@@ -82,4 +89,14 @@ public class Calculatrice {
         sc.nextLine();
         return in;
     }
-}
+
+    public void sauvegarde(String ope){
+        try{
+            FileWriter w = new FileWriter("log.txt",true);
+            w.write(ope + " | Le "+ Date.from(Instant.now())+"\n");
+            w.close();
+        }catch (IOException e){
+            System.err.println("Erreur fichier jsp");
+        }
+    }
+}   
