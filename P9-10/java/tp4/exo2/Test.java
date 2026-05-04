@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Test {
     public static void main(String[] args) {
@@ -19,5 +21,16 @@ public class Test {
 
         System.out.println(cpPib.compare(regions.get(0), regions.get(1)));
         System.out.println(cpDens.compare(regions.get(0), regions.get(1)));
+
+        Collections.sort(regions, cpPib);
+        for (Region region : regions) {
+            System.out.println(region.toString());
+        }
+
+        Collections.sort(regions, cpDens);
+        for (Region region : regions) {
+            System.out.println(region.toString());
+        }
+
     }
 }
