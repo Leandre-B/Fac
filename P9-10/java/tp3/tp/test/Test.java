@@ -1,3 +1,6 @@
+package test;
+import program.Annuaire;
+import util.Saisie;
 
 public class Test {
 
@@ -20,32 +23,35 @@ public class Test {
 			
 			if(rep == 1){              
 	
-				//A completer
+				annuaire.ajouterClient("Bob");
+				annuaire.ajouterClient("Barbara");
+				annuaire.ajouterClient("Michelle");
+
+				//annuaire.ajouterClient(Saisie.lireString("Saisir un nom"));
 				
 			} else if (rep ==2){ 
 				
-				//A completer
+				annuaire.afficherTaille();
 		
 	
 			} else if (rep ==3){ 
 				
-				//A completer
+				annuaire.afficher();
 				
 			} else if (rep ==4){ 
 				
-				//A completer
+				annuaire.afficher(Saisie.lireEntier("Numéro du client à afficher : "));
 				
 			} else if (rep ==5){ 
-				
-				//A completer
+				annuaire.supprimer(Saisie.lireEntier("Numéro du client à supprimer : "));
 				
 			} else if (rep ==6){ 
-				
-				//A completer
+				annuaire.Crediter(Saisie.lireEntier("Numéro du client à créditer : "),
+							Saisie.lireEntier("Montant à créditer : "));
 				
 			} else if (rep ==7){ 
 				
-				//A completer
+				annuaire.afficherTotalSolde();
 				
 			}
 		}
