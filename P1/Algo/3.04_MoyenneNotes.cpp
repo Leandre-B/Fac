@@ -2,15 +2,15 @@
 
 int main(){
 
-    float note, somme=0,min=20,max=0;
-    int nbNote=0;
+    float note, somme=0, min=20, max=0;
+    unsigned int nbNote=0;
 
     do{
         std::cout<< "Entrez une note (saisir -1 pour arreter) : ";
         std::cin>>note;
 
         if((note>=0) and (note <= 20)){
-            somme=somme+note;
+            somme+=note;
 
             if(note>max){
                 max=note;
