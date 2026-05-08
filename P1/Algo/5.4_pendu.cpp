@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 
+
+
+
 int main(){
 
     std::string motMyst,motJeu;
@@ -10,8 +13,12 @@ int main(){
     std::cout<<"Entrez un votre mot mystère:";
     std::cin>>motMyst;
 
-    std::system("CLS"); //clear terminal windows
-    //std::systeme("clear") // clear terminal Linus
+    //clear console
+    #ifdef _WIN32
+        std::system("CLS"); 
+    #else
+        std::system("clear");
+    #endif
 
 
     motJeu=motMyst; //initialise motJeu pour qu'il est la meme taille que motMyst
