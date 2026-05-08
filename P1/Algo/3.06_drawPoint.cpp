@@ -30,8 +30,7 @@ int main()
         std::cout << "*";
         for (int j = 1; j <= larg - 2; j++)
         {
-
-            if (i == 1 or i == larg)
+            if (i == 1 or i == longeur)
                 std::cout << "*";
             else
                 std::cout << " ";
@@ -65,6 +64,18 @@ int main()
         }
         std::cout << std::endl;
     }
+    
+    // effectivement, voici mieux
+    /*
+    bool alternate = true;
+    for(int i = 1; i<=longeur; ++i){
+        for(int j = 1; j<=larg; ++j){
+            //operateur ternaire
+            alternate ? std::cout<<"*" : std::cout<<" ";
+        }
+        std::cout<<std::endl;
+    }
+    */
 
     std::cout << std::endl
               << std::endl;
@@ -97,9 +108,9 @@ int main()
             std::cout << "*";
         }
         for (int l = 1; l <=larg-i; ++l)
-            {
-                std::cout << " ";
-            }
+        {
+            std::cout << " ";
+        }
 
         std::cout << std::endl;
     }
@@ -108,17 +119,17 @@ int main()
               << std::endl;
 
     // escalier montant
-    for (int i = longeur; i >= 1; --i)
+    for (int i = 0; i < longeur; ++i)
     {
 
-        for (int k = 1; k <= i; k++)
+        for (int k = 0; k < larg-i-1; k++)
         {
             std::cout << " ";
         }
-        for (int l = 1; l <=larg-i; ++l)
-            {
-                std::cout << "*";
-            }
+        for (int l = larg-i-1; l <larg; ++l)
+        {
+            std::cout << "*";
+        }
 
         std::cout << std::endl;
     }
@@ -127,17 +138,17 @@ int main()
               << std::endl;
 
     // escalier montant inversé
-    for (int i = 1; i <= longeur; i++)
+    for (int i = 0; i < longeur; i++)
     {
 
-        for (int k = 1; k <= i; k++)
+        for (int k = 0; k < i; k++)
         {
             std::cout << " ";
         }
-        for (int l = 1; l <=larg-i; ++l)
-            {
-                std::cout << "*";
-            }
+        for (int l = i; l <larg; ++l)
+        {
+            std::cout << "*";
+        }
 
         std::cout << std::endl;
     }
