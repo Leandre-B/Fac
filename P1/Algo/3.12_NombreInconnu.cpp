@@ -24,21 +24,23 @@ int main(){
     std::cout<<"Bravo ! Tu l'as trouve en " << essai << " esssaie(s)";
     */
 
-    int pm,max=100,min=0,nb;
+    char pm;
+    int max=100,min=0,nb;
     srand(time(NULL));
-    std::cout<<"Quel nombre a faire deviner : ";
+    std::cout<<"Pensez à un nombre a faire deviner (entre 1 et 100) à l'ordinateur : \n";
     do{
-        nb=(std::rand()%(max - min)+min);
-        std::cout<<"Je pense au "<<nb<<std::endl;
+        nb = (max-min)/2 + min;  
+        std::cout<<"Ordi : Je pense au "<<nb<<std::endl
+                 <<"Plus (P) ou Moins (M) ('O' si bon) ? "<<nb<<std::endl;
         std::cin>>pm;
 
-        if(pm==0)
-            max=nb;
-        if(pm==1)
+        if(pm=='M')
+            max = nb;
+        if(pm=='P')
             min = nb;
-    }while(pm!=-1);
+    }while(pm != 'O');
 
-    std::cout<<"Youhou j'ai trouvé, c'était le "<<nb;
+    std::cout<<"Ordi : Youhou j'ai trouvé, c'était le "<<nb<<"\n";
 
 
     return 0;
