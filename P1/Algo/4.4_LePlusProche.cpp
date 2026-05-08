@@ -5,13 +5,13 @@ const int N=4;
 
 int main(){
 
-    float proche,ref;
+    float ref;
     using tab=std::array<float, N>;
     tab listeNombre;
 
     std::cout<<"Entrez "<<N<<" nombres réels"<<std::endl;
     for (int i = 0;i<N;++i){
-        std::cout<<"Nombre num "<<i<<" : ";
+        std::cout<<"Nombre "<<i<<" : ";
         std::cin>>listeNombre[i];
         std::cout<<std::endl;
     }
@@ -19,16 +19,14 @@ int main(){
     std::cout<<"Entrez un nombres de référence : ";
     std::cin>>ref;
 
-    int petiteDif=abs(ref-listeNombre[0]);
+    int plus_proche=0;
 
     for (int i = 1;i<N;++i){
-        if(abs(ref-listeNombre[i])<=petiteDif){
-
-                petiteDif = abs(ref-listeNombre[i]);
-                proche = (listeNombre[i]);
+        if(std::abs(ref-listeNombre[i]) <= std::abs(ref-listeNombre[plus_proche])){
+                plus_proche = (i);
         }
     }
-    std::cout<<"Le nombre de votre liste le plus proche de votre nombre de référence est : "<<proche<<std::endl;
+    std::cout<<"Le nombre de votre liste le plus proche de votre nombre de référence est : "<<listeNombre[plus_proche]<<std::endl;
 
     return 0;
 }
