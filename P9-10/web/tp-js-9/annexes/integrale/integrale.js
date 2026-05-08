@@ -3,9 +3,12 @@ let f = function(x) {
     return x;
 };
 
+// Force l'option linear au rechargement de la page
+document.querySelector("option[value=\"linear\"]").selected = true;
+
 // Ecouteur du menu déroulant
 let selectlistener = document.querySelector("#fx").addEventListener("change", function(e) {
-    if(e.currentTarget[1].selected)
+    if(e.currentTarget.value == "quadratic")
         f = function(x){return x*x;};
     else //[0]
         f = function(x){return x;};
@@ -16,10 +19,10 @@ let selectlistener = document.querySelector("#fx").addEventListener("change", fu
 // qui segmente [x1,x2] en n intervalles contigus et de mêmes tailles
 function segmentation(x1, x2, n) {
     let a = [];
-    for (let i = 0 ; i < n ; i++) {
+    for (let i = 0 ; i <= n ; i++) {
          a[i] = x1 + ((i * (x2 - x1)) / n);
     }
-        
+
     return a;
 }
 
@@ -39,10 +42,9 @@ function integrale_rectangle_gauche(f, x1, x2, n) {
 // obtenue par la méthode des rectangles à DROITE basée sur une décomposition en n intervalles
 function integrale_rectangle_droite(f, x1, x2, n) {
     let a = segmentation(x1, x2, n);
-    r = a.reduce(
-        (acc, curr) => acc + curr, a.length - n
+    let r = a.reduce(
+        (acc, curr) => acc + Math.abs(f(curr)), 0
     );
-
     return (r * (x2 - x1)) / n;
 }
 
@@ -70,11 +72,18 @@ btn_calc.addEventListener("click", ()=>{
     let x2 = (parseInt(document.getElementById("x2").value));
     let interval = parseInt(document.getElementById("itv").value);
     
-    console.log(integrale_rectangle_droite(f, x1, x2, interval));
-    console.log(integrale_rectangle_gauche(f, x1, x2, interval));
-    console.log(integrale_trapeze(f, x1, x2, interval));
+    document.getElementById("meth1").value=integrale_rectangle_droite(f, x1, x2, interval);
+    document.getElementById("meth2").value=integrale_trapeze(f, x1, x2, interval);
+    document.getElementById("meth3").value=integrale_simpson(f, x1, x2, interval);
 })
 
 // Ecouteur du bouton "effacer"
 // A COMPLETER
 let btn_eff = document.querySelector("input[value=\"effacer\"");
+btn_eff.addEventListener("click", ()=>{
+    document.getElementById("x2").value    ="";
+    document.getElementById("x1").value    =""
+    document.getElementById("meth1").value ="";
+    document.getElementById("meth2").value ="";
+    document.getElementById("meth3").value ="";
+});
