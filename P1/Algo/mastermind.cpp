@@ -98,12 +98,12 @@ bool winCheck(std::array<std::array<int, COL>,LIGN> mastermind,std::array<int, C
 
 void trier(std::array<int,COL > &code){
     char c;
-    for (unsigned int j = 0;j<COL;++j){
-        for (unsigned int i =0;i<COL;++i){
-            if(code[i]>code[i+1]){
+    for (unsigned int j = 0;j<COL-1;++j){
+        for (unsigned int i =j;i<COL;++i){
+            if(code[j]>code[i]){
                 c=code[i];
                 code[i]=code[i+1];
-                code[i+1]=c;
+                code[j]=c;
             }
         }
     }
