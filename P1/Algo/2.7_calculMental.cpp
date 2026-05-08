@@ -15,25 +15,25 @@ int main(){
         std::cout<<"Combien font "<<nb1<<"+"<<nb2<<" ? ";
         std::cin>>resultat;
         if(resultat!=(nb1+nb2))
-            std::cout<<"Erreur, cela fait "<<nb1+nb2;
+            std::cout<<"Erreur, cela fait "<<nb1+nb2<<"\n";
         else
-            std::cout<<"Bravo !";
+            std::cout<<"Bravo !\n";
     }
     if(ope==2){
-        std::cout<<"Combien font "<<nb1<<"-"<<nb2<<" ?" ;
+        std::cout<<"Combien font "<<nb1<<"-"<<nb2<<" ? " ;
         std::cin>>resultat;
         if(resultat!=(nb1-nb2))
-            std::cout<<"Erreur, cela fait "<<nb1-nb2;
+            std::cout<<"Erreur, cela fait "<<nb1-nb2<<"\n";
         else
-            std::cout<<"Bravo !";
+            std::cout<<"Bravo !\n";
     }
     if(ope==3){
         std::cout<<"Combien font "<<nb1<<"x"<<nb2<<" ? ";
         std::cin>>resultat;
         if(resultat!=(nb1*nb2))
-            std::cout<<"Erreur, cela fait "<<nb1*nb2;
+            std::cout<<"Erreur, cela fait "<<nb1*nb2<<"\n";
         else
-            std::cout<<"Bravo !";
+            std::cout<<"Bravo !\n";
     }
 
     return 0;
