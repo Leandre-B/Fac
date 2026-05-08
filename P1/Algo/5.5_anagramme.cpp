@@ -3,11 +3,13 @@
 
 
 void trier(std::string &ch){
-    char c;
-    c=ch[0];
-    for (int i = 0;i<ch.length:++i){
-        if(ch[i]<c){
-
+    for (unsigned int i = 0;i<ch.length()-1;++i){
+        for (unsigned int j = i;j<ch.length();++j){
+            if(ch[i]<ch[j]){
+                char c = ch[i];
+                ch[i] = ch[j];
+                ch[j] = c;
+            }
         }
     }
 }
@@ -21,32 +23,22 @@ int main(){
     std::cout<<"Entrez un 2eme mot : ";
     std::cin>>ch2;
 
-    /*
-    if(ch1.length()==ch2.length())
-    {
-        for(unsigned int i = 0;i<ch1.length();++i)
-        {
-            for(unsigned int j = 0;j<ch2.length();++j)
-            {
-                if(ch1[i]==ch2[j])
-                    ch2.erase(j,1); //supprime 1 élément de ch2 a partir de la case mémoire j (j compris)
-            }
-        }
-        if(ch2.length()==0)
-            std::cout<<"Ces mots sont palindrome"<<std::endl;
-        else
-            std::cout<<"Ces mots ne sont pas palindrome"<<std::endl;
-    }else
-        std::cout<<"Ces mots ne sont pas palindrome"<<std::endl;
+    bool palindromes = true;
+    if(ch1.length() != ch2.length()){
+        palindromes = false;
 
-    */
-
-
-        if(ch2.length()==0)
-            std::cout<<"Ces mots sont palindrome"<<std::endl;
-        else
-            std::cout<<"Ces mots ne sont pas palindrome"<<std::endl;
-
+        
+    }else{
+        trier(ch1);
+        trier(ch2);
+        palindromes = ch1 == ch2;
+    }
+    
+    if(palindromes){
+        std::cout<<"Les mots sont des palindromes !\n";
+    }else{
+        std::cout<<"Les mots ne sont pas des palindromes !\n";
+    }
 
     return 0;
 }
