@@ -18,7 +18,7 @@ bool bisextille(int annee){
 }
  
 //vérifie si une date est valide
-bool anneeValide(int j, int m, int a){
+bool dateValide(int j, int m, int a){
     
     if( a>=0 and (m <= 12 and m>0) and j > 0){
         if ((m == 1 or m == 3 or m == 5 or m == 7 or m == 8 or m == 10 or m == 12) and j <=31)
@@ -59,12 +59,12 @@ int anneesEcoulees(int j1, int j2, int m1, int m2, int a1, int a2){
     do{
         std::cout << "entrez une date valide (jour, mois, annee) " << std::endl;
         std::cin >> j1 >> m1 >> a1;
-    }while (!(anneeValide(j1, m1, a1)));
+    }while (!(dateValide(j1, m1, a1)));
     
     do{
         std::cout << "entrez une AUTRE date valide (jour, mois, année) " << std::endl;
         std::cin >> j2 >> m2 >> a2;
-    }while (!(anneeValide(j2, m2, a2)));
+    }while (!(dateValide(j2, m2, a2)));
     
     
     std :: cout << "Il s est ecoule " << anneesEcoulees(j1, j2, m1, m2, a1, a2) << " annee(s) complete(s) entre le "
