@@ -1,0 +1,5 @@
+rectangle 10 5 20 20
+rectangle -1 2 10 4
+cercle 4 -1 -0
+cercle 7 6 100
+cercle 9 -10 1
