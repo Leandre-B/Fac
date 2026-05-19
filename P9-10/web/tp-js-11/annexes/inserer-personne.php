@@ -25,6 +25,25 @@ $idcom = connexpdo("l2_tp_personne");
 // A COMPLETER
 // $_POST['person'] est le tableau associatif des champs transmis
 
+print_r ($_POST['person']);
+echo "<br>";
+echo "<br>";
+
+
+// affiche_tableau($_POST['person']);
+
+$stt=$idcom->query("SELECT * from Personne");
+$bd_values = [];
+$cpt = 0;
+while ($record=$stt->fetch(PDO::FETCH_ASSOC)) {
+	$bd_values[$cpt] = $record;
+	$cpt++;
+}
+foreach ($bd_values as $key => $value) {
+	array_shift($value);
+}
+affiche_tableau($bd_values);
+
 ?>
 </body>
 </html>

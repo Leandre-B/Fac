@@ -7,8 +7,8 @@ function connexpdo(string $db)
     $host = "localhost";
     $charset = "UTF8";
     // LOGIN ET MOT DE PASSE A CONFIGURER
-    $user = ""; // user id
-    $pass = ""; // password
+    $user = "root"; // user id
+    $pass = "10isWw"; // password
     try {
         $pdo = new PDO("$sgbd:host=$host;dbname=$db;charset=$charset", $user, $pass);
         // force le lancement d'exception en cas d'erreurs d'exécution de requêtes SQL
