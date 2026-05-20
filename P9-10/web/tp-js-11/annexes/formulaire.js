@@ -115,7 +115,7 @@ check['country'] = 	function(){
 	});
 
 	document.getElementById("firstName").addEventListener("keyup", (e)=>{
-		validate(check['lastName'](), e.target, getTooltip(e.target));
+		validate(check['firstName'](), e.target, getTooltip(e.target));
 	});
 
 	document.getElementById("age").addEventListener("keyup", (e)=>{
@@ -139,15 +139,20 @@ check['country'] = 	function(){
 	});
 
 	myForm.addEventListener("submit", (e)=>{
-		validate(check['gender'](), e.target, getTooltip(e.target));
-		validate(check['lastName'](), e.target, getTooltip(e.target));
-		validate(check['lastName'](), e.target, getTooltip(e.target));
-		validate(check['age'](), e.target, getTooltip(e.target));
-		validate(check['login'](), e.target, getTooltip(e.target));
-		validate(check['pwd1'](), e.target, getTooltip(e.target));
-		validate(check['pwd2'](), e.target, getTooltip(e.target));
-		validate(check['country'](), e.target, getTooltip(e.target));
-		console.log("submit");
+		if(	!(check['gender']() &&
+			check['lastName']() &&
+			check['firstName']() &&
+			check['age']() &&
+			check['login']() &&
+			check['pwd1']() &&
+			check['pwd2']() &&
+			check['country']())
+	){
+		alert("Formulaire non valide !");
+		e.preventDefault();
+	}
+
+
 	});
 
 
