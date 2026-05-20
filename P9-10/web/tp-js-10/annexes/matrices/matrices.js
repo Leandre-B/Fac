@@ -5,7 +5,13 @@
  * numériques et le bouton coché en appelant la fonction générerEtat().
  */
 
-// A COMPLETER
+document.getElementById("integer").addEventListener("click", ()=>{
+    générerEtat();
+});
+
+document.getElementById("binary").addEventListener("click", ()=>{
+    générerEtat();
+});
 
 /*
  * Remplace les 2 matrices existantes par 2 matrices m x n identiques et
@@ -13,7 +19,13 @@
  * (m) ou 'Colonnes' (n) en appelant la fonction générerEtat().
  */
 
-// A COMPLETER
+document.getElementById("rows").addEventListener("click", ()=>{
+    générerEtat();
+});
+
+document.getElementById("columns").addEventListener("click", ()=>{
+    générerEtat();
+});
 
 
 /*
@@ -22,7 +34,19 @@
  * une alerte sinon.
  */
 function transposer(table) {
-    // A COMPLETER
+    let N = parseInt(document.getElementById("rows").value)+1;
+    let newT = Array(N);
+    for(let i=0; i<N; ++i){
+        newT[i] = Array(N);
+        for(let j=0; j<N; ++j){
+            newT[i][j] = table.rows[i].cells[j].innerText;
+        }
+    }
+    for(let i=0; i<N; ++i){
+        for(let j=0; j<N; ++j){
+            table.rows[i].cells[j].innerText = newT[j][i];
+        }
+    }
 }
 
 /*
@@ -31,14 +55,25 @@ function transposer(table) {
  * sinon. La transposition se fait en appelant la fonction transposer(table).
  */
 
-// A COMPLETER
+document.querySelector(".transposer").addEventListener("click", ()=>{
+    if(parseInt(document.getElementById("rows").value) == parseInt(document.getElementById("columns").value)){
+        transposer(document.querySelector(".mat2 table"));
+    }else{
+        alert("Matrice non carré !");
+    }
+});
 
 
 /*
  * Permute les lignes i et j (où i<j) du tableau HTML 'table'.
  */
 function permuterLignes(table, i, j) {
-    // A COMPLETER
+    let N = parseInt(document.getElementById("columns").value)+1;
+    for (let k = 0; k < N; k++) {
+        let aux = table.rows[i].cells[k].innerText;
+        table.rows[i].cells[k].innerText = table.rows[j].cells[k].innerText;
+        table.rows[j].cells[k].innerText = aux;
+    }
 }
 
 /*
@@ -48,3 +83,9 @@ function permuterLignes(table, i, j) {
  * La permutation de lignes s'effectue par appel à la fonction permuterLignes().
  */
 // A COMPLETER
+document.querySelector(".permuter").addEventListener("click", ()=>{
+    let table = document.querySelector(".mat2 table");
+    let i = tirerEntier(1, parseInt(document.getElementById("rows").value));
+    let j = tirerEntier(i, parseInt(document.getElementById("rows").value));
+    permuterLignes(table, i, j);
+});
