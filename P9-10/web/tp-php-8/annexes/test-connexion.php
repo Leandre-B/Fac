@@ -1,6 +1,6 @@
 <?php
 include("connexpdo.inc.php");
-
+include("js.php");
 try {
     $objdb = connexpdo("bd_inexistante");
     $requete = "SELECT * FROM personne";
