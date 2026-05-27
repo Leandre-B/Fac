@@ -1,0 +1,201 @@
+Type,Ref,Prix,nbPages,Url
+Livre,L100,21,85, 
+Video,V100,26, ,bu.univ-angers.fr/doc/100
+Livre,L101,17,729, 
+Video,V101,16, ,bu.univ-angers.fr/doc/101
+Livre,L102,15,619, 
+Video,V102,34, ,bu.univ-angers.fr/doc/102
+Livre,L103,16,230, 
+Video,V103,45, ,bu.univ-angers.fr/doc/103
+Livre,L104,8,914, 
+Video,V104,19, ,bu.univ-angers.fr/doc/104
+Livre,L105,8,735, 
+Video,V105,43, ,bu.univ-angers.fr/doc/105
+Livre,L106,21,767, 
+Video,V106,44, ,bu.univ-angers.fr/doc/106
+Livre,L107,18,877, 
+Video,V107,26, ,bu.univ-angers.fr/doc/107
+Livre,L108,18,421, 
+Video,V108,22, ,bu.univ-angers.fr/doc/108
+Livre,L109,13,469, 
+Video,V109,43, ,bu.univ-angers.fr/doc/109
+Livre,L110,23,889, 
+Video,V110,20, ,bu.univ-angers.fr/doc/110
+Livre,L111,15,835, 
+Video,V111,48, ,bu.univ-angers.fr/doc/111
+Livre,L112,12,358, 
+Video,V112,36, ,bu.univ-angers.fr/doc/112
+Livre,L113,28,389, 
+Video,V113,34, ,bu.univ-angers.fr/doc/113
+Livre,L114,30,472, 
+Video,V114,48, ,bu.univ-angers.fr/doc/114
+Livre,L115,25,415, 
+Video,V115,30, ,bu.univ-angers.fr/doc/115
+Livre,L116,13,601, 
+Video,V116,27, ,bu.univ-angers.fr/doc/116
+Livre,L117,15,551, 
+Video,V117,31, ,bu.univ-angers.fr/doc/117
+Livre,L118,15,333, 
+Video,V118,37, ,bu.univ-angers.fr/doc/118
+Livre,L119,18,491, 
+Video,V119,22, ,bu.univ-angers.fr/doc/119
+Livre,L120,21,863, 
+Video,V120,16, ,bu.univ-angers.fr/doc/120
+Livre,L121,25,429, 
+Video,V121,24, ,bu.univ-angers.fr/doc/121
+Livre,L122,29,844, 
+Video,V122,36, ,bu.univ-angers.fr/doc/122
+Livre,L123,5,66, 
+Video,V123,46, ,bu.univ-angers.fr/doc/123
+Livre,L124,22,969, 
+Video,V124,25, ,bu.univ-angers.fr/doc/124
+Livre,L125,8,621, 
+Video,V125,34, ,bu.univ-angers.fr/doc/125
+Livre,L126,17,465, 
+Video,V126,30, ,bu.univ-angers.fr/doc/126
+Livre,L127,5,107, 
+Video,V127,21, ,bu.univ-angers.fr/doc/127
+Livre,L128,25,936, 
+Video,V128,17, ,bu.univ-angers.fr/doc/128
+Livre,L129,10,586, 
+Video,V129,38, ,bu.univ-angers.fr/doc/129
+Livre,L130,20,85, 
+Video,V130,27, ,bu.univ-angers.fr/doc/130
+Livre,L131,10,340, 
+Video,V131,43, ,bu.univ-angers.fr/doc/131
+Livre,L132,7,453, 
+Video,V132,46, ,bu.univ-angers.fr/doc/132
+Livre,L133,6,763, 
+Video,V133,19, ,bu.univ-angers.fr/doc/133
+Livre,L134,6,870, 
+Video,V134,40, ,bu.univ-angers.fr/doc/134
+Livre,L135,6,87, 
+Video,V135,43, ,bu.univ-angers.fr/doc/135
+Livre,L136,23,565, 
+Video,V136,47, ,bu.univ-angers.fr/doc/136
+Livre,L137,28,938, 
+Video,V137,36, ,bu.univ-angers.fr/doc/137
+Livre,L138,23,362, 
+Video,V138,17, ,bu.univ-angers.fr/doc/138
+Livre,L139,9,598, 
+Video,V139,23, ,bu.univ-angers.fr/doc/139
+Livre,L140,12,447, 
+Video,V140,46, ,bu.univ-angers.fr/doc/140
+Livre,L141,23,445, 
+Video,V141,35, ,bu.univ-angers.fr/doc/141
+Livre,L142,27,127, 
+Video,V142,24, ,bu.univ-angers.fr/doc/142
+Livre,L143,14,601, 
+Video,V143,34, ,bu.univ-angers.fr/doc/143
+Livre,L144,28,422, 
+Video,V144,15, ,bu.univ-angers.fr/doc/144
+Livre,L145,18,85, 
+Video,V145,24, ,bu.univ-angers.fr/doc/145
+Livre,L146,13,219, 
+Video,V146,35, ,bu.univ-angers.fr/doc/146
+Livre,L147,10,645, 
+Video,V147,44, ,bu.univ-angers.fr/doc/147
+Livre,L148,28,180, 
+Video,V148,31, ,bu.univ-angers.fr/doc/148
+Livre,L149,6,698, 
+Video,V149,23, ,bu.univ-angers.fr/doc/149
+Livre,L150,23,881, 
+Video,V150,46, ,bu.univ-angers.fr/doc/150
+Livre,L151,6,983, 
+Video,V151,24, ,bu.univ-angers.fr/doc/151
+Livre,L152,14,949, 
+Video,V152,29, ,bu.univ-angers.fr/doc/152
+Livre,L153,6,813, 
+Video,V153,32, ,bu.univ-angers.fr/doc/153
+Livre,L154,18,106, 
+Video,V154,47, ,bu.univ-angers.fr/doc/154
+Livre,L155,8,399, 
+Video,V155,37, ,bu.univ-angers.fr/doc/155
+Livre,L156,29,69, 
+Video,V156,35, ,bu.univ-angers.fr/doc/156
+Livre,L157,10,991, 
+Video,V157,48, ,bu.univ-angers.fr/doc/157
+Livre,L158,14,214, 
+Video,V158,26, ,bu.univ-angers.fr/doc/158
+Livre,L159,13,799, 
+Video,V159,22, ,bu.univ-angers.fr/doc/159
+Livre,L160,15,572, 
+Video,V160,39, ,bu.univ-angers.fr/doc/160
+Livre,L161,6,309, 
+Video,V161,34, ,bu.univ-angers.fr/doc/161
+Livre,L162,18,482, 
+Video,V162,20, ,bu.univ-angers.fr/doc/162
+Livre,L163,22,916, 
+Video,V163,26, ,bu.univ-angers.fr/doc/163
+Livre,L164,9,274, 
+Video,V164,38, ,bu.univ-angers.fr/doc/164
+Livre,L165,6,174, 
+Video,V165,37, ,bu.univ-angers.fr/doc/165
+Livre,L166,28,885, 
+Video,V166,47, ,bu.univ-angers.fr/doc/166
+Livre,L167,29,673, 
+Video,V167,21, ,bu.univ-angers.fr/doc/167
+Livre,L168,26,243, 
+Video,V168,38, ,bu.univ-angers.fr/doc/168
+Livre,L169,21,83, 
+Video,V169,36, ,bu.univ-angers.fr/doc/169
+Livre,L170,18,274, 
+Video,V170,49, ,bu.univ-angers.fr/doc/170
+Livre,L171,21,911, 
+Video,V171,49, ,bu.univ-angers.fr/doc/171
+Livre,L172,19,180, 
+Video,V172,48, ,bu.univ-angers.fr/doc/172
+Livre,L173,15,807, 
+Video,V173,17, ,bu.univ-angers.fr/doc/173
+Livre,L174,30,690, 
+Video,V174,32, ,bu.univ-angers.fr/doc/174
+Livre,L175,20,859, 
+Video,V175,36, ,bu.univ-angers.fr/doc/175
+Livre,L176,22,345, 
+Video,V176,30, ,bu.univ-angers.fr/doc/176
+Livre,L177,27,167, 
+Video,V177,15, ,bu.univ-angers.fr/doc/177
+Livre,L178,30,823, 
+Video,V178,34, ,bu.univ-angers.fr/doc/178
+Livre,L179,10,353, 
+Video,V179,49, ,bu.univ-angers.fr/doc/179
+Livre,L180,20,445, 
+Video,V180,23, ,bu.univ-angers.fr/doc/180
+Livre,L181,13,427, 
+Video,V181,30, ,bu.univ-angers.fr/doc/181
+Livre,L182,23,988, 
+Video,V182,32, ,bu.univ-angers.fr/doc/182
+Livre,L183,30,669, 
+Video,V183,36, ,bu.univ-angers.fr/doc/183
+Livre,L184,21,153, 
+Video,V184,40, ,bu.univ-angers.fr/doc/184
+Livre,L185,24,241, 
+Video,V185,41, ,bu.univ-angers.fr/doc/185
+Livre,L186,25,296, 
+Video,V186,16, ,bu.univ-angers.fr/doc/186
+Livre,L187,26,729, 
+Video,V187,17, ,bu.univ-angers.fr/doc/187
+Livre,L188,22,745, 
+Video,V188,48, ,bu.univ-angers.fr/doc/188
+Livre,L189,15,971, 
+Video,V189,34, ,bu.univ-angers.fr/doc/189
+Livre,L190,29,994, 
+Video,V190,39, ,bu.univ-angers.fr/doc/190
+Livre,L191,6,85, 
+Video,V191,19, ,bu.univ-angers.fr/doc/191
+Livre,L192,29,704, 
+Video,V192,26, ,bu.univ-angers.fr/doc/192
+Livre,L193,30,977, 
+Video,V193,36, ,bu.univ-angers.fr/doc/193
+Livre,L194,24,538, 
+Video,V194,20, ,bu.univ-angers.fr/doc/194
+Livre,L195,28,284, 
+Video,V195,17, ,bu.univ-angers.fr/doc/195
+Livre,L196,5,655, 
+Video,V196,49, ,bu.univ-angers.fr/doc/196
+Livre,L197,28,141, 
+Video,V197,50, ,bu.univ-angers.fr/doc/197
+Livre,L198,29,267, 
+Video,V198,21, ,bu.univ-angers.fr/doc/198
+Livre,L199,30,56, 
+Video,V199,39, ,bu.univ-angers.fr/doc/199
