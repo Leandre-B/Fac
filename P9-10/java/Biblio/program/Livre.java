@@ -3,7 +3,7 @@ package program;
 public class Livre extends Document{
     int nbPages;
 
-    Livre(String ref, double prix, int nbPages){
+    public Livre(String ref, double prix, int nbPages){
         super(ref, prix);
         this.nbPages = nbPages;
     }

@@ -6,7 +6,7 @@ public class Client {
     private String nom;
     private int id;
 
-    Client(String nom){
+    public Client(String nom){
         this.nom = nom;
         this.id = totalId;
         totalId++;
@@ -14,6 +14,10 @@ public class Client {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
