@@ -1,6 +1,22 @@
 <?php
 // A COMPLETER: Insertion bdd
 $resultat_insert = ""; // à ajuster selon le succès ou l'échec d'une insertion
+
+if(!empty($_POST["artist"]) && !empty($_POST["album"]) && !empty($_POST["year"])){
+    require "connexion.php";
+    $artiste = $_POST["artist"];
+    $album = $_POST["album"];
+    $year = $_POST["year"];
+    $pdo = etablir_connexion_bdd("l2_music");
+
+    $qry="INSERT INTO album (artist, name, year) VALUES (?, ?, ?)";
+    $prep = $pdo->prepare($qry);
+    $data = array($artiste, $album, $year);    
+    $prep->execute($data);
+}else{
+    $resultat_insert = "<p class=\"error\"> L'album n'a pas été ajouté </p>";
+}
+
 ?>
 
 <!DOCTYPE html>

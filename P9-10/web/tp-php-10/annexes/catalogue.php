@@ -2,6 +2,17 @@
 
 // A COMPLETER: 
 // Récupération des données de la bdd
+require "connexion.php";
+$pdo = etablir_connexion_bdd("l2_music");
+
+$qry="SELECT * FROM album";
+$stt=$pdo->query($qry);
+$albums = $stt->fetchAll(PDO::FETCH_ASSOC);
+
+$qry="SELECT * FROM song";
+$stt=$pdo->query($qry);
+$songs = $stt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,17 +38,43 @@
 
         <div id="albums">
             <?php
-            // A COMPLETER: 
-            // Génération du tableau
-            
+            if(!empty($_POST["voir"])){
+                $table =  "
+                    <table>
+                        <thead>
+                        <th> Artiste</th>
+                        <th> Album  </th>
+                        <th> Année  </th>
+                        <th> Action </th>
+                ";
+                foreach ($albums as $album) {
+                    
+                    $table .= "</tr>";
+                    $table .= "
+                        <td> ". $album["artist"] ."</td>
+                        <td> ". $album["name"] ."</td>
+                        <td> ". $album["year"] ."</td>
+                        <td> <input type=\"button\" value=\"Détails\" onclick=afficherAlbumDetails(".$album["id"].",".$album["name"].")> </td>
+                    ";
+                    $table .= "</tr>";
+                }
+            }
+            echo $table;
             ?>
         </div>
 
         <div id="songs">
             <h4 id="album-name"></h4>
             <?php
-            // A COMPLETER: 
-            // Génération d'une liste ordonnée
+            if(!empty($_POST["voir"])){
+                $ol = "<ol>";
+
+                foreach ($songs as $song) {
+                    $ol.="<li class=\"".$song["album_id"]."\">". $song["name"] ."(". $song["duration"] .")</li>";
+                }
+                $ol.="</ol>";
+                echo $ol;
+            }
             ?>
         </div>
 

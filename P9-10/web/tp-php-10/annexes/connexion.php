@@ -9,8 +9,8 @@ function etablir_connexion_bdd(string $db)
     $charset = "UTF8";
 
     // A MODIFIER
-    $user = ""; // user id
-    $pass = ""; // password
+    $user = "root"; // user id
+    $pass = "0qbEub"; // password
 
     try {
         $pdo = new pdo(
