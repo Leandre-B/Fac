@@ -1,3 +1,3 @@
 C'est un texte en ASCII.
-ï¿½a c'est du latin1.
+Ça c'est du latin1.
 Ceci est un texte Ã©crit en UTF8.
