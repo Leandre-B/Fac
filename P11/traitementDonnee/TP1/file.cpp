@@ -29,25 +29,25 @@ Encoding getEncoding(std::string file)
 		{
 			fic.get(c);
 			// si le bit de poid est à 1 -> pas ASCII
-			if ((c & 0x80) == 0x80)
+			if ((c & 0b10000000) == 0b10000000)
 			{
 
 				// On regarde le bit suivant pour déterminer si UTF-8
 				char next_c;
 
 				int bit_to_check = 0;
-				if ((c & 0xF8) == 0xF0) // 11110xxxx
+				if ((c & 0b11111000) == 0b11110000)
 					bit_to_check = 3;
-				else if ((c & 0xF0) == 0xE0) // 1110xxxx
+				else if ((c & 0b11110000) == 0b11100000)
 					bit_to_check = 2;
-				else if ((c & 0xE0) == 0xC0) // 110xxxxx
+				else if ((c & 0b11100000) == 0b11000000)
 					bit_to_check = 1;
 				else
 					return Encoding::LATIN1;
 				for (int j = 0; j < bit_to_check; ++j)
 				{
 					fic.get(next_c);
-					if (!fic.eof() && (next_c & 0xC0) == 0x80) // 10xxxxxx
+					if (!fic.eof() && (next_c & 0b11000000) == 0b10000000)
 						isUTF8 = true;
 					else
 						return Encoding::LATIN1;
@@ -85,14 +85,15 @@ int main(int argc, char** argv)
 				break;
 
 			case Encoding::LATIN1:
-				std::cout << argv[i] << " est en LATIN1\n";
+				std::cout << argv[i] << " est en Latin-1\n";
 				break;
 
 			case Encoding::UTF8:
 				std::cout << argv[i] << " est en UTF-8\n";
 				break;
 
-			default:
+			case Encoding::UNDETERMINDED:
+				std::cout << "N'a pas pu determiner l'encodage de \"" << argv[i] << "\"\n";
 				break;
 		}
 	}
