@@ -116,7 +116,25 @@ export class Traceur {
     // Trace la grille
     tracerGrille() {
         // A REMPLACER
-        return tracerGrille.call(this);
+        // paramétrage du contexte
+        this.contexte.strokeStyle = 'grey';
+        this.contexte.lineWidth = 2;
+        this.contexte.setLineDash([5,10]);
+        
+        // grille - colonne
+        let ecart = (this.repère.X.droit[0] - this.repère.X.gauche[0])/10;
+        for (let x = this.repère.X.gauche[0]; x <= this.repère.X.droit[0]; x += ecart) {
+            this.contexte.moveTo(x, this.repère.Y.haut[1]);
+            this.contexte.lineTo(x, this.repère.Y.bas[1]);
+            this.contexte.stroke();
+        }
+
+        // lignes
+        for (let y = this.repère.Y.haut[1]; y <= this.repère.Y.bas[1]; y += ecart) {
+            this.contexte.moveTo(this.repère.X.droit[0], y);
+            this.contexte.lineTo(this.repère.X.gauche[0], y);
+            this.contexte.stroke();
+        }
     };
 
     /*
@@ -127,8 +145,25 @@ export class Traceur {
     cad. si l'une au moins de ses coordonnées vaut NaN ou +/-Infinity ou si |x| > this.maxXY.X ou |y| > this.maxXY.Y.
     */
     transformer(x, y) {
-        // A REMPLACER
-        return transformer.call(this, x, y);
+        //return transformer.call(this, x, y);
+        // Check si point de base dans le domaine
+        if( x < -this.maxXY.X || x > this.maxXY.X ||
+            y < -this.maxXY.Y || y > this.maxXY.Y ||
+            x == NaN  || y == NaN || 
+            x == +Infinity || x == -Infinity ||
+            y == +Infinity || y == -Infinity  
+            
+         ){
+            console.log(x, y, "hors limite");
+            return {"X" : false, "Y" : false};
+         }
+
+        // transformé
+        let u = x * this.rapportXY.X + this.L/2;
+        let v = -y * this.rapportXY.Y + this.H/2;
+
+        return {"X" : u, "Y" : v};
+
     };
 
     /*
@@ -143,7 +178,34 @@ export class Traceur {
     */
     tracer(P, strokeStyle) {
         // A REMPLACER
-        return tracer.call(this, P, strokeStyle);
+        //return tracer.call(this, P, 
+        // strokeStyle);
+        let Q = [];
+        let lastX = NaN;
+        P.forEach((element, i) => {
+            if(lastX != NaN){
+                lastX = element[0];
+                Q.push(this.transformer(element[0], element[1]));
+            }
+            else
+                if(i+1<P.length)
+                    if(lastX < element[i+1])
+                        console.log("Je leve une exeption !!!!")
+                    else
+                        Q.push(this.transformer(element[0], element[1]))
+        });
+        
+        this.contexte.strokeStyle = strokeStyle;
+        this.contexte.lineWidth = 1;
+
+        this.contexte.beginPath();
+        this.contexte.moveTo(Q[0].X, Q[0].Y);
+        for(let i=1; i<Q.length; i++) {
+            this.contexte.lineTo(Q[i].X, Q[i].Y);
+        }
+        this.contexte.stroke();  
+        //console.log(Q);
+
     };
 
     /* 
@@ -172,13 +234,54 @@ export class Traceur {
     - La couleur `meta_f.strokeStyle` est utlisée pour le tracé et comme couleur de fond de la ligne HTML.
     */
     dessiner(n, meta_f, log) {
+        console.log("kjafka");
         // A REMPLACER
-        return dessiner.call(this, n, meta_f, log);
-
+        //return dessiner.call(this, n, meta_f, log);
+        let echantillon = new Echantillon(meta_f.f, n, {"max" : this.maxXY.X, "min" : -this.maxXY.X});
         // Génération d'un échantillon de n points de la fonction f
+        let points = echantillon.points();
+        console.log(points);
+        console.log(meta_f);
 
+        let fréquence = document.querySelector("input[name=\"échantillon_f\"]").value;
+        console.log(fréquence);
         // Tracé de l'échantillon
+        if(fréquence > 0) {
+            let p = 0;
+            const interval = setInterval(() => {
+                this.tracer(points.slice(p, p+2), meta_f.strokeStyle);
+                p++;
+                if(p >= n)
+                    clearInterval(interval);
+            }, fréquence/10*1000);
+        }
 
         // Log de la fonction et affichage dans le tableau
+        let t = document.querySelector("table");
+        let tr = document.createElement("tr");
+        let type = meta_f.type;
+        let param = meta_f.paramètres;
+        if(type == "linéaire"){
+            tr.innerText = param[0]+"x + "+param[1];
+            tr.style.backgroundColor = meta_f.strokeStyle;
+        }else if(type == "racine"){
+            tr.innerHTML = x+"<sup>1/"+param[0]+"</sup>";
+            tr.style.backgroundColor = meta_f.strokeStyle;
+            
+        }else if(type == "exponentiation"){
+            tr.innerHTML = "x<sup>"+param[0]+"</sup>";
+            tr.style.backgroundColor = meta_f.strokeStyle;
+        }else if(type == "e"){
+            tr.innerHTML = "e<sup>x</sup>";
+            tr.style.backgroundColor = meta_f.strokeStyle;
+        }else if(type == "logarithme"){
+            tr.innerHTML = "log10("+param[0]+"x)";
+            tr.style.backgroundColor = meta_f.strokeStyle;
+        }else if(type == "sinus"){
+            tr.innerHTML = param[0]+" sin(2Πx/"+param[1]+" + "+param[2]+")";
+            tr.style.backgroundColor = meta_f.strokeStyle;
+        }
+        console.log(type)
+        t.appendChild(tr)
     };
 }

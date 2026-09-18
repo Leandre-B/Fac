@@ -24,7 +24,14 @@ export class Echantillon {
     Le code appelant devra gérer ces points.
     */
     // REMPLACER LA FONCTION `_points` PAR UNE FONCTION ANONYME QUE VOUS IMPLEMENTEREZ :  `points = function() {...};`
-    points = _points;
+    points = function() {
+        let tab = [];
+        for(let i=1; i<=this.#n; i++) {
+            let x = Echantillon.abscisse(i, this.#n, this.#minMaxX);
+            tab.push([x, this.#f(x)])
+        }
+        return tab;
+    };
     
     /*
     Renvoie l'abscisse du k-ième point de sorte que :
