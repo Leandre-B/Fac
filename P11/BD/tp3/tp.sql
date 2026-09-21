@@ -183,21 +183,92 @@ SELECT installerLogSeg(10, 10, 'SAS', '1990-05-09', '9.9', 'jeux', 999.9);
 select CalculTemps();
 
 
-drop function updateLogicielNew(RECORD);
-create function updateLogicielNew(rec RECORD)
-    returns void as
+drop function updateLogiciel();
+create function updateLogiciel()
+    returns TRIGGER as
 $$
 DECLARE
 BEGIN
-    UPDATE poste set nblog = nblog+1 where nposte = rec.nposte;
-    UPDATE Logiciel set nbInstal = nbInstal+1 where nblog = rec.nblog;
+    IF TG_OP = 'INSERT' THEN
+        UPDATE poste set nblog = nblog+1 where nposte = NEW.nposte;
+        UPDATE Logiciel set nbInstal = nbInstal+1 where nLog = NEW.nLog;
+        RETURN NEW;
+    ELSE IF TG_OP = 'DELETE' THEN
+        UPDATE poste set nblog = nblog-1 where nposte = OLD.nposte;
+        UPDATE Logiciel set nbInstal = nbInstal-1 where nLog = OLD.nLog;
+        RETURN OLD;
+    END IF;
+    END IF;
+
+
 END;
 $$ LANGUAGE 'plpgsql';
 
--- nbLog de la table Poste, et nbInstall de la table Logiciel
+-- màj de nbLog de la table Poste, et nbInstall de la table Logiciel
 create trigger Trig_apres_DI_installer
-    AFTER INSERT  
+    AFTER INSERT OR UPDATE OR DELETE  
         on Installer
     FOR EACH ROW
-        EXECUTE PROCEDURE updateLogicielNew(new);
+        EXECUTE PROCEDURE updateLogiciel();
     
+
+-- Écrire le déclencheurs Trig_Après_DI_Poste sur la table Poste
+-- permettant de mettre à jour automatique la colonne nbPoste 
+-- de la table Salle, à chaque ajout ou suppression d'un nouveau poste
+
+drop function updatePoste();
+create function updatePoste()
+    returns trigger as
+$$
+DECLARE
+BEGIN
+
+    IF TG_OP = 'INSERT' THEN
+        UPDATE salle set nbPoste = nbPoste+1 where nsalle = NEW.nsalle;
+        RETURN NEW;
+    ELSE IF TG_OP = 'DELETE' THEN
+        UPDATE salle set nbPoste = nbPoste-1 where nsalle = OLD.nsalle;
+        RETURN OLD;
+    END IF;
+    END IF;
+
+end;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER Trig_Après_DI_Poste
+    AFTER INSERT OR UPDATE OR DELETE  
+        on Poste
+    FOR EACH ROW
+        EXECUTE PROCEDURE updatePoste();
+
+
+-- Écrire le déclencheurs Trig_Après_DI_Salle sur la table Salle 
+-- permettant de mettre à jour automatique la colonne nbPoste de la 
+-- table Segment, après la modification de la colonne nbPoste.
+
+drop function updateSalle();
+create function updateSalle()
+    returns trigger as
+$$
+DECLARE
+    nb_poste INTEGER;
+BEGIN
+
+    IF TG_OP = 'DELETE' THEN
+        select into nb_poste COUNT(nposte) 
+            from poste
+            where nsalle = OLD.nsalle;
+        -- RAISE NOTICE 'nb = %', nb_poste;
+        DELETE from poste where nsalle = OLD.nsalle;
+        -- UPDATE Segment set nbPoste = nbPoste - nb_poste where indIP = OLD.indIP;
+        RETURN OLD;
+    END IF;
+
+end;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER Trig_Après_DI_Salle
+    AFTER INSERT OR UPDATE OR DELETE  
+        on Salle
+    FOR EACH ROW
+        EXECUTE PROCEDURE updateSalle();
