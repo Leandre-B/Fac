@@ -4,3 +4,5 @@ build
 *.exe
 .vscode
 *.class
+logfile
+.postgres
