@@ -31,9 +31,33 @@ Chaque objet a les propriétés suivantes
 - "région" : nom de la région du département (chaîne).
 */
 export const p_départements =
-    // A REMPLACER
-    Promise.resolve(Object.fromEntries(((new Array(100)).fill(0)).map((v, k) => [k, {
-        "nom": ["M&L", "N", "HP", "V"][Math.floor(4 * Math.random())],
-        "chef_lieu": "y",
-        "région": "z"
-    }])));
+    fetch(url)
+        .then(réponse=>{
+            return (réponse.text())
+        })
+        .then(xmlText=>{
+            let parser = new DOMParser();
+            return (parser.parseFromString(xmlText, "text/xml"))
+        })
+
+Promise.all([p_départements, p_régions])
+        .then((values)=>{
+            let ds = values[0]
+            let rs = values[1]
+            console.log(rs)
+            rs.forEach(r => {
+                Array.from(ds.children[0].children).forEach((d)=>{
+                    if(r["nom"] == d.children[4].textContent) {
+                        console.log( d.children[5].textContent)
+                        console.log( d.children[2].textContent)
+                        console.log( d.children[1].textContent)
+                    }
+                })
+            });
+            
+        });
+    // Promise.resolve(Object.fromEntries(((new Array(100)).fill(0)).map((v, k) => [k, {
+    //     "nom": ["M&L", "N", "HP", "V"][Math.floor(4 * Math.random())],
+    //     "chef_lieu": "y",
+    //     "région": "z"
+    // }])));

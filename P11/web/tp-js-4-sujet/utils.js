@@ -11,7 +11,18 @@ et chacune de ses propriétés correspond au nom d'un champ et à sa valeur dans
 export function parseCSV(données, séparateur_lignes, séparateur_colonnes) {
     const csv = [];
 
+    
     // A COMPLETER
+    let l = données.split(séparateur_lignes);
+    let entete = l[0].split(séparateur_colonnes);
+    for(let i=1; i<l.length; ++i){
+        let obj = new Object;
+        let champs = l[i].split(séparateur_colonnes);
+        for(let j=0; j<champs.length; ++j){
+            obj[entete[j]]=champs[j];
+        }
+        csv.push(obj)
+    }
 
     return csv;
 };

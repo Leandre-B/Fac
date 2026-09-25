@@ -21,4 +21,14 @@ Les objets sont triés dans l'ordre croissant des numéros de régions.
 */
 export const p_régions =
     // A REMPLACER
-    Promise.resolve([]);
+    p_fetch(url, "csv")
+        .then(réponse=>{
+            let lignes = réponse.split("\n");
+            console.log(lignes)
+            let to_convert = "code;nom\n";
+            for(let i =1; i<lignes.length; ++i) {
+                to_convert += lignes[i].split(";")[0]+";"+lignes[i].split(";")[3]+"\n";
+            }
+            return parseCSV(to_convert,"\n", ";")
+        });
+    // Promise.resolve([]);
