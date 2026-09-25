@@ -151,7 +151,7 @@ export class Traceur {
             y < -this.maxXY.Y || y > this.maxXY.Y ||
             x == NaN  || y == NaN || 
             x == +Infinity || x == -Infinity ||
-            y == +Infinity || y == -Infinity  
+            y == +Infinity || y == -Infinity
             
          ){
             console.log(x, y, "hors limite");
@@ -180,6 +180,7 @@ export class Traceur {
         // A REMPLACER
         //return tracer.call(this, P, 
         // strokeStyle);
+        //this.contexte.setLineDash([]);
         let Q = [];
         let lastX = NaN;
         P.forEach((element, i) => {
@@ -234,9 +235,9 @@ export class Traceur {
     - La couleur `meta_f.strokeStyle` est utlisée pour le tracé et comme couleur de fond de la ligne HTML.
     */
     dessiner(n, meta_f, log) {
-        console.log("kjafka");
         // A REMPLACER
         //return dessiner.call(this, n, meta_f, log);
+        console.log("meta_f : ", meta_f);
         let echantillon = new Echantillon(meta_f.f, n, {"max" : this.maxXY.X, "min" : -this.maxXY.X});
         // Génération d'un échantillon de n points de la fonction f
         let points = echantillon.points();
@@ -254,6 +255,8 @@ export class Traceur {
                 if(p >= n)
                     clearInterval(interval);
             }, fréquence/10*1000);
+        }else {
+            this.tracer(points, meta_f.strokeStyle);
         }
 
         // Log de la fonction et affichage dans le tableau
@@ -265,7 +268,7 @@ export class Traceur {
             tr.innerText = param[0]+"x + "+param[1];
             tr.style.backgroundColor = meta_f.strokeStyle;
         }else if(type == "racine"){
-            tr.innerHTML = x+"<sup>1/"+param[0]+"</sup>";
+            tr.innerHTML = "x<sup>1/"+param[0]+"</sup>";
             tr.style.backgroundColor = meta_f.strokeStyle;
             
         }else if(type == "exponentiation"){
