@@ -18,6 +18,9 @@ data_clear = (data[which(
             substr(data$lb_nom_abg, 1, 3) =="PRM" )
         ),])
 
+# data_arb <- data[data&libelle == "Arbitre"] & ..
+# !is.na(data$indemnite && data$truc %id% ...)
+
 for(i in 1:nrow(data_clear)){
     n = nrow(payement)
 
@@ -36,3 +39,14 @@ for(i in 1:nrow(data_clear)){
     
 }
 head(payement)
+
+
+# sexe <- data$SEXE
+# m_sexe <- c("Homme", "Femme")
+# factor(sexe, levels=0:1, labels=m_sexe)
+
+# etu <- data$ETUD
+# m_etud <- c("NR", "Primaire"; "...")
+# factor(etu, levels=0:4, labels=m_etud)
+#                               [0-1]
+# pactsSexe <- paste(round(100*prop.table(table(sexe)), 1), "%")
