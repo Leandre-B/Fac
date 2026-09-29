@@ -81,3 +81,60 @@ let rec renverser_terminal l = function
 let l = renverser_terminal [] ["1"; "5"; "7"; "9"];;
 print_string (conca_full (l));;
 
+
+
+let pair x = (x mod 2 = 0);;
+
+let rec trouver f l = match l with
+  [] -> failwith "aucun elem pair"
+  | x::y -> 
+      if (f x) then x
+      else trouver f y;;
+
+trouver pair [1; 2; 3; 4];;
+
+
+
+let carre x = x*x;;
+let rec map f list = match list with 
+  [] -> []
+  | x::y -> [(f x)] @ map f y;; 
+
+map carre [1; 2; 3; 4; 5];;
+
+
+let rec somme_list l = match l with
+  [] -> 0
+  | x::y -> x+somme_list y;; 
+
+somme_list [3;5;1];;
+
+let plus x y = x + y;;
+
+let conca x y = x^y;;
+
+let rec app_succ f l b = match l with
+  [] -> b
+  | x::y -> app_succ f y (f b x );; 
+
+let rec app_succ2 f l b = match l with
+  [] -> b
+  | x::y -> f x (app_succ2 f y b);;
+
+app_succ plus [1; 5; 6] 0;;
+app_succ conca ["a"; "b"] "";;
+
+
+let plus_grand x y = 
+  if x > y then x
+  else y;;
+
+let somme_long x y = x + String.length y;;
+
+let map2 f x y = x@[(f y)];; 
+let map3 f x y = (f x)::y;; 
+
+app_succ plus_grand [3; 5 ;10; 1; 0] 0;;
+app_succ somme_long ["AZEAZE"; "azz"; "1"] 0;;
+app_succ (map2 carre) [1; 2; 3; 4] [];;
+app_succ2 (map3 carre) [1; 2; 3; 4] [];;

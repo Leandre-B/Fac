@@ -183,16 +183,8 @@ map_f [1;2;3] (function a-> a+1);;
 
 let rec sous_listes_mieux n l = match (n, l) with
      (0, _) -> [[]]
-    |(_, []) -> [[]]
-    |(_, x::y) ->   inserer_tete x (sous_listes_mieux n y)
+    |(_, []) -> []
+    |(_, x::y) ->   inserer_tete x (sous_listes_mieux (n-1) y) @ sous_listes_mieux n y;;
 ;;
 
-(* s_l 2 [1;2;3;4] *)
-inserer_tete 1 [[2]; [3];[4]];;
-inserer_tete 2 [[3];[4]];;
-inserer_tete 3 [[4]];;
-
-(* s_l 3 [1;2;3;4] *)
-inserer_tete 1 [[2;3]; [2;4];[3;4]];;
-inserer_tete 2 [[1;3];[1;4];[3;4]];;
-inserer_tete 3 [[1;2]; [1;4]; [2;4]];;
+sous_listes_mieux 2 [1;2;3;4];;
