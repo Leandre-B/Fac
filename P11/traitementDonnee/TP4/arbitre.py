@@ -4,12 +4,6 @@ def lire (fichier, perequation, competitions) :
     df = pd.read_csv(fichier)
 
 
-# ((df["lb_nom_abg"].str.contains("DFU")) |
-#          (df["lb_nom_abg"].str.contains("DFU"))
-#          (df["lb_nom_abg"].str.contains("DFU"))
-#         )
-
-
     df = df.loc[
         (df["libelle"] == "Arbitre") &
         (df["presence"] == "P") &
@@ -24,7 +18,6 @@ def lire (fichier, perequation, competitions) :
     for c in competitions :
         df_clean = pd.concat([df_clean, df.loc[(df["lb_nom_abg"].str.contains(c)), :]], ignore_index=True)
 
-    print(df_clean["indemnite"])
     COLUMNS =  ["id", "nom", "prenom", "licence", "indemnite"]
     arbitres = pd.DataFrame(columns = COLUMNS)
 
@@ -34,8 +27,7 @@ def lire (fichier, perequation, competitions) :
         for indexC, rowC in arbitres.iterrows():
             if(rowC['id'] == row['id']) :
                 found = 1
-                print("add ", row['indemnite']/2, "to ", rowC['indemnite'])
-                arbitres['indemnite'][indexC] += row['indemnite']/2
+                arbitres.loc[indexC, 'indemnite'] += row['indemnite']
                 break 
         if found == 0 :
             arbitres = pd.concat(
@@ -46,12 +38,11 @@ def lire (fichier, perequation, competitions) :
                     row['nom'],
                     row['prenom'],
                     row['numero_licence'],
-                    row['indemnite'] /2
+                    row['indemnite']
                 ]], columns=COLUMNS)
-            ])
+            ], ignore_index=True)
 
 
-    arbitres = arbitres.sort_values(by=["indemnite"])
     print(arbitres)
 
 
@@ -64,8 +55,7 @@ def lire (fichier, perequation, competitions) :
             for c in cs :
                 if(rowC['club'] == c[0]) :
                     c[1] = True
-                    print("add ", row['indemnite']/2, "to ", rowC['facture'])
-                    clubs['facture'][indexC] += row['indemnite']/2
+                    clubs.loc[indexC, 'facture'] += row['indemnite']/2
                     break
         for c in cs :
             if not c[1] : 
@@ -75,7 +65,7 @@ def lire (fichier, perequation, competitions) :
                         c[0],
                         row['indemnite']
                     ]], columns=["club", "facture"])
-                ])
+                ], ignore_index=True)
     print(clubs)
 
     return [arbitres, clubs]
