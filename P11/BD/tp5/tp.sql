@@ -122,6 +122,16 @@ insert into action values
  '09/21/2026',
  4,
  'vente'
+),((2, 'Mr', 'Jean', 'M', '01/01/1960'),
+ (5678, 'Arch', 'une super adresse'),
+ '10/21/2025',
+ 4,
+ 'achat'
+),((1, 'Le', 'Andrée', 'F', '01/01/1999'),
+ (1234, 'U', '2 place bordillon, Angers, 4900'),
+ '11/21/2026',
+ 4,
+ 'vente'
 );
 
 
@@ -211,14 +221,77 @@ $$ LANGUAGE 'plpgsql';
 
 drop function annee_most_sala(societe_t);
 create function annee_most_sala(soc societe_t)
-returns integer as
+returns table(annee integer) as
 $$
 DECLARE
 BEGIN
-    return (
-        select a.annee from soc_salarie_actio() as a 
-        where a.nomsoc= soc.nomSoc
+    return query (
+        select h.annee from histo_annuel_actionnaire h
+        where h.societe = soc AND h.personne IN (
+            select personne from salarie s where s.societe = soc
+        )
+        group by h.annee 
+        order by h.annee DESC
+        LIMIT 1
         
     );
 END;
 $$ LANGUAGE 'plpgsql';
+
+
+-- 9
+drop function most_action(integer);
+create function most_action(a integer)
+returns table(personnes varchar) as
+$$
+DECLARE
+BEGIN
+    return query (
+        select (h.personne).nom from histo_annuel_actionnaire h
+        where h.annee = a
+        group by h.personne 
+        order by SUM(h.nbracttotal) = (
+            select SUM(h.nbracttotal) from histo_annuel_actionnaire h
+            where h.annee = a
+            group by h.personne 
+            order by SUM(h.nbracttotal)
+            LIMIT 1
+        )
+        
+    );
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+drop function no_more_than_3_proc();
+create function no_more_than_3_proc()
+returns trigger as
+$$
+DECLARE
+BEGIN
+
+    IF NEW.societe NOT IN 
+        (
+            select h.societe
+            from histo_annuel_actionnaire h
+            where h.personne = NEW.personne
+            AND h.annee = EXTRACT(YEAR FROM NEW.dateAct)
+        )
+        AND
+        (
+            select count(*)
+            from histo_annuel_actionnaire h
+            where h.personne = NEW.personne
+            AND h.annee = EXTRACT(YEAR FROM NEW.dateAct)
+        ) >=3
+    THEN
+        return NULL;
+    END IF;
+    return NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+create trigger no_more_than_3
+before insert or update on action
+    for each row execute PROCEDURE
+        no_more_than_3_proc();
