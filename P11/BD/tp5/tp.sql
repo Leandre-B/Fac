@@ -119,7 +119,7 @@ before insert on action
 insert into action values
 ((1, 'Le', 'Andrée', 'F', '01/01/1999'),
  (5678, 'Arch', 'une super adresse'),
- '21/09/2026',
+ '09/21/2026',
  4,
  'vente'
 );
@@ -165,5 +165,60 @@ BEGIN
     end loop;
     close curs;
 
+END;
+$$ LANGUAGE 'plpgsql';
+
+-- 6
+drop function nb_no_action();
+create function nb_no_action() returns integer as
+$$
+DECLARE
+BEGIN
+    return (select count(*) from salarie as s where (s.personne, s.societe) not in (select personne, societe from action ));
+    
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+-- 7
+drop function soc_salarie_actio();
+create function soc_salarie_actio()
+returns table(nomSoc varchar(50), annee integer) as
+$$
+DECLARE
+BEGIN
+    return query(
+    select (h.societe).nomsoc, h.annee
+    from histo_annuel_actionnaire h
+    where not exists (
+        select h2.societe, h2.annee
+        from histo_annuel_actionnaire h2
+        where h.societe = h2.societe AND
+        h.annee = h2.annee AND
+        h2.personne not in 
+        (
+            select personne from salarie s
+            where s.societe = h2.societe
+        )
+    ));
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+-- 8
+-- Écrire une fonction qui prend en paramètre une société et affiche 
+-- l'année durant laquelle il y avait le plus de salariés actionnaires
+
+drop function annee_most_sala(societe_t);
+create function annee_most_sala(soc societe_t)
+returns integer as
+$$
+DECLARE
+BEGIN
+    return (
+        select a.annee from soc_salarie_actio() as a 
+        where a.nomsoc= soc.nomSoc
+        
+    );
 END;
 $$ LANGUAGE 'plpgsql';
