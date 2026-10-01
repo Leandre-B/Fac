@@ -32,8 +32,15 @@ n_h = (data_clean.loc[
 # print(len(n_h))
 df_s = (pd.DataFrame({"Sexes":["F", "M"], "Nombre d'élèves":[len(n_f), len(n_h)]}))
 
-df_s.plot.bar(x="Sexes", y="Nombre d'élèves", rot=0)
+ax = df_s.plot.bar(x="Sexes", y="Nombre d'élèves", rot=0, title="Répartition Femmes/Hommes chez les élèves")
+ax.get_legend().remove()
+ax.bar_label(ax.containers[0])
+
+ax.set_ylabel("Nombre d'élèves")
+
 plt.savefig("p_sexes.png")
+####
+
 
 #### Graph p_ages_etudes
 age_etu = data_clean[["Âge", "Niveau d'études"]]
@@ -41,9 +48,7 @@ age_etu["Âge"] = age_etu["Âge"].astype(int)
 age_etu["Niveau d'études"] = pd.Categorical(age_etu["Niveau d'études"],
     categories=["Primaire", "Collège", "Lycée", "Université"]
 )
-# print(age_etu)
-
-age_etu.boxplot(column=["Âge"], by="Niveau d'études")
-
+a = age_etu.boxplot(column=["Âge"], by="Niveau d'études")
+plt.suptitle("Age en fonction du niveau d'études")
 plt.savefig("p_ages_etudes.png")
-
+####

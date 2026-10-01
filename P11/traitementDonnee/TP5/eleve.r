@@ -24,17 +24,6 @@ for(i in 1:(nrow(data))){
 }
 # print(data_clean)
 
-# verif si doublons
-# for(i in 1:(nrow(data_clean)-1)){
-#     for(j in (i+1):nrow(data_clean)){
-#         if( i!=j & data_clean[i, "Identité"] == data_clean[j, "Identité"] &
-#             data_clean[i, "Sexe"] == data_clean[j, "Sexe"])
-#         {    
-#             print(data_clean[i, "Identité"])
-#         }
-#     }
-# }
-
 #### Graph r_sexes
 n_f = nrow((data_clean[which(
             data_clean$Sexe=="F"),]))
@@ -50,6 +39,8 @@ b <- barplot(s, xlab="Sexes", ylab="Nombre d'élèves",
         names = c("F", "M"))
 text(x = b, y = s - 1, labels = s )
 dev.off()
+####
+
 
 #### Graph r_ages_etudes
 age_etu <- data.frame(
@@ -67,3 +58,4 @@ boxplot( age_etu$Age ~ age_etu$etud,
         xlab = "Niveaux d'études",
         ylab = "Ages")
 dev.off()
+####
