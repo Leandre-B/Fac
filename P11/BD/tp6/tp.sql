@@ -26,7 +26,7 @@ create type t_trajet as (
 
 drop type t_vol cascade;
 create type t_vol as (
-    numVol VARCHAR(10),
+    numVol VARCHAR(50),
     pilote t_pilote,
     trajet t_trajet,
     avion t_avion,
@@ -149,7 +149,7 @@ END;
 
 $$ LANGUAGE 'plpgsql';
 
-select from aff_trajet('P1');
+select aff_trajet('P1');
 
 -- 8
 create function most_trajet_ville(ville varchar(50))
@@ -271,4 +271,26 @@ insert into Reservation values
 
 update vol
 set avion =  ('AV01','Boeing 900000',2)
-where numVol = 'AF900'
+where numVol = 'AF900';
+
+
+drop function f(n VARCHAR(50));
+
+create function f(n varchar(50))
+returns t_avion as
+$$
+DECLARE
+    av t_avion;
+BEGIN
+    -- OK
+    -- return (select avion from vol v
+    -- where numVol = n);
+
+    select into av v.avion from vol v
+        where v.numVol = n;
+    return av;
+END;
+
+$$ LANGUAGE 'plpgsql';
+
+select * from f('AF900');
