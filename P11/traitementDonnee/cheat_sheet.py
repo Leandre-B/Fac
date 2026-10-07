@@ -91,4 +91,50 @@ data['ETUD'] = data['etu'].map(m_etud)
 data['ETUD'] = pd.Categorical(data['ETUD'], 
                               categories=['NR', 'Primaire', 'Secondaire', 'Bac', 'Supérieur'], 
                               ordered=True)
-#####################
+###########################
+
+######### GRAPH ############
+
+import matplotlib.pyplot as plt
+
+# Mise en forme commune à placer avant plt.show()
+# plt.title("Mon Titre")
+# plt.xlabel("Axe X")
+# plt.ylabel("Axe Y")
+
+# 1. Nuage de points ou Lignes
+plt.scatter(df['x'], df['y'], color='blue') # Points
+# ou plt.plot(df['x'], df['y'], color='red') # Lignes
+
+# 2. Diagramme circulaire
+effectifs = df['categorie'].value_counts()
+plt.pie(effectifs, labels=effectifs.index, colors=['red', 'green', 'blue'])
+
+# 3. Boîte à moustaches
+# Le plus simple est d'utiliser la fonction intégrée de pandas
+df.boxplot(column='age', by='niveau', color='orange')
+plt.suptitle("") # Enlève le titre automatique généré par pandas
+
+# 4. Histogramme
+plt.hist(df['salaire'], bins=10, color='grey', edgecolor='black')
+# bins = nombre de barres
+
+# 5. Diagramme en barres
+effectifs = df['sexe'].value_counts()
+plt.bar(effectifs.index, effectifs.values, color=['pink', 'lightblue'])
+
+# Toujours terminer par :
+plt.show()
+
+# version pandas
+df.plot.scatter(x='x', y='y', color='blue', title="Mon Titre")
+df.plot.line(x='x', y='y')
+
+df['categorie'].value_counts().plot.pie(title="Répartition")
+
+df.boxplot(column='age', by='niveau', figsize=(8,6))
+
+df['salaire'].plot.hist(bins=10, title="Distribution", edgecolor='black')
+
+df['sexe'].value_counts().plot.bar(title="Comptage", color=['pink', 'lightblue'])
+###########################

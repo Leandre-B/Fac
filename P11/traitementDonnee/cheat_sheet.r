@@ -13,6 +13,8 @@ df_filtre <- df[grepl("mot", df$col_Texte), ]
 # Exclure les NA
 df_filtre <- df[!is.na(df$col_A), ]
 df_filtre <- subset(df, !is.na(col_A))
+data <- na.omit(data)
+
 
 
 #########################################
@@ -70,4 +72,29 @@ df_trie <- df[order(df$niveau), ]
 
 m_etud <- c("NR", "Primaire", "Secondaire", "Bac", "Supérieur")
 data$ETUD <- factor(etu, levels=c(0,1,2,3,4), labels=m_etud) 
+#####################
+
+######### GRAPH ############
+# Nuage de points ou Lignes (plot)
+plot(df$x, df$y, type = "p", main = "Nuage", xlab = "X", ylab = "Y", col = "blue")
+# type = "p" (points), "l" (lignes), "b" (points et lignes)
+
+# Diagramme circulaire (pie)
+# Nécessite de compter les effectifs avec table() d'abord
+effectifs <- table(df$categorie)
+pie(effectifs, main = "Répartition", col = c("red", "green", "blue"))
+
+# Boîte à moustaches (boxplot)
+# variable numérique ~ variable catégorique
+boxplot(age ~ niveau, data = df, main = "Âge par niveau", xlab = "Niveau", ylab = "Âge", col = "orange")
+
+# Histogramme (hist)
+# Pour voir la distribution d'une SEULE variable numérique
+hist(df$salaire, breaks = 10, main = "Distribution", xlab = "Salaire", ylab = "Fréquence", col = "grey")
+# breaks = nombre approximatif de barres souhaité
+
+# Diagramme en barres (barplot)
+# Nécessite aussi les effectifs avec table()
+barplot(table(df$sexe), main = "Comptage", xlab = "Sexe", ylab = "Nombre", col = c("pink", "lightblue"))
+# las=2
 #####################

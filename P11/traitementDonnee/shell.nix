@@ -4,6 +4,7 @@ pkgs.mkShell {
   buildInputs = [
     (pkgs.python3.withPackages (ps: [
       ps.pandas
+      ps.matplotlib
     ]))
   ];
   packages = [
