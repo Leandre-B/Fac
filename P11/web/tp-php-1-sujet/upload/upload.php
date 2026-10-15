@@ -18,7 +18,7 @@
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><input type="submit" value="ENVOI" /></td>
+					<td><input type="submit" value="ENVOI"  /></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -26,5 +26,12 @@
 </body>
 </html>
 <?php
-// A COMPLETER
+	print_r($_FILES);
+	if($_FILES["fich"]["error"] == 0) {
+		echo <<< IDF
+			<b> Vous avez bien transférer le fichier </b> <br>
+			Le nom du fichier est : {$_FILES["fich"]["name"]} <br>
+			Votre fichier a une taille de  : {$_FILES["fich"]["size"]} <br>
+		IDF;
+	}
 ?>

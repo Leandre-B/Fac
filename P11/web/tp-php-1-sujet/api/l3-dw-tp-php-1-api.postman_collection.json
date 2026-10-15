@@ -12,16 +12,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=list&format=csv",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=list&format=csv",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -53,16 +54,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=read&format=csv&ccode=EU",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=read&format=csv&ccode=EU",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -113,16 +115,17 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=create&format=json",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=create&format=json",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -164,16 +167,17 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=update&format=json&ccode=AT",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=update&format=json&ccode=AT",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -213,16 +217,17 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=delete&format=json&ccode=AT",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=delete&format=json&ccode=AT",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -265,16 +270,17 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v2&controller=continents&method=info",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v2&controller=continents&method=info",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
@@ -309,16 +315,17 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:8080/l3dw/tp-php-1/corrections/api/router.php?version=v1&controller=countries&method=info",
+					"raw": "http://localhost/Mes_projets_web/Fac/P11/web/tp-php-1-sujet/api/router.php?version=v1&controller=countries&method=info",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
 					"path": [
-						"l3dw",
-						"tp-php-1",
-						"corrections",
+						"Mes_projets_web",
+						"Fac",
+						"P11",
+						"web",
+						"tp-php-1-sujet",
 						"api",
 						"router.php"
 					],
