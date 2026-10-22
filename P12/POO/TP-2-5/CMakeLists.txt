@@ -1,13 +1,44 @@
-cmake_minimum_required(VERSION 3.31.0)
-project(TP-2-5 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.31)
+project(jeu_de_la_vie LANGUAGES CXX)
 
-add_executable(TP-2-5
-    main.cpp
-    grille.hpp
-    grille.cpp)
+find_package(SFML COMPONENTS graphics window system)
+include(FetchContent)
+FetchContent_Declare(Catch2 URL https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.zip )
+FetchContent_MakeAvailable(Catch2)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+enable_testing()
 
-target_compile_features(TP-2-5 PUBLIC cxx_std_17)
-
+# Pour faire les premières questions.
+add_executable(jeu_de_la_vie_test grille.cc main_test.cc grille.hh
+        main.cc
+        main_sfml.cc)
+target_compile_features(jeu_de_la_vie_test PUBLIC cxx_std_17)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(TP-2-5 PRIVATE -Wall -Wpedantic)
+        target_compile_options(jeu_de_la_vie_test PRIVATE -Wall -Wpedantic)
 endif()
+target_link_libraries(jeu_de_la_vie_test PRIVATE Catch2::Catch2WithMain)
+include(Catch)
+catch_discover_tests(jeu_de_la_vie_test)
+
+# Pour faire la question 6
+add_executable(jeu_de_la_vie_texte grille.cc grille.hh main.cc)
+target_compile_features(jeu_de_la_vie_texte PUBLIC cxx_std_17)
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(jeu_de_la_vie_texte PRIVATE -Wall -Wpedantic)
+endif()
+
+# Pour faire la question 7
+add_executable(jeu_de_la_vie_sfml
+        grille.cc
+        grille.hh
+        affichage_sfml.cc
+        affichage_sfml.hh
+        main_sfml.cc
+)
+target_link_libraries(jeu_de_la_vie_sfml PRIVATE sfml-graphics sfml-window sfml-system)
+target_compile_features(jeu_de_la_vie_sfml PRIVATE cxx_std_17)
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(jeu_de_la_vie_sfml PRIVATE -Wall -Wpedantic)
+endif()
+
+
