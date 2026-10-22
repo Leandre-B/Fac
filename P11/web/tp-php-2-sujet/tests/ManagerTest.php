@@ -36,6 +36,11 @@ final class ManagerTest extends TestCase {
 	}
 	
 	// TODO : ajouter la méthode testSetAge
+	public function testSetAge(): void {
+		$age = 30;
+		$this->manager->setSalary($age);
+		$this->assertEquals($this->manager->getSalary(),$age);
+	}
 	
 	public function testAddEmployee(): void {
 		$employees[]= new Employee(2, "Pif", 10, 10);
@@ -45,6 +50,7 @@ final class ManagerTest extends TestCase {
 		$this->manager->add(0);
 		$this->manager->add(1);
 		// TODO : compléter avec assertEquals
+		$this->assertEquals($this->manager->getArrEmployeesId(), [2,0,1]);
 	}
 }
 ?>
