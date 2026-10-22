@@ -1,6 +1,6 @@
 #include "grille.hh"
-#include <string>
 #include <iostream>
+#include <string>
 
 int main() {
 
@@ -8,13 +8,12 @@ int main() {
   grille.ajouterStructure(Structure::OscillateurCroix, 5, 5);
   grille.afficher();
   std::string s = "";
-  while(s==""){
+  while (s == "") {
     std::getline(std::cin, s);
-    Grille resultat(10,10);
+    Grille resultat(10, 10);
     grille.evolution(resultat);
     grille = resultat;
     grille.afficher();
   }
   return 0;
 }
-

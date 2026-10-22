@@ -9,9 +9,11 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 enable_testing()
 
 # Pour faire les premières questions.
-add_executable(jeu_de_la_vie_test grille.cc main_test.cc grille.hh
-        main.cc
-        main_sfml.cc)
+add_executable(jeu_de_la_vie_test 
+	grille.cc
+	grille.hh
+        main_test.cc
+)
 target_compile_features(jeu_de_la_vie_test PUBLIC cxx_std_17)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(jeu_de_la_vie_test PRIVATE -Wall -Wpedantic)
@@ -21,7 +23,12 @@ include(Catch)
 catch_discover_tests(jeu_de_la_vie_test)
 
 # Pour faire la question 6
-add_executable(jeu_de_la_vie_texte grille.cc grille.hh main.cc)
+add_executable(jeu_de_la_vie_texte
+        grille.cc
+        grille.hh
+        main.cc
+)
+
 target_compile_features(jeu_de_la_vie_texte PUBLIC cxx_std_17)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(jeu_de_la_vie_texte PRIVATE -Wall -Wpedantic)
@@ -38,7 +45,7 @@ add_executable(jeu_de_la_vie_sfml
 target_link_libraries(jeu_de_la_vie_sfml PRIVATE sfml-graphics sfml-window sfml-system)
 target_compile_features(jeu_de_la_vie_sfml PRIVATE cxx_std_17)
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        target_compile_options(jeu_de_la_vie_sfml PRIVATE -Wall -Wpedantic)
+        target_compile_options(jeu_de_la_vie_sfml PRIVATE -Wall -Wpedantic -g)
 endif()
 
 
