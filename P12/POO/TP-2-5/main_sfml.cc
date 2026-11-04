@@ -6,8 +6,8 @@ int main()
 {
 
 	srand(time(nullptr));
-	unsigned int largeur = 1000;
-	unsigned int hauteur = 1000;
+	unsigned int largeur = 100;
+	unsigned int hauteur = 100;
 
 	bool pause = true;
 

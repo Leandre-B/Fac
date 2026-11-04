@@ -1,13 +1,18 @@
-cmake_minimum_required(VERSION 3.31.0)
-project(TP-3- LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
 
-add_executable(TP-3-2
-    main.cpp
-    sequence.hpp
-    sequence.cpp)
+project(TP-3-2 LANGUAGES CXX)
 
-target_compile_features(TP-3-2 PUBLIC cxx_std_17)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(TP-3-2 PRIVATE -Wall -Wpedantic)
-endif()
+add_executable(TP-3-2 main.cpp
+    couleur.hpp
+    point.hpp point.cpp
+    figuregeometrique.hpp figuregeometrique.cpp
+    main_test.cpp)
+
+include(GNUInstallDirs)
+install(TARGETS TP-3-2
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
