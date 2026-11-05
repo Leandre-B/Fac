@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -5,7 +6,10 @@
     <meta charset="UTF-8" />
     <title>TP PHP - Personnalisation avec sessions</title>
     <style type="text/css">
-        /* A COMPLETER */
+        <?php
+            $_SESSION["fond"] = $_POST["fond"];
+            $_SESSION["texte"] = $_POST["texte"];
+        ?>
         legend {
             font-weight: bold;
             font-family: cursive;

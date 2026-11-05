@@ -1,10 +1,18 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
     <title>TP PHP - Personnalisation avec sessions</title>
     <style type="text/css">
-        /* A COMPLETER */
+        <?php
+            if(isset($_SESSION["fond"])) {
+                echo "body { background-color: ".$_SESSION["fond"].";}";
+            }
+            if(isset($_SESSION["texte"])) {
+                echo "body { color: ".$_SESSION["texte"].";}";
+            }
+        ?>
         legend {
             font-weight: bold;
             font-family: cursive;
