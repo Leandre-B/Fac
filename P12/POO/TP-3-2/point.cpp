@@ -13,3 +13,17 @@ point::point(point const & p) : _x(p._x), _y(p._y) {
 point::~point(){
     std::cout<<"point destructeur\n";
 }
+
+
+void point::afficher() const {
+  std::cout<<"("<< _x <<","<< _y <<")";
+}
+
+bool point::equals(point const & p) const {
+  return _x == p._x && _y == p._y;
+}
+
+void point::translation(point const & direction) {
+  _x += direction._x;
+  _y += direction._y;
+}

@@ -15,3 +15,16 @@ figuregeometrique::figuregeometrique(point const & origine, couleur const & c) :
 figuregeometrique::~figuregeometrique() {
     std::cout<<"figure destruction !!!\n";
 }
+
+void figuregeometrique::afficher() const{
+  std::cout<<typefigure()<<"("<<_couleur._rouge<<","<<_couleur._vert<<","<<_couleur._bleu<<"), ";
+  _origine.afficher();
+}
+
+bool figuregeometrique::memeorigine(figuregeometrique const & f) const{
+  return _origine.equals(f._origine);
+}
+
+void figuregeometrique::translation(point const & direction) {
+  _origine.translation(direction);
+}

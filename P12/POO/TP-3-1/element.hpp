@@ -18,5 +18,5 @@ public:
   position_t accesposition() const {return _position;}
   taille_t accestaille() const {return _taille;}
   std::string tostring() const;
-  bool contientposition(position_t const & position);
+  bool contientposition(position_t const & position) const;
 };
