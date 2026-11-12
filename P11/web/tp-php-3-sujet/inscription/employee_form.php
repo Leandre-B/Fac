@@ -22,10 +22,10 @@
         </form>
     <?php
 
-
+        session_start();
+        // Création du fichier si n'existe pas + récupération nb lignes
         if(!file_exists("employees.csv")) {
             fopen("employees.csv", "w");
-            chmod("employees.csv", 0644);
             file_put_contents("employees.csv",
                 "ID;NOM;SALAIRE;AGE\n",
                 FILE_APPEND | LOCK_EX
@@ -43,48 +43,38 @@
         }
             
 
-        // Ecriture 
+        // Ecriture Formulaire dans CSV
         if(isset($_POST["nom"], $_POST["salaire"], $_POST["age"])) {
-
-            $f_content=file_get_contents("employees.csv");
-            preg_match("/*;".$_POST["nom"].";*;".$_POST["age"]."/", $f_content, $match);
-            print_r($match);
-            echo "match ", $match;
-            file_put_contents("employees.csv",
-                $linecount.";".$_POST["nom"].";".$_POST["salaire"].";".$_POST["age"]."\n",
-                FILE_APPEND | LOCK_EX
-            );
-
+            if(isset($_SESSION[ $_POST["nom"].$_POST["age"] ])) {
+                echo "La personne existe déjà<br>";
+            } else {
+                $_SESSION[ $_POST["nom"].$_POST["age"] ] = "set";
+                $handle = fopen("employees.csv", "a");
+                fputcsv($handle,
+                    [$linecount, $_POST["nom"], $_POST["salaire"], $_POST["age"]],
+                    ";"
+                );
+                fclose($handle);
+            }
         }
 
-        $file = fopen("employees.csv", "r");
-        // Lecture
-        echo "<table>";
-        $linecount = 0;
-        while(!feof($file)){
-            $line = fgets($file);
-            $infos = explode(";", $line);
-            if($linecount == 0){
-                echo "<thead>";
-            }else {
-                echo "<tr>";
-            }foreach ($infos as $i) {
-                echo "<td>".$i."</td>";
-            }
-            
-            if($linecount == 0){
-                echo "</thead>";
-            }else {
-                echo "</tr>";
+        // Génération tableau HTML
+        $handle = fopen("employees.csv", "r");
+        
+        echo "<table style=\"border: solid black;border-collapse: collapse;\">";
+        $header = TRUE;
+        while( ($data = fgetcsv($handle,0, ";")) !== FALSE){
+            echo $header ? "<thead style=\"border: solid black;\">" : "<tr>";
+
+            foreach ($data as $d) {
+                echo "<td style=\"border: solid black;\">".$d."</td>";
             }
 
-
-            $linecount++;
+            echo $header ? "</thead>" : "</tr>";
         }
 
         echo "</table>";
-
-        fclose($file);
+        fclose($handle);
 
 
 

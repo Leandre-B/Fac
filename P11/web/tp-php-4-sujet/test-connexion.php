@@ -6,5 +6,6 @@ try {
     $objdb = connexpdo("voitureZZZ");
 } catch (PDOException $e) {
     displayException($e);
+    console($e->getMessage());
 }
 ?>

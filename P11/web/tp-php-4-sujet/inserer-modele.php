@@ -36,7 +36,25 @@
 		</fieldset>
 	</form>
 <?php
-// TODO
+require ("connexpdo.inc.php");
+require_once ("js.php");
+ if(isset($_POST["id_modele"]) && isset($_POST["modele"]) && isset($_POST["carburant"])) {
+	$id = $_POST["id_modele"];
+	$modele = $_POST["modele"];
+	$carbu = $_POST["carburant"];
+	$pdo = connexpdo("voitures");
+	$qry="INSERT INTO modele VALUES (?,?,?)";
+	$stt=$pdo->prepare($qry);
+	try {
+		$stt->execute([$id, $modele, $carbu]);
+		alert("insertion réussi");
+	}catch (PDOException $e) {
+		// var_dump($e);
+		displayException($e);
+		console($e->getMessage());
+	}
+ }
+
 ?>
 </body>
 </html>

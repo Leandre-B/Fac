@@ -20,7 +20,38 @@ tr, td, th {
 </head>
 <body>
 <?php
-// TODO
+
+	require ("connexpdo.inc.php");
+	require_once ("js.php");
+
+	try {
+		$pdo = connexpdo("voitures");
+
+		$qry="SELECT * FROM modele ORDER BY modele";
+		$stt=$pdo->query($qry);
+		$modeles=$stt->fetchAll(PDO::FETCH_NUM);
+
+		echo "<table> <thead> 
+			<tr>
+				<th> Code modèle </th>
+				<th> Modèle </th>
+				<th> Carburant </th>
+			</tr>
+		</thead>";
+
+		foreach($modeles as $record) {
+			echo "<tr>";
+			foreach($record as $item) {
+				echo "<td>".$item."</td>";
+			}
+			echo "</tr>";
+		}
+
+	} catch (PDOException $e) {
+		displayException($e);
+		console($e->getMessage());
+	}
+
 ?>
 </body>
 </html>

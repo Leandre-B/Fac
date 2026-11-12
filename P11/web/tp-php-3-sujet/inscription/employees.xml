@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE employees SYSTEM "employees.dtd">
+<employees>
+  <employee>
+    <id>1</id>
+    <name>test</name>
+    <salary>5000</salary>
+    <age>18</age>
+  </employee>
+  <employee>
+    <id>2</id>
+    <name>test</name>
+    <salary>5000</salary>
+    <age>19</age>
+  </employee>
+  <employee>
+    <id>3</id>
+    <name>jean</name>
+    <salary>20000</salary>
+    <age>21</age>
+  </employee>
+  <employee>
+    <id>4</id>
+    <name>andré</name>
+    <salary>25000</salary>
+    <age>26</age>
+  </employee>
+</employees>

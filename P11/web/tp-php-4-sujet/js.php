@@ -17,6 +17,6 @@ function alert(string $str)
 
 function displayException(PDOException $e)
 {
-    // TODO
+    alert("Code SQL : ".$e->getCode());
 }
 ?>
