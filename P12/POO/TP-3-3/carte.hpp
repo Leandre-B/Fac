@@ -37,4 +37,6 @@ public:
     return elem1.contientposition(elem2.accesposition());
   }
 
+  bool emplacementlibre(position_t const &position,
+                        taille_t const &taille) const;
 };
