@@ -1,12 +1,12 @@
 #pragma once
-#include "tailleposition.hpp"
+#include "tailleposition.hh"
 #include <string>
 
 /*
  * Represent un element rectangulaire
  */
 class element {
-private :
+protected :
   // point en haut a gauche
   position_t _position;
 

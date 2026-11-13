@@ -1,4 +1,4 @@
-#include "obstacle.hpp"
+#include "obstacle.hh"
 
 obstacle::obstacle(position_t const & position, taille_t const & taille) :element(position, taille)
 {}

@@ -1,4 +1,4 @@
-#include "tailleposition.hpp"
+#include "tailleposition.hh"
 
 position_t::position_t(coordonnee x, coordonnee y) : _x(x), _y(y){}
 position_t::position_t(const position_t & p) : _x(p._x), _y(p._y){}

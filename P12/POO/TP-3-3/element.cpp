@@ -1,4 +1,4 @@
-#include "element.hpp"
+#include "element.hh"
 
 element::element(position_t const & position, taille_t const & taille) :
                                                          _position(position), _taille(taille)

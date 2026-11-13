@@ -72,16 +72,16 @@ int main() {
 			} else if (selectionne != nullptr) {
 				switch (action) {
 				case affichage_carte::action::nord:
-					c.deplacement(selectionne, direction::nord);
+                                        c.deplacement(*selectionne, direction::nord);
 					break;
 				case affichage_carte::action::sud:
-					c.deplacement(selectionne, direction::sud);
+                                        c.deplacement(*selectionne, direction::sud);
 					break;
 				case affichage_carte::action::est:
-					c.deplacement(selectionne, direction::est);
+                                        c.deplacement(*selectionne, direction::est);
 					break;
 				case affichage_carte::action::ouest:
-					c.deplacement(selectionne, direction::ouest);
+                                        c.deplacement(*selectionne, direction::ouest);
 					break;
 				case affichage_carte::action::ramasser:
 					c.ramassertout(*selectionne);
@@ -99,5 +99,5 @@ int main() {
 	}
 
 	if (selectionne != nullptr)
-		std::cout << selectionne->nom() << " : " << selectionne->nbpoints() << " points\n";
+                std::cout << selectionne->tostring()<<"\n";
 }

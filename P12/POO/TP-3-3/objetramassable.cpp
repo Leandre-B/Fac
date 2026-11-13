@@ -1,4 +1,4 @@
-#include "objetramassable.hpp"
+#include "objetramassable.hh"
 
 objetramassable::  objetramassable(position_t const & position, taille_t const & taille, int points) :
                                                                                                      element(position, taille), _points(points)

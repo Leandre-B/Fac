@@ -1,12 +1,15 @@
-#include "carte.hpp"
+#include "carte.hh"
 #include <iostream>
 int main() {
 
-  carte c;
-  c.ajouterElement(obstacle(position_t(0, 0), taille_t(10, 10)));
-  c.ajouterElement(obstacle(position_t(11, 11), taille_t(5, 7)));
+  carte c(taille_t(30,30));
+  c.ajouter(objetramassable(position_t(0, 0), taille_t(10, 10), 10));
 
-  std::cout << c.emplacementlibre(position_t(20, 20), taille_t(2, 2)) << "\n";
+  personnage p(position_t(0,11), taille_t(2, 2), "Pascal");
+
+  std::cout<<p.tostring()<<"\n";
+  c.ramassertout(p);
+  std::cout<<p.tostring()<<"\n";
 
   return 0;
 }
