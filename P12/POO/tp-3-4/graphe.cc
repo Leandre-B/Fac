@@ -1,7 +1,5 @@
 #include "graphe.hh"
 #include "sommet.hh"
-#include <cstddef>
-
 
 identifiant graphe::ajoutersommet(std::string const & etiquette) {
     sommets.push_front(sommet(etiquette));

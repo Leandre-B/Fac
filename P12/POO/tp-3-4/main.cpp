@@ -1,7 +1,11 @@
-#include <iostream>
 #include "graphe.hh"
-#include "sommet.hh"
+#include <fstream>
+#include <iostream>
 
+void sauvergraphe(graphe const &g, std::string const &nomfichier) {
+  std::ofstream f(nomfichier);
+  g.dot_sortie(f);
+}
 
 int main() {
 
@@ -17,10 +21,9 @@ int main() {
 
   g.dot_sortie(std::cout);
 
-  
-  //sauvergraphe(g, "tout.dot");
+  sauvergraphe(g, "tout.dot");
   g.supprimersommet(angers);
-  //sauvergraphe(g, "sansangers.dot");
+  sauvergraphe(g, "sansangers.dot");
   return 0;
 
   return 0;

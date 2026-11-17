@@ -1,0 +1,6 @@
+Digraph G {
+c3 [label="Nantes"] ;
+
+c1 [label="Paris"] ;
+c1 -> c3 [label="Avion"] ;
+}
