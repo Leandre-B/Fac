@@ -37,11 +37,13 @@ bool carte::emplacementlibre(position_t const &position,
       position.x() + taille.largeur() > _taille.largeur() or
       position.y() + taille.hauteur() > _taille.hauteur())
     return false;
+
   /*
   for (auto const &p : _personnages) {
-    if (intersectionelements(p, elem))
-      return false;
-  }*/
+    if (intersectionelements(p, elem)) return false;
+  }
+*/
+
   for (auto const &obs : _obstacles) {
     if (intersectionelements(obs, elem))
       return false;
@@ -95,13 +97,18 @@ void carte::deplacement(personnage & perso, direction const & dpl) {
 
 
 bool carte::ramassagepossible(personnage const & perso, objetramassable const & obj) const {
-  return intersectionelements(perso, obj);
+  objetramassable obj_copie(
+      position_t(obj.accesposition().x()-1, obj.accesposition().y()-1),
+      taille_t(obj.accestaille().largeur()+2, obj.accestaille().hauteur()+2),
+      obj.getPoints()
+  );
+  return intersectionelements(perso, obj_copie);
 }
 
 void carte::ramassertout(personnage & perso) {
   for(std::list<objetramassable>::iterator it = _objetramassables.begin(); it != _objetramassables.end();) {
-    std::cout<<it->tostring()<<"\n";
     if(ramassagepossible(perso, *it)){
+      //std::cout<<it->tostring()<<"\n";
       perso.ramasser(*it);
       it = _objetramassables.erase(it);
     }
