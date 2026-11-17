@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.31)
 project(tp-3-4 LANGUAGES CXX)
 
-find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 
 add_executable(tp-3-4
     main.cpp
-    sommet.cc
-    sommet.hh
+    sommet.cc sommet.hh
+    graphe.cc graphe.hh
 )
 
 

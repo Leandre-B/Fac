@@ -1,4 +1,6 @@
 #pragma once
+#include <ostream>
+#include <sstream>
 #include <string>
 #include <list>
 
@@ -21,8 +23,10 @@ public:
   identifiant id() const {return _identifiant;};
   std::string etiquette() const {return _etiquette;};
   void ajoutearc(identifiant id, std::string const & etiquette);
-  void supprimerarc(identifiant id, std::string const & etiquette);
-
+  void supprimerarc(identifiant id);
+  void supprimertousarc();
+  void dot_etiquette(std::ostream & flux) const;
+  void dot_arcssortants(std::ostream & flux) const;
 
 
 };
