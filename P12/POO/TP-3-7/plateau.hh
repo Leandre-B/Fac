@@ -107,22 +107,46 @@ public:
 
   void etat_suivant(std::list<position> &expl) {
     for (auto bombe = _bombes.begin(); bombe != _bombes.end();) {
-      if (bombe->etat_suivant()) {
+      auto etat = bombe->etat_suivant();
+      if (etat) {
         bombe = _bombes.erase(bombe);
       } else {
         if (bombe->etat() == bombe::bombe_etat::explosion) {
-
+          bombe->sortie_flux(std::cout);
+          std::cout << "\n";
           std::vector<std::vector<coord>> vect = {
               {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
           for (auto const &v : vect) {
             bool obs = false;
-            for (coord rayon = 1;
+            for (coord rayon =
+                     std::max(1, bombe->largeur() - bombe->decompte());
                  rayon < 2 * bombe->largeur() - bombe->decompte(); ++rayon) {
               coord x = bombe->pos().x() + rayon * v[0];
               coord y = bombe->pos().y() + rayon * v[1];
-
+              bool exist = false;
+              for (auto const &e : expl) {
+                if (e.egale(position(x, y)))
+                  exist = true;
+              }
+              if (exist)
+                break;
               for (auto const &obstacles : _obstacles) {
                 if (obstacles.pos().egale(position(x, y))) {
+                  obs = true;
+                }
+              }
+              for (auto bonus = _bonus.begin(); bonus != _bonus.end();) {
+                if (bonus->pos().egale(position(x, y))) {
+                  bonus = _bonus.erase(bonus);
+                } else {
+                  ++bonus;
+                }
+              }
+              for (auto &b : _bombes) {
+                if (b.pos().egale(position(x, y)) &&
+                    !b.pos().egale(bombe->pos())) {
+                  if (b.etat() == bombe::bombe_etat::decompte)
+                    b.exploser();
                   obs = true;
                 }
               }
